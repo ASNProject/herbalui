@@ -1,0 +1,19 @@
+<lint-module
+    format="1"
+    dir="/Users/ariefsetyonugroho/Documents/ReactNative/herbalui/android/app"
+    name=":app"
+    type="APP"
+    maven="herbalui:app:"
+    gradle="7.2.1"
+    buildFolder="build"
+    bootClassPath="/Users/ariefsetyonugroho/Library/Android/sdk/platforms/android-31/android.jar:/Users/ariefsetyonugroho/Library/Android/sdk/build-tools/30.0.3/core-lambda-stubs.jar"
+    javaSourceLevel="1.8"
+    compileTarget="android-31"
+    neverShrinking="true">
+  <lintOptions
+      abortOnError="true"
+      absolutePaths="true"
+      checkReleaseBuilds="true"
+      explainIssues="true"/>
+  <variant name="debug"/>
+</lint-module>
