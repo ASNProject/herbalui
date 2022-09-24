@@ -17,7 +17,7 @@ class Home extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.props.navigation.dispatch(StackActions.replace('Login'));
+      this.props.navigation.dispatch(StackActions.replace('Daftar'));
     }, 3000);
   }
 

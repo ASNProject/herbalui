@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StackNavigator,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import App from './Home';
@@ -67,6 +68,18 @@ const Daftar = ({ navigation }) => {
             size={12}
             color="a0a0a0"
           />
+        </View>
+        <View style={style.x}>
+          <Image
+            style={style.img_x}
+            source={require('./images/Vector-2.png')}></Image>
+          <Text style={style.txt_x}>Password baru minimal 6 karakter</Text>
+        </View>
+        <View style={style.v}>
+          <Image
+            style={style.img_v}
+            source={require('./images/Vector.png')}></Image>
+          <Text style={style.txt_v}>Password baru terkonfirmasi</Text>
         </View>
         <TouchableOpacity style={style.btn_login}>
           <Text style={style.txt_login}>Daftar</Text>
@@ -204,6 +217,35 @@ const style = StyleSheet.create({
     color: 'black',
     fontFamily: 'Poppins-Light',
     fontSize: 13,
+  },
+  x: {
+    flexDirection: 'row',
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  img_x: {
+    height: 8,
+    width: 8,
+    marginRight: 5,
+  },
+  txt_x: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 10,
+  },
+  v: {
+    flexDirection: 'row',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  img_v: {
+    height: 8,
+    width: 8,
+    marginRight: 5,
+  },
+  txt_v: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 10,
   },
 });
 
