@@ -8,6 +8,9 @@ import Splashscreen from './src/screens/SplashScreen';
 import Login from './src/screens/Login';
 import Reset from './src/screens/Reset';
 import Daftar from './src/screens/Daftar';
+import ListProduk from './src/screens/Produk';
+import MenuBar from './src/screens/component/menubar';
+import MenuBar2 from './src/screens/component/menubar_produk';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,13 +18,16 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SplashScreen"
+        initialRouteName="ListProduk"
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Reset" component={Reset} />
         <Stack.Screen name="Daftar" component={Daftar} />
+        <Stack.Screen name="ListProduk" component={ListProduk} />
+        <Stack.Screen name="MenuBar" component={MenuBar} />
+        <Stack.Screen name="MenuBar2" component={MenuBar2} />
         <Stack.Screen name="SplashScreen" component={Splashscreen} />
       </Stack.Navigator>
     </NavigationContainer>
