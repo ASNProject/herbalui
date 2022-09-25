@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-class Detail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+import Slideshow from './component/slideshow';
 
-  render() {
-    return (
-      <View>
-        <Text>Detail</Text>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.goBack('Detail')}>
-          <Text>Klik To Move</Text>
-        </TouchableOpacity>
+const Detail = () => {
+  return (
+    <View style={style.container}>
+      <View style={style.body}>
+        <Slideshow />
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  body: {
+    flex: 1,
+  },
+});
 export default Detail;
