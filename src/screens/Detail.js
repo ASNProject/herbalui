@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Deskripsi from './component/deskripsi';
+import Pertanyaan from './component/pertanyaan';
 import Slideshow from './component/slideshow';
 
 const Detail = () => {
@@ -17,6 +18,7 @@ const Detail = () => {
           <View style={style.body}>
             <Slideshow />
             <Deskripsi />
+            <Pertanyaan />
           </View>
         </ScrollView>
       </View>
