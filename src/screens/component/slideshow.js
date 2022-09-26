@@ -9,7 +9,9 @@ import {
   Dimensions,
   ImageStore,
   Image,
+  ImageBackground,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 const img = [
   'https://firebasestorage.googleapis.com/v0/b/project1-e0641.appspot.com/o/Produk1.png?alt=media&token=16959b29-d502-4e13-afdb-887bbd483451',
@@ -42,13 +44,30 @@ const Slideshow = () => {
           horizontal
           style={style.wrap}>
           {img.map((e, index) => (
-            <Image
+            <ImageBackground
               key={e}
               resizeMode="stretch"
               style={style.wrap}
-              source={{ uri: e }}></Image>
+              source={{ uri: e }}></ImageBackground>
           ))}
         </ScrollView>
+        <View
+          style={{
+            flexDirection: 'row',
+            position: 'absolute',
+            top: 10,
+            marginHorizontal: 10,
+          }}>
+          <Icon name="arrow-left" size={40} style={{ color: 'black' }} />
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+              flex: 1,
+            }}>
+            <Icon name="star" size={30} color={'yellow'} />
+          </View>
+        </View>
         <View style={style.dot}>
           {img.map((e, index) => (
             <Text
@@ -64,9 +83,7 @@ const Slideshow = () => {
 };
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   wrap: {
     width: WIDTH,
     height: HEIGHT * 0.4,
