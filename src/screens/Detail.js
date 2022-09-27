@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Deskripsi from './component/deskripsi';
 import Pertanyaan from './component/pertanyaan';
+import ProdukLainnya from './component/produk_lainnya';
 import Slideshow from './component/slideshow';
 
 const Detail = () => {
@@ -19,6 +20,7 @@ const Detail = () => {
             <Slideshow />
             <Deskripsi />
             <Pertanyaan />
+            <ProdukLainnya />
           </View>
         </ScrollView>
       </View>

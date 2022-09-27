@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import ViewMoreText from 'react-native-view-more-text';
+import ShowMore from 'react-native-show-more-button';
 const ListPertanyaan = ({ item }) => {
   const [shouldShow, setshouldShow] = useState(true);
   return (
@@ -77,35 +79,38 @@ const Pertanyaan = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <SafeAreaView>
-          <SectionList
-            contentContainerStyle={{ paddingHorizontal: 10 }}
-            stickySectionHeadersEnabled={false}
-            sections={SECTIONS}
-            renderSectionHeader={({ section }) => (
-              <>
-                {section.horizontal ? (
-                  <FlatList
-                    horizontal
-                    data={section.data}
-                    renderItem={({ item }) => <ListItem item={item} />}
-                    showsHorizontalScrollIndicator={false}
-                  />
-                ) : null}
-              </>
-            )}
-            renderItem={({ item, section }) => {
-              if (section.horizontal) {
-                return null;
-              }
-              return <ListPertanyaan item={item} />;
-            }}></SectionList>
-        </SafeAreaView>
       </View>
-      <TouchableOpacity style={style.btn_banyak}>
-        <Text style={style.tampilbanyak}>Tampilkan lebih banyak</Text>
-        <Icon name="chevron-down" size={25} style={{ color: 'black' }} />
-      </TouchableOpacity>
+      <View>
+        <ShowMore
+          buttonColor={'black'}
+          showMoreText="Tampilkan lebih banyak"
+          showLessText="Tampilkan lebih sedikit">
+          <SafeAreaView>
+            <SectionList
+              contentContainerStyle={{ paddingHorizontal: 10 }}
+              stickySectionHeadersEnabled={false}
+              sections={SECTIONS}
+              renderSectionHeader={({ section }) => (
+                <>
+                  {section.horizontal ? (
+                    <FlatList
+                      horizontal
+                      data={section.data}
+                      renderItem={({ item }) => <ListItem item={item} />}
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  ) : null}
+                </>
+              )}
+              renderItem={({ item, section }) => {
+                if (section.horizontal) {
+                  return null;
+                }
+                return <ListPertanyaan item={item} />;
+              }}></SectionList>
+          </SafeAreaView>
+        </ShowMore>
+      </View>
     </View>
   );
 };
@@ -245,8 +250,23 @@ const SECTIONS = [
         pengirim: 'Admin',
         waktujawaban: '4 Jam yang lalu',
       },
+      {
+        key: '3',
+        text: 'Item text 1',
+        uri: 'https://picsum.photos/id/1/200',
+        nama: 'Budiman',
+        waktubertanya: '4 jam yang lalu',
+        pertanyaan: 'Ready kak?',
+        jawaban: 'banyak kak. silahkan diorder',
+        pengirim: 'Admin',
+        waktujawaban: '4 Jam yang lalu',
+      },
     ],
   },
 ];
 
 export default Pertanyaan;
+
+/*
+          <Text style={style.tampilbanyak}>Tampilkan lebih banyak</Text>
+          <Icon name="chevron-down" size={25} style={{ color: 'black' }} /> */
