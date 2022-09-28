@@ -11,14 +11,14 @@ import Daftar from './src/screens/Daftar';
 import ListProduk from './src/screens/Produk';
 import MenuBar from './src/screens/component/menubar';
 import MenuBar2 from './src/screens/component/menubar_produk';
-
+import Artikel from './src/screens/Artikel';
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Detail"
+        initialRouteName="Artikel"
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Detail" component={Detail} />
@@ -28,6 +28,7 @@ function App() {
         <Stack.Screen name="ListProduk" component={ListProduk} />
         <Stack.Screen name="MenuBar" component={MenuBar} />
         <Stack.Screen name="MenuBar2" component={MenuBar2} />
+        <Stack.Screen name="Artikel" component={Artikel} />
         <Stack.Screen name="SplashScreen" component={Splashscreen} />
       </Stack.Navigator>
     </NavigationContainer>
