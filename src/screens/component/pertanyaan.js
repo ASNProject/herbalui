@@ -13,8 +13,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import ViewMoreText from 'react-native-view-more-text';
 import ShowMore from 'react-native-show-more-button';
+import { Popup } from './Popup';
 const ListPertanyaan = ({ item }) => {
   const [shouldShow, setshouldShow] = useState(true);
+
   return (
     <View style={style.items}>
       <View style={style.img}>
@@ -63,23 +65,11 @@ const ListPertanyaan = ({ item }) => {
 };
 
 const Pertanyaan = () => {
+  const onShowPopup = () => {
+    popupRef.show();
+  };
   return (
     <View style={style.container}>
-      <View style={style.body}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={style.txt_pertanyaan}>Pertanyaan</Text>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-              flex: 1,
-            }}>
-            <TouchableOpacity>
-              <Text style={style.btn_pertanyaan}>Buat pertanyaan</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
       <View>
         <ShowMore
           buttonColor={'black'}
@@ -111,6 +101,7 @@ const Pertanyaan = () => {
           </SafeAreaView>
         </ShowMore>
       </View>
+      <Popup ref={target => (popupRef = target)}></Popup>
     </View>
   );
 };
@@ -119,22 +110,6 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    marginTop: 10,
-  },
-  body: {
-    flex: 1,
-    marginTop: 10,
-    padding: 10,
-  },
-  txt_pertanyaan: {
-    fontFamily: 'Poppins-SemiBold',
-    color: 'black',
-    fontSize: 10,
-  },
-  btn_pertanyaan: {
-    color: '#0551FF',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 10,
   },
   items: {
     flex: 1,
