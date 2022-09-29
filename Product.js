@@ -1,16 +1,24 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { NavigationContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 class Product extends React.Component {
   render() {
     const { img, nama, harga } = this.props.produks;
     return (
       <View style={style.container}>
-        <View>
-          <Image style={style.img} source={{ uri: img }}></Image>
-          <Text style={style.txt_nama}>{nama}</Text>
-          <Text style={style.txt_harga}>{harga}</Text>
-        </View>
+        <TouchableOpacity
+        /*onPress={() => this.props.navigation.navigate('Details')}*/
+        >
+          <View>
+            <Image style={style.img} source={{ uri: img }}></Image>
+            <Text style={style.txt_nama}>{nama}</Text>
+            <Text style={style.txt_harga}>{harga}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }

@@ -13,6 +13,7 @@ import {
 import { FlatGrid } from 'react-native-super-grid';
 
 import Product from '../../../Product';
+import { useNavigation } from '@react-navigation/native';
 
 const Produk = () => {
   const Img =
@@ -36,7 +37,7 @@ const Produk = () => {
     { img: Img5, nama: 'Very good tea', harga: 'Rp. 20.000/box' },
     { img: Img6, nama: 'Healthy Jamu', harga: 'Rp. 22.000/botol' },
   ];
-
+  const navigation = useNavigation();
   return (
     <View style={style.container}>
       <View style={style.txt_header}>
@@ -48,7 +49,9 @@ const Produk = () => {
               alignItems: 'flex-end',
               flex: 1,
             }}>
-            <Text style={style.txt_lihatsemua}>Lihat semua</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('ListProduk')}>
+              <Text style={style.txt_lihatsemua}>Lihat semua</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
