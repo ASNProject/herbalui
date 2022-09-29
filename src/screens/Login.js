@@ -8,43 +8,75 @@ import {
   ScrollView,
   StackNavigator,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import App from './Home';
+// icons
+import Eye from "../../assets/icons/akar-icons_eye.svg"
+import EyeClose from "../../assets/icons/ant-design_eye-invisible-outlined"
+// global style
+import GlobalStyle from "./style/GlobalStyle"
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  function handleEye(condition) {
+    if (condition == 'show') {
+      setSecureTextEntry(true)
+    } else {
+      setSecureTextEntry(false)
+    }
+  }
   return (
     <View style={style.container}>
+      {/* Main area */}
       <View style={{ flex: 1 }}>
-        <Text style={style.txt_silhkan}>Silahkan Masuk!</Text>
-        <Text style={style.txt_pusatinformasi}>
+        {/* title */}
+        <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>Selamat Datang!</Text>
+        <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5]}>
           Pusat Informasi Obat Universitas Ahmad Dahlan
         </Text>
+        {/* form login */}
+        {/* input email */}
         <Text style={style.txt_alamtemail}>Alamat Email</Text>
         <TextInput
-          style={style.input_email}
+          style={[style.input_email, GlobalStyle.darkShadow]}
           placeholder="example@gmail.com"
           placeholderTextColor={'#A0A0A0'}
           onChangeText={email => setEmail(email)}></TextInput>
+        {/* input password */}
         <Text style={style.txt_password}>Password</Text>
         <View style={style.pass}>
           <TextInput
-            style={style.input_password}
+            style={[style.input_password, GlobalStyle.darkShadow]}
             placeholder="password"
             placeholderTextColor={'#A0A0A0'}
-            secureTextEntry={true}
+            secureTextEntry={secureTextEntry}
+            value={password}
             onChangeText={password => setPassword(password)}></TextInput>
-          <Icon
-            style={{ textAlignVertical: 'center', padding: 10 }}
-            name="eye"
-            size={12}
-            color="a0a0a0"
-          />
+          {
+            secureTextEntry ?
+              (
+                <TouchableOpacity
+                  style={style.eye_icon}
+                  onPress={() => { handleEye('hide') }}
+                >
+                  <Eye width={50} height={20} />
+                </TouchableOpacity>
+              )
+              :
+              (
+                <TouchableOpacity
+                  style={style.eye_icon}
+                  onPress={() => { handleEye('show') }}
+                >
+                  <EyeClose width={50} height={20} />
+                </TouchableOpacity>
+              )
+
+          }
         </View>
-        <TouchableOpacity style={style.btn_login}>
-          <Text style={style.txt_login}>Masuk</Text>
+        {/* Button masuk */}
+        <TouchableOpacity style={[style.btn_login, GlobalStyle.primaryShadow]}>
+          <Text style={[style.txt_login, GlobalStyle.fs3]}>Masuk</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={style.btn_lupapassword}
@@ -52,6 +84,7 @@ const Login = ({ navigation }) => {
           <Text style={style.txt_lupapassword}>Lupa password</Text>
         </TouchableOpacity>
       </View>
+      {/* Bottom area */}
       <View style={{ marginBottom: 20 }}>
         <View
           style={{
@@ -62,14 +95,14 @@ const Login = ({ navigation }) => {
           <Text style={style.txt_belumpunyaakun}>Belum punya aku?</Text>
           <TouchableOpacity>
             <Text
-              style={style.txt_daftar}
+              style={[style.txt_daftar, GlobalStyle.primaryColor]}
               onPress={() => navigation.navigate('Daftar')}>
               Daftar
             </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-          style={style.btn_lewati}
+          style={[style.btn_lewati, GlobalStyle.mt2]}
           onPress={() => navigation.navigate('Home')}>
           <Text style={style.txt_lewati}>Lewati</Text>
         </TouchableOpacity>
@@ -77,22 +110,20 @@ const Login = ({ navigation }) => {
     </View>
   );
 };
-
+// styling
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 25,
+    paddingHorizontal: 25,
+    backgroundColor: "#fff"
   },
   txt_silhkan: {
     fontFamily: 'Roboto-Bold',
-    fontSize: 20,
     marginTop: 200,
     color: 'black',
   },
   txt_pusatinformasi: {
     fontFamily: 'Roboto-Light',
-    fontSize: 10,
-    color: '#002885',
   },
   txt_alamtemail: {
     fontFamily: 'Poppins-Regular',
@@ -110,7 +141,7 @@ const style = StyleSheet.create({
   txt_password: {
     fontFamily: 'Poppins-Regular',
     fontSize: 13,
-    marginTop: 5,
+    marginTop: 20,
     color: '#a0a0a0',
   },
   input_password: {
@@ -157,7 +188,6 @@ const style = StyleSheet.create({
   txt_daftar: {
     fontFamily: 'Poppins-Bold',
     fontSize: 12,
-    color: '#0074DF',
     marginLeft: 5,
   },
   btn_lewati: {
@@ -172,6 +202,11 @@ const style = StyleSheet.create({
     fontFamily: 'Poppins-Light',
     fontSize: 13,
   },
+  eye_icon: {
+    position: "absolute",
+    right: 0,
+    top: 10,
+  }
 });
 
 export default Login;

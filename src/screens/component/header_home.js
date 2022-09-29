@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { Searchbar } from 'react-native-paper';
-import { grey100 } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
+// import { grey100 } from 'react-native-paper/lib/typescript/styles/themes/v2/colors';
 
 const Header = () => {
   const [pencarian, setPencarian] = useState('');

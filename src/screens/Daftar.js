@@ -9,8 +9,9 @@ import {
   StackNavigator,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import App from './Home';
+import GlobalStyle from './style/GlobalStyle';
+// import Icon from 'react-native-vector-icons/AntDesign';
+// import App from './Home';
 
 const Daftar = ({ navigation }) => {
   const [nama, setNama] = useState('');
@@ -20,24 +21,27 @@ const Daftar = ({ navigation }) => {
 
   return (
     <View style={style.container}>
+      {/* top area */}
       <View style={{ flex: 1 }}>
-        <Text style={style.txt_silhkan}>Selamat datang!</Text>
-        <Text style={style.txt_pusatinformasi}>
+        {/* title */}
+        <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>Selamat datang!</Text>
+        <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5]}>
           Pusat Informasi Obat Universitas Ahmad Dahlan
         </Text>
-        <Text style={style.txt_nama}>Nama</Text>
+        {/* name */}
+        <Text style={[style.txt_nama]}>Nama</Text>
         <TextInput
           style={style.input_nama}
           placeholder="Ahmad"
           placeholderTextColor={'#A0A0A0'}
           onChangeText={nama => setNama(nama)}></TextInput>
-        <Text style={style.txt_alamtemail}>Alamat Email</Text>
+        <Text style={[style.txt_alamtemail, GlobalStyle.mt3]}>Alamat Email</Text>
         <TextInput
           style={style.input_email}
           placeholder="example@gmail.com"
           placeholderTextColor={'#A0A0A0'}
           onChangeText={email => setEmail(email)}></TextInput>
-        <Text style={style.txt_password}>Password</Text>
+        <Text style={[style.txt_password, GlobalStyle.mt3]}>Password</Text>
         <View style={style.pass}>
           <TextInput
             style={style.input_password}
@@ -45,14 +49,8 @@ const Daftar = ({ navigation }) => {
             placeholderTextColor={'#A0A0A0'}
             secureTextEntry={true}
             onChangeText={password => setPassword(password)}></TextInput>
-          <Icon
-            style={{ textAlignVertical: 'center', padding: 10 }}
-            name="eye"
-            size={12}
-            color="a0a0a0"
-          />
         </View>
-        <Text style={style.txt_password}>Konfirmasi Password</Text>
+        <Text style={[style.txt_password, GlobalStyle.mt3]}>Konfirmasi Password</Text>
         <View style={style.pass}>
           <TextInput
             style={style.input_password}
@@ -62,29 +60,24 @@ const Daftar = ({ navigation }) => {
             onChangeText={konfirmasipassword =>
               setKonfirmasiPassword(konfirmasipassword)
             }></TextInput>
-          <Icon
-            style={{ textAlignVertical: 'center', padding: 10 }}
-            name="eye"
-            size={12}
-            color="a0a0a0"
-          />
         </View>
         <View style={style.x}>
           <Image
             style={style.img_x}
             source={require('./images/Vector-2.png')}></Image>
-          <Text style={style.txt_x}>Password baru minimal 6 karakter</Text>
+          <Text style={[style.txt_x, GlobalStyle.fs5]}>Password baru minimal 6 karakter</Text>
         </View>
         <View style={style.v}>
           <Image
             style={style.img_v}
             source={require('./images/Vector.png')}></Image>
-          <Text style={style.txt_v}>Password baru terkonfirmasi</Text>
+          <Text style={[style.txt_v, GlobalStyle.fs5]}>Password baru terkonfirmasi</Text>
         </View>
-        <TouchableOpacity style={style.btn_login}>
-          <Text style={style.txt_login}>Daftar</Text>
+        <TouchableOpacity style={[style.btn_login, GlobalStyle.bgPrimary]}>
+          <Text style={[style.txt_login, GlobalStyle.fs3]}>Daftar</Text>
         </TouchableOpacity>
       </View>
+      {/* bottom area */}
       <View style={{ marginBottom: 20 }}>
         <View
           style={{
@@ -114,7 +107,8 @@ const Daftar = ({ navigation }) => {
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 25,
+    paddingHorizontal: 25,
+    backgroundColor: "#fff"
   },
   txt_silhkan: {
     fontFamily: 'Roboto-Bold',
@@ -124,8 +118,6 @@ const style = StyleSheet.create({
   },
   txt_pusatinformasi: {
     fontFamily: 'Roboto-Light',
-    fontSize: 10,
-    color: '#002885',
   },
   txt_alamtemail: {
     fontFamily: 'Poppins-Regular',
@@ -139,6 +131,9 @@ const style = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     marginTop: 5,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.08,
   },
   txt_nama: {
     fontFamily: 'Poppins-Regular',
@@ -152,12 +147,18 @@ const style = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     marginTop: 5,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.08,
   },
   txt_password: {
     fontFamily: 'Poppins-Regular',
     fontSize: 13,
     marginTop: 5,
     color: '#a0a0a0',
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.08,
   },
   input_password: {
     backgroundColor: '#fff',
@@ -165,6 +166,9 @@ const style = StyleSheet.create({
     borderRadius: 5,
     marginTop: 5,
     flex: 1,
+    shadowColor: '#171717',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.08,
   },
   pass: {
     flexDirection: 'row',
@@ -173,7 +177,6 @@ const style = StyleSheet.create({
     height: 40,
   },
   btn_login: {
-    backgroundColor: '#0551FF',
     height: 40,
     borderRadius: 5,
     marginTop: 20,
@@ -231,7 +234,6 @@ const style = StyleSheet.create({
   },
   txt_x: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 10,
   },
   v: {
     flexDirection: 'row',
@@ -245,7 +247,6 @@ const style = StyleSheet.create({
   },
   txt_v: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 10,
   },
 });
 
