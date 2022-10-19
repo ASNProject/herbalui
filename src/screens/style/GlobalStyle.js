@@ -50,6 +50,7 @@ export default StyleSheet.create(
         darkShadow: { shadowColor: '#171717', shadowOffset: { width: -2, height: 4 }, shadowOpacity: 0.05, shadowRadius: 20, },
         primaryShadow: { shadowColor: '#00A6A6', shadowOffset: { width: -2, height: 4 }, shadowOpacity: 0.08, shadowRadius: 3, },
         // color
+        whiteColor: { color: "#fff" },
         primaryColor: { color: "#00A6A6" },
         blueLightColor: { color: "#E6EDFF" },
         secondaryColor: { color: "#A0A0A0" },
