@@ -1,3 +1,4 @@
+// lib
 import React, { Component, useState, useEffect } from 'react';
 import {
   StyleSheet,
@@ -5,29 +6,34 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StackNavigator,
 } from 'react-native';
-
+// component
+import GlobalStyle from './style/GlobalStyle';
+//
 const Reset = ({ navigation }) => {
+  // variable
   const [email, setEmail] = useState('');
-
+  // content
   return (
     <View style={style.container}>
       <View style={{ flex: 1 }}>
+        {/* title */}
         <Text style={style.txt_silhkan}>Reset password</Text>
         <Text style={style.txt_pusatinformasi}>
-          Pusat Informasi Obat Universitas Ahmad Dahlan
+          Kode reset password akan dikirim ke email anda
         </Text>
+        {/* input */}
         <Text style={style.txt_alamtemail}>Alamat Email</Text>
         <TextInput
-          style={style.input_email}
+          style={[style.input_email, GlobalStyle.darkShadow]}
           placeholder="example@gmail.com"
           placeholderTextColor={'#A0A0A0'}
           onChangeText={email => setEmail(email)}></TextInput>
-        <TouchableOpacity style={style.btn_reset}>
-          <Text style={style.txt_reset}>Reset Password</Text>
+        {/* confirm button */}
+        <TouchableOpacity style={[style.btn_reset]}>
+          <Text style={[style.txt_reset, GlobalStyle.fs3]}>Reset Password</Text>
         </TouchableOpacity>
+        {/* back button */}
         <TouchableOpacity
           style={style.btn_kembali}
           onPress={() => navigation.navigate('Login')}>
@@ -37,12 +43,13 @@ const Reset = ({ navigation }) => {
     </View>
   );
 };
-
+// attach style
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 25,
+    paddingHorizontal: 25,
     justifyContent: 'center',
+    backgroundColor: '#fff'
   },
   txt_silhkan: {
     fontFamily: 'Roboto-Bold',
@@ -52,8 +59,8 @@ const style = StyleSheet.create({
   },
   txt_pusatinformasi: {
     fontFamily: 'Roboto-Light',
-    fontSize: 10,
-    color: '#002885',
+    fontSize: 14,
+    color: '#000',
   },
   txt_alamtemail: {
     fontFamily: 'Poppins-Regular',
@@ -70,8 +77,8 @@ const style = StyleSheet.create({
   },
 
   btn_reset: {
-    backgroundColor: '#0551FF',
-    height: 40,
+    backgroundColor: '#00A6A6',
+    height: 45,
     borderRadius: 5,
     marginTop: 20,
     justifyContent: 'center',
@@ -88,10 +95,10 @@ const style = StyleSheet.create({
     marginTop: 10,
   },
   txt_kembali: {
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-Medium',
     fontSize: 12,
-    color: 'black',
+    color: '#00A6A6',
   },
 });
-
+//
 export default Reset;

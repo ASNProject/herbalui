@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+// import screen
 import Home from './src/screens/Home';
 import Detail from './src/screens/Detail';
 import Splashscreen from './src/screens/SplashScreen';
@@ -12,8 +12,10 @@ import ListProduk from './src/screens/Produk';
 import MenuBar from './src/screens/component/menubar';
 import MenuBar2 from './src/screens/component/menubar_produk';
 import Artikel from './src/screens/Artikel';
+import MainNavigation from './src/screens/MainNavigation';
+// variable
 const Stack = createNativeStackNavigator();
-
+// content
 function App() {
   return (
     <NavigationContainer>
@@ -21,6 +23,7 @@ function App() {
         initialRouteName="Login"
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="MainNavigation" component={MainNavigation} />
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Reset" component={Reset} />
@@ -34,4 +37,5 @@ function App() {
     </NavigationContainer>
   );
 }
+//
 export default App;

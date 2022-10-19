@@ -25,8 +25,11 @@ const Daftar = ({ navigation }) => {
       <View style={{ flex: 1 }}>
         {/* title */}
         <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>Selamat datang!</Text>
+        <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5, GlobalStyle.mt1]}>
+          Pusat Informasi dan Kajian Obat
+        </Text>
         <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5]}>
-          Pusat Informasi Obat Universitas Ahmad Dahlan
+          Universitas Ahmad Dahlan
         </Text>
         {/* name */}
         <Text style={[style.txt_nama]}>Nama</Text>
@@ -41,6 +44,7 @@ const Daftar = ({ navigation }) => {
           placeholder="example@gmail.com"
           placeholderTextColor={'#A0A0A0'}
           onChangeText={email => setEmail(email)}></TextInput>
+
         <Text style={[style.txt_password, GlobalStyle.mt3]}>Password</Text>
         <View style={style.pass}>
           <TextInput
@@ -95,8 +99,8 @@ const Daftar = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-          style={style.btn_lewati}
-          onPress={() => navigation.navigate('Home')}>
+          style={[style.btn_lewati, GlobalStyle.mt2]}
+          onPress={() => navigation.navigate('MainNavigation')}>
           <Text style={style.txt_lewati}>Lewati</Text>
         </TouchableOpacity>
       </View>
@@ -111,7 +115,7 @@ const style = StyleSheet.create({
     backgroundColor: "#fff"
   },
   txt_silhkan: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'Roboto-Medium',
     fontSize: 20,
     marginTop: 100,
     color: 'black',
@@ -177,7 +181,7 @@ const style = StyleSheet.create({
     height: 40,
   },
   btn_login: {
-    height: 40,
+    height: 45,
     borderRadius: 5,
     marginTop: 20,
     justifyContent: 'center',
@@ -206,7 +210,7 @@ const style = StyleSheet.create({
   txt_daftar: {
     fontFamily: 'Poppins-Bold',
     fontSize: 12,
-    color: '#0074DF',
+    color: '#00A6A6',
     marginLeft: 5,
   },
   btn_lewati: {

@@ -8,6 +8,7 @@ import {
   ScrollView,
   StackNavigator,
 } from 'react-native';
+import axios from 'react-native-axios';
 // icons
 import Eye from "../../assets/icons/akar-icons_eye.svg"
 import EyeClose from "../../assets/icons/ant-design_eye-invisible-outlined"
@@ -18,6 +19,28 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  //
+  const Login = function () {
+    const form = new FormData();
+    form.append("email", "alendra099@gmail.com");
+    form.append("password", "123456");
+
+    const options = {
+      method: 'POST',
+      url: 'https://staging-herbaluad.adolweb.com/api/login',
+      data: form
+    };
+
+    axios.request(options).then(function (response) {
+      console.log(response.data);
+      alert("succeess!")
+    }).catch(function (error) {
+      alert("failed!")
+      console.error(error);
+      console.error(error.response.data);
+    });
+  }
+  //
   function handleEye(condition) {
     if (condition == 'show') {
       setSecureTextEntry(true)
@@ -30,9 +53,12 @@ const Login = ({ navigation }) => {
       {/* Main area */}
       <View style={{ flex: 1 }}>
         {/* title */}
-        <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>Selamat Datang!</Text>
+        <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>Silahkan Masuk!</Text>
+        <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5, GlobalStyle.mt1]}>
+          Pusat Informasi dan Kajian Obat
+        </Text>
         <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5]}>
-          Pusat Informasi Obat Universitas Ahmad Dahlan
+          Universitas Ahmad Dahlan
         </Text>
         {/* form login */}
         {/* input email */}
@@ -75,8 +101,14 @@ const Login = ({ navigation }) => {
           }
         </View>
         {/* Button masuk */}
-        <TouchableOpacity style={[style.btn_login, GlobalStyle.primaryShadow]}>
-          <Text style={[style.txt_login, GlobalStyle.fs3]}>Masuk</Text>
+        <TouchableOpacity
+          onPress={() => {
+            Login()
+          }}
+          style={[style.btn_login, GlobalStyle.primaryShadow]}>
+          <Text
+            style={[style.txt_login, GlobalStyle.fs3]}
+          >Masuk</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={style.btn_lupapassword}
@@ -103,7 +135,7 @@ const Login = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={[style.btn_lewati, GlobalStyle.mt2]}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.navigate('MainNavigation')}>
           <Text style={style.txt_lewati}>Lewati</Text>
         </TouchableOpacity>
       </View>
@@ -118,7 +150,7 @@ const style = StyleSheet.create({
     backgroundColor: "#fff"
   },
   txt_silhkan: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'Roboto-Medium',
     marginTop: 200,
     color: 'black',
   },
@@ -158,8 +190,8 @@ const style = StyleSheet.create({
     height: 40,
   },
   btn_login: {
-    backgroundColor: '#0551FF',
-    height: 40,
+    backgroundColor: '#00A6A6',
+    height: 45,
     borderRadius: 5,
     marginTop: 20,
     justifyContent: 'center',
@@ -177,7 +209,7 @@ const style = StyleSheet.create({
   },
   txt_lupapassword: {
     fontFamily: 'Poppins-Light',
-    fontSize: 12,
+    fontSize: 14,
     color: 'black',
   },
   txt_belumpunyaakun: {
@@ -187,7 +219,7 @@ const style = StyleSheet.create({
   },
   txt_daftar: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 12,
+    fontSize: 14,
     marginLeft: 5,
   },
   btn_lewati: {

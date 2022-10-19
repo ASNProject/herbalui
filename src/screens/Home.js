@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-
 import MenuBar from './component/menubar';
 import Header from './component/header_home';
 import Produk from './component/produk_herbal';
