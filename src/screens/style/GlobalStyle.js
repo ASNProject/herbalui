@@ -66,6 +66,18 @@ export default StyleSheet.create(
         justifyContentCenter: { justifyContent: "center" },
         alignItemsCenter: { alignItems: "center" },
         justifySpaceBetween: { justifyContent: "space-between" },
-        flexWrap: { flexWrap: "wrap" }
+        flexWrap: { flexWrap: "wrap" },
+        // font size
+        fs1: { fontSize: 24, fontFamily: "Poppins" },
+        fs2: { fontSize: 20, fontFamily: "Poppins" },
+        fs3: { fontSize: 18, fontFamily: "Poppins" },
+        fs4: { fontSize: 16, fontFamily: "Poppins" },
+        fs5: { fontSize: 12, fontFamily: "Poppins" },
+        fs6: { fontSize: 9, fontFamily: "Poppins" },
+        // font weight
+        fwLight: { fontWeight: "300" },
+        fwRegular: { fontWeight: "400" },
+        fwMedium: { fontWeight: "500" },
+        fwBold: { fontWeight: "600" },
     }
 );

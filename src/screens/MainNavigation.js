@@ -40,30 +40,30 @@ export default function MainNavigation() {
 
                     if (rn === HomeName) {
                         if (focused) {
-                            return <HomeIconActive width={25} height={20} />
+                            return <HomeIconActive width={25} height={25} />
                         } else {
-                            return <HomeIcon width={25} height={20} />
+                            return <HomeIcon width={25} height={25} />
                         }
                     }
                     else if (rn === ConsultationName) {
                         if (focused) {
-                            return <ConsultationIconActive width={25} height={20} />
+                            return <ConsultationIconActive width={25} height={25} />
                         } else {
-                            return <ConsultationIcon width={25} height={20} />
+                            return <ConsultationIcon width={25} height={25} />
                         }
                     }
                     else if (rn === HerbalEduName) {
                         if (focused) {
-                            return <HerbalEduIconActive width={25} height={20} />
+                            return <HerbalEduIconActive width={25} height={25} />
                         } else {
-                            return <HerbalEduIcon width={25} height={20} />
+                            return <HerbalEduIcon width={25} height={25} />
                         }
                     }
                     else if (rn === HalalCenterName) {
                         if (focused) {
-                            return <HalalCenterIconActive width={25} height={20} />
+                            return <HalalCenterIconActive width={25} height={25} />
                         } else {
-                            return <HalalCenterIcon width={25} height={20} />
+                            return <HalalCenterIcon width={25} height={25} />
                         }
                     }
                 }

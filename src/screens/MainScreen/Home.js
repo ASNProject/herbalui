@@ -22,8 +22,8 @@ import GS from "../style/GlobalStyle";
 const TopBar = function () {
     return (<View style={[GS.mt2, GS.flexRow, GS.alignItemsCenter, GS.justifySpaceBetween]}>
         <View>
-            <Text>Halo</Text>
-            <Text>Safitri Aulia 👋🏻</Text>
+            <Text style={[GS.fs4, GS.fwLight]}>Halo</Text>
+            <Text style={[GS.fs2]}>Safitri Aulia 👋🏻</Text>
         </View>
         <View style={[GS.flexRow, GS.alignItemsCenter]}>
             <Cart width="25" height="25" style={[GS.mr2]} />
@@ -36,8 +36,12 @@ const SearchBar = function () {
     return (
         <View style={[Style.searchBar, GS.flexRow, GS.alignItemsCenter, GS.mt4]}>
             <SearchIcon width="8%" style={[GS.ml3]} />
-            <TextInput style={[Style.inputSearchBar, GS.pl1]}
+            <TextInput style={[Style.inputSearchBar, GS.pl1, GS.fs5]}
                 selectionColor="#000"
+                returnKeyType="go"
+                onSubmitEditing={(event) => {
+                    alert("searching")
+                }}
                 underlineColor="none" underlineColorAndroid="none" activeUnderlineColor="none"
                 placeholder="Cari obat atau gejala" placeholderTextColor="#A0A0A0sasa" />
         </View>
@@ -52,21 +56,21 @@ const Menu = function () {
                 <View style={[Style.colButtonMenu]}>
                     <TouchableOpacity style={[Style.buttonMenu, Style.buttonMenuPrimary, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuProduct width="100%" height="60%" />
-                        <Text style={GS.whiteColor}>Produk herbal</Text>
+                        <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Produk herbal</Text>
                     </TouchableOpacity>
                 </View>
                 {/* konsultasi */}
                 <View style={[Style.colButtonMenu]}>
                     <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuConsultation width="100%" height="60%" />
-                        <Text style={GS.whiteColor}>Konsultasi</Text>
+                        <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Konsultasi</Text>
                     </TouchableOpacity>
                 </View>
                 {/* artikel */}
                 <View style={[Style.colButtonMenu]}>
                     <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuArtikel width="100%" height="60%" />
-                        <Text style={GS.whiteColor}>Artikel</Text>
+                        <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Artikel</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -75,14 +79,14 @@ const Menu = function () {
                 <View style={[Style.colButtonMenu]}>
                     <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuHerbalEdu width="100%" height="60%" />
-                        <Text style={GS.whiteColor}>Herbal Edu</Text>
+                        <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Herbal Edu</Text>
                     </TouchableOpacity>
                 </View>
                 {/* artikel */}
                 <View style={[Style.colButtonMenu]}>
                     <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuHalalCenter width="100%" height="60%" />
-                        <Text style={GS.whiteColor}>Halal center</Text>
+                        <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Halal center</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -93,34 +97,34 @@ const Menu = function () {
 const ObatHerbal = function () {
     return (
         <View style={[GS.mt4]}>
-            <Text>Obat herbal</Text>
+            <Text style={[GS.fwMedium, GS.fs3]}>Obat herbal</Text>
             <View style={[GS.flexRow, GS.mt2]}>
                 {/* category jantung */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconJantung width="60%" height="60%" />
-                        <Text style={[[GS.mt1, GS.primaryColor]]}>Jantung</Text>
+                        <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Jantung</Text>
                     </TouchableOpacity>
                 </View>
                 {/* category demam */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconSakitKepala width="100%" height="60%" />
-                        <Text style={[[GS.mt1, GS.primaryColor]]}>Demam</Text>
+                        <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Demam</Text>
                     </TouchableOpacity>
                 </View>
                 {/* category ginja; */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconGinjal width="100%" height="60%" />
-                        <Text style={[[GS.mt1, GS.primaryColor]]}>Ginjal</Text>
+                        <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Ginjal</Text>
                     </TouchableOpacity>
                 </View>
                 {/* category stamina; */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconStamina width="60%" height="60%" />
-                        <Text style={[[GS.mt1, GS.primaryColor]]}>Stamina</Text>
+                        <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Stamina</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -133,13 +137,13 @@ const TambahWawasan = function () {
     const imageSource2 = require("../../../assets/images/artikel_2.png");
     return (
         <View style={[GS.mt4]}>
-            <Text>Tambah wawasan</Text>
+            <Text style={[GS.fwMedium, GS.fs3]}>Tambah wawasan</Text>
             <ScrollView horizontal style={[GS.flexRow, GS.mt2]} showsHorizontalScrollIndicator="false">
                 {/* article card */}
                 <TouchableOpacity style={[GS.mr2]}>
                     <ImageBackground style={[Style.cardArtikel]} source={imageSource}>
                         <View style={[Style.coverArtikel]}>
-                            <Text style={[GS.whiteColor]}>
+                            <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
                                 Tips menjaga kesehatan mata
                             </Text>
                         </View>
@@ -149,8 +153,8 @@ const TambahWawasan = function () {
                 <TouchableOpacity style={[GS.mr2]}>
                     <ImageBackground style={[Style.cardArtikel]} source={imageSource2}>
                         <View style={[Style.coverArtikel]}>
-                            <Text style={[GS.whiteColor]}>
-                                Tips menjaga kesehatan mata
+                            <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
+                                Tips makanan sehat & bergizi
                             </Text>
                         </View>
                     </ImageBackground>
@@ -168,7 +172,7 @@ const Consultation = function () {
     // content
     return (
         <View style={[GS.mt4]}>
-            <Text>Konsultasi online</Text>
+            <Text style={[GS.fwMedium, GS.fs3]}>Konsultasi online</Text>
             <ScrollView style={[GS.mt2, GS.flexRow]} horizontal showsHorizontalScrollIndicator="false">
                 {/* card konsultasi */}
                 <TouchableOpacity style={[GS.mr2]}>
@@ -176,12 +180,12 @@ const Consultation = function () {
                         {/* status */}
                         <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
                             <IconOnline width="8" height="8" />
-                            <Text style={[GS.ml1]}>online</Text>
+                            <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
                         </View>
                         {/* profile image */}
                         <Image source={profile_robot} style={[Style.konsultasiProfile, GS.mt2]} />
                         {/* name */}
-                        <Text style={[GS.mt2]}>Robot</Text>
+                        <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Robot</Text>
                     </View>
                 </TouchableOpacity>
                 {/* card konsultasi */}
@@ -190,12 +194,12 @@ const Consultation = function () {
                         {/* status */}
                         <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
                             <IconOnline width="8" height="8" />
-                            <Text style={[GS.ml1]}>online</Text>
+                            <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
                         </View>
                         {/* profile image */}
                         <Image source={profile_1} style={[Style.konsultasiProfile, GS.mt2]} />
                         {/* name */}
-                        <Text style={[GS.mt2]}>Yaseefa</Text>
+                        <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Yaseefa</Text>
                     </View>
                 </TouchableOpacity>
                 {/* card konsultasi */}
@@ -204,12 +208,12 @@ const Consultation = function () {
                         {/* status */}
                         <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
                             <IconOnline width="8" height="8" />
-                            <Text style={[GS.ml1]}>online</Text>
+                            <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
                         </View>
                         {/* profile image */}
                         <Image source={profile_2} style={[Style.konsultasiProfile, GS.mt2]} />
                         {/* name */}
-                        <Text style={[GS.mt2]}>Maemunah</Text>
+                        <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Maemunah</Text>
                     </View>
                 </TouchableOpacity>
             </ScrollView>
@@ -251,9 +255,10 @@ const Style = StyleSheet.create({
     searchBar: {
         borderWidth: 1,
         borderColor: "#00A6A6",
-        borderRadius: 10,
+        borderRadius: 5,
         overflow: "hidden",
         width: "100%",
+        height: 45
     },
     inputSearchBar: {
         width: "90%",
@@ -293,7 +298,7 @@ const Style = StyleSheet.create({
     // artikel
     cardArtikel: {
         height: 100,
-        width: 210,
+        width: 200,
         borderRadius: 10,
         overflow: "hidden"
     },
