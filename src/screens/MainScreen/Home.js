@@ -244,8 +244,6 @@ export default function Home() {
 // style
 const Style = StyleSheet.create({
     // top bar
-    topBar: {
-    },
     profileImage: {
         width: 50,
         height: 50,
@@ -273,14 +271,15 @@ const Style = StyleSheet.create({
     },
     colButtonMenu: {
         width: "33.3%",
-        height: 105,
-        padding: 5
+        height: 115,
+        padding: 5,
     },
     buttonMenu: {
         backgroundColor: "#00BEBE",
         borderRadius: 12,
         width: "100%",
-        height: "100%"
+        height: "100%",
+        paddingVertical: 5
     },
     buttonMenuPrimary: {
         backgroundColor: "#00A6A6",
@@ -289,7 +288,7 @@ const Style = StyleSheet.create({
     colButtonCategoryObat: {
         width: "25%",
         height: 115,
-        padding: 5,
+        padding: 3,
     },
     buttonCategory: {
         borderColor: "#F3F3F3",
