@@ -1,5 +1,5 @@
 // library
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
 import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 //images
@@ -15,6 +15,7 @@ import IconJantung from "../../../assets/icons/icon-park-outline_heart.svg"
 import IconSakitKepala from "../../../assets/icons/openmoji_headache.svg"
 import IconGinjal from "../../../assets/icons/openmoji_kidney.svg"
 import IconStamina from "../../../assets/icons/icon-park-outline_muscle.svg"
+import IconOnline from "../../../assets/icons/online.svg"
 //style
 import GS from "../style/GlobalStyle";
 // component top bar
@@ -126,21 +127,114 @@ const ObatHerbal = function () {
         </View>
     )
 }
+// article / tambah wawasan
+const TambahWawasan = function () {
+    const imageSource = require("../../../assets/images/artikel_1.png");
+    const imageSource2 = require("../../../assets/images/artikel_2.png");
+    return (
+        <View style={[GS.mt4]}>
+            <Text>Tambah wawasan</Text>
+            <ScrollView horizontal style={[GS.flexRow, GS.mt2]} showsHorizontalScrollIndicator="false">
+                {/* article card */}
+                <TouchableOpacity style={[GS.mr2]}>
+                    <ImageBackground style={[Style.cardArtikel]} source={imageSource}>
+                        <View style={[Style.coverArtikel]}>
+                            <Text style={[GS.whiteColor]}>
+                                Tips menjaga kesehatan mata
+                            </Text>
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+                {/* article card */}
+                <TouchableOpacity style={[GS.mr2]}>
+                    <ImageBackground style={[Style.cardArtikel]} source={imageSource2}>
+                        <View style={[Style.coverArtikel]}>
+                            <Text style={[GS.whiteColor]}>
+                                Tips menjaga kesehatan mata
+                            </Text>
+                        </View>
+                    </ImageBackground>
+                </TouchableOpacity>
+            </ScrollView>
+        </View>
+    )
+}
+// konultasi
+const Consultation = function () {
+    // variable
+    const profile_robot = require("../../../assets/images/konsultasi_robot.png");
+    const profile_1 = require("../../../assets/images/konsultasi_1.png");
+    const profile_2 = require("../../../assets/images/konsultasi_2.png");
+    // content
+    return (
+        <View style={[GS.mt4]}>
+            <Text>Konsultasi online</Text>
+            <ScrollView style={[GS.mt2, GS.flexRow]} horizontal showsHorizontalScrollIndicator="false">
+                {/* card konsultasi */}
+                <TouchableOpacity style={[GS.mr2]}>
+                    <View style={[GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter, Style.cardKonsultasi]}>
+                        {/* status */}
+                        <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
+                            <IconOnline width="8" height="8" />
+                            <Text style={[GS.ml1]}>online</Text>
+                        </View>
+                        {/* profile image */}
+                        <Image source={profile_robot} style={[Style.konsultasiProfile, GS.mt2]} />
+                        {/* name */}
+                        <Text style={[GS.mt2]}>Robot</Text>
+                    </View>
+                </TouchableOpacity>
+                {/* card konsultasi */}
+                <TouchableOpacity style={[GS.mr2]}>
+                    <View style={[GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter, Style.cardKonsultasi]}>
+                        {/* status */}
+                        <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
+                            <IconOnline width="8" height="8" />
+                            <Text style={[GS.ml1]}>online</Text>
+                        </View>
+                        {/* profile image */}
+                        <Image source={profile_1} style={[Style.konsultasiProfile, GS.mt2]} />
+                        {/* name */}
+                        <Text style={[GS.mt2]}>Yaseefa</Text>
+                    </View>
+                </TouchableOpacity>
+                {/* card konsultasi */}
+                <TouchableOpacity style={[GS.mr2]}>
+                    <View style={[GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter, Style.cardKonsultasi]}>
+                        {/* status */}
+                        <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
+                            <IconOnline width="8" height="8" />
+                            <Text style={[GS.ml1]}>online</Text>
+                        </View>
+                        {/* profile image */}
+                        <Image source={profile_2} style={[Style.konsultasiProfile, GS.mt2]} />
+                        {/* name */}
+                        <Text style={[GS.mt2]}>Maemunah</Text>
+                    </View>
+                </TouchableOpacity>
+            </ScrollView>
+        </View>
+    )
+}
 //content
 export default function Home() {
     return (
-        <SafeAreaView style={[GS.container]}>
-            {/* top bar */}
-            <TopBar />
-            {/*  search bar */}
-            <SearchBar />
-            {/* menu */}
-            <Menu />
-            {/* obat herbal */}
-            <ObatHerbal />
-            {/* articles */}
-            {/* konsultasi online */}
-        </SafeAreaView>
+        <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
+            <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
+                {/* top bar */}
+                <TopBar />
+                {/*  search bar */}
+                <SearchBar />
+                {/* menu */}
+                <Menu />
+                {/* obat herbal */}
+                <ObatHerbal />
+                {/* articles */}
+                <TambahWawasan />
+                {/* konsultasi online */}
+                <Consultation />
+            </SafeAreaView>
+        </ScrollView>
     )
 }
 // style
@@ -195,5 +289,31 @@ const Style = StyleSheet.create({
     buttonCategory: {
         borderColor: "#F3F3F3",
         borderWidth: 1
-    }
+    },
+    // artikel
+    cardArtikel: {
+        height: 100,
+        width: 210,
+        borderRadius: 10,
+        overflow: "hidden"
+    },
+    coverArtikel: {
+        backgroundColor: "#00a6a699",
+        width: "100%",
+        height: "100%",
+        padding: 10,
+        flexDirection: "row",
+        alignItems: "flex-end"
+    },
+    // konsultasi
+    cardKonsultasi: {
+        width: 125,
+        borderWidth: 1,
+        borderColor: "#F3F3F3",
+        paddingVertical: 10
+    },
+    konsultasiProfile: {
+        width: 60,
+        height: 60,
+    },
 })
