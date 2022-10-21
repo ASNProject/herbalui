@@ -19,10 +19,10 @@ const TopBar = function () {
 // component input search
 const InputSearch = function () {
     return (
-        <View style={[GS.container]}>
+        <View style={[GS.container, Style.InputSearch]}>
             <View style={[GS.flexRow]}>
                 <Search />
-                <TextInput placeholder="Cari kata kunci" />
+                <TextInput style={[GS.pl2]} placeholder="Cari kata kunci" />
             </View>
         </View>
     );
@@ -49,7 +49,7 @@ export default function HerbalEdu() {
         <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
             <SafeAreaView style={[{ paddingBottom: 0 }]}>
                 {/* top bar */}
-                <TopBar />
+                {/* <TopBar /> */}
                 {/* input search */}
                 <InputSearch />
                 {/* header */}
@@ -65,6 +65,12 @@ const Style = StyleSheet.create({
     // header
     header: {
         width: "100%"
+    },
+    // search
+    InputSearch: {
+        paddingVertical: 15,
+        borderBottomColor: "#F3F3F3",
+        borderBottomWidth: 1
     },
     // card
     cardHerbalEdu: {
