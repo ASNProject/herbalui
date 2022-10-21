@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ImageBackg
 import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useScrollToTop } from '@react-navigation/native';
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 //images
 import Cart from "../../../assets/icons/bi_cart.svg";
 import SearchIcon from "../../../assets/icons/ph_magnifying-glass-bold.svg"
@@ -224,15 +224,21 @@ const Consultation = function () {
 }
 //content
 export default function Home({ navigation }) {
+    const [ref, setRef] = useState(null);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             // The screen is focused
+            if (ref != null) {
+                ref.scrollTo({ x: 0, y: 0, animated: false })
+            }
             // Call any action
         });
         return unsubscribe;
     }, [navigation])
+
+
     return (
-        <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
+        <ScrollView ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
             <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
                 {/* top bar */}
                 <TopBar />
@@ -247,7 +253,7 @@ export default function Home({ navigation }) {
                 {/* konsultasi online */}
                 <Consultation />
             </SafeAreaView>
-        </ScrollView>
+        </ScrollView >
     )
 }
 // style
