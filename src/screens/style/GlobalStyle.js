@@ -59,7 +59,7 @@ export default StyleSheet.create(
         bgBlueLight: { backgroundColor: "#E6EDFF" },
         bgSecondary: { backgroundColor: "#A0A0A0" },
         //
-        container: { flex: 1, paddingHorizontal: 25, backgroundColor: "#fff" },
+        container: { flex: 1, marginHorizontal: 20, backgroundColor: "#fff" },
         // layout
         flexColumn: { flexDirection: "column" },
         flexRow: { flexDirection: "row" },
@@ -79,5 +79,11 @@ export default StyleSheet.create(
         fwRegular: { fontWeight: "400" },
         fwMedium: { fontWeight: "500" },
         fwBold: { fontWeight: "600" },
+        // top bar
+        TopBar: {
+            borderBottomColor: "#F3F3F3",
+            borderBottomWidth: 1,
+            paddingVertical: 15
+        }
     }
 );

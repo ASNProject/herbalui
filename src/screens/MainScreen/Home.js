@@ -2,6 +2,8 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
 import { TextInput } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useScrollToTop } from '@react-navigation/native';
+import { useEffect } from "react";
 //images
 import Cart from "../../../assets/icons/bi_cart.svg";
 import SearchIcon from "../../../assets/icons/ph_magnifying-glass-bold.svg"
@@ -221,7 +223,14 @@ const Consultation = function () {
     )
 }
 //content
-export default function Home() {
+export default function Home({ navigation }) {
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            // The screen is focused
+            // Call any action
+        });
+        return unsubscribe;
+    }, [navigation])
     return (
         <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
             <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
