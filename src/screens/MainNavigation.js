@@ -9,11 +9,13 @@ import Home from './MainScreen/Home';
 import Consultation from './MainScreen/Consultation';
 import HerbalEdu from './MainScreen/HerbalEdu';
 import HalalCenter from './MainScreen/HalalCenter';
+import Products from './MainScreen/Products';
 // screem names
 const HomeName = 'HomeMain';
 const ConsultationName = 'Konsultasi';
 const HerbalEduName = "Herbal edu";
 const HalalCenterName = "Halal center";
+const ProdukName = "Produk";
 // icons
 import HomeIcon from '../../assets/icons/bx_home-alt-2.svg'
 import HomeIconActive from '../../assets/icons/bx_home-alt-2_active.svg'
@@ -23,6 +25,9 @@ import HalalCenterIcon from "../../assets/icons/halal.svg"
 import HalalCenterIconActive from "../../assets/icons/halal_active.svg"
 import HerbalEduIcon from "../../assets/icons/herbal_edu.svg"
 import HerbalEduIconActive from "../../assets/icons/herbal_edu_active.svg"
+import ProdukIcon from "../../assets/icons/fluent-emoji-high-contrast_herb.svg"
+import ProdukIconActive from "../../assets/icons/fluent-emoji-high-contrast_herb_active.svg"
+import Product from '../../Product';
 // variable
 const Tab = createBottomTabNavigator();
 // content
@@ -66,12 +71,20 @@ export default function MainNavigation() {
                             return <HalalCenterIcon width={25} height={25} />
                         }
                     }
+                    else if (rn === ProdukName) {
+                        if (focused) {
+                            return <ProdukIconActive width={25} height={25} />
+                        } else {
+                            return <ProdukIcon width={25} height={25} />
+                        }
+                    }
                 }
             })}
 
         >
 
             <Tab.Screen name={HomeName} component={Home} options={{ headerShown: false }} />
+            <Tab.Screen name={ProdukName} component={Products} options={{ headerShown: false }} />
             <Tab.Screen name={HerbalEduName} component={HerbalEdu} options={{ headerShown: false }} />
             <Tab.Screen name={HalalCenterName} component={HalalCenter} options={{ headerShown: false }} />
             <Tab.Screen name={ConsultationName} component={Consultation} options={{ headerShown: false }} />
