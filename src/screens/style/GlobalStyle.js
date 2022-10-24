@@ -64,6 +64,7 @@ export default StyleSheet.create(
         flexColumn: { flexDirection: "column" },
         flexRow: { flexDirection: "row" },
         justifyContentCenter: { justifyContent: "center" },
+        justifyContentEnd: { justifyContent: "flex-end" },
         alignItemsCenter: { alignItems: "center" },
         justifySpaceBetween: { justifyContent: "space-between" },
         flexWrap: { flexWrap: "wrap" },

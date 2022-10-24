@@ -35,7 +35,7 @@ const MainContent = function () {
         </View>
     )
 }
-// content
+// content  
 export default function HalalCenterDetail({ navigation }) {
     // function 
     const backPage = function () {
