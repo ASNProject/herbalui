@@ -21,7 +21,7 @@ import IconOnline from "../../../assets/icons/online.svg"
 //style
 import GS from "../style/GlobalStyle";
 // component top bar
-const TopBar = function () {
+const TopBar = function (props) {
     return (<View style={[GS.mt2, GS.flexRow, GS.alignItemsCenter, GS.justifySpaceBetween]}>
         <View>
             <Text style={[GS.fs4, GS.fwLight]}>Halo</Text>
@@ -29,7 +29,9 @@ const TopBar = function () {
         </View>
         <View style={[GS.flexRow, GS.alignItemsCenter]}>
             <Cart width="25" height="25" style={[GS.mr2]} />
-            <Image source={personImage} style={[Style.profileImage]} />
+            <TouchableOpacity onPress={props.clickProfile}>
+                <Image source={personImage} style={[Style.profileImage]} />
+            </TouchableOpacity>
         </View>
     </View>)
 }
@@ -235,13 +237,16 @@ export default function Home({ navigation }) {
         });
         return unsubscribe;
     }, [navigation])
-
-
+    // function
+    const clickProfile = function () {
+        navigation.navigate("Profile");
+    }
+    //
     return (
         <ScrollView ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
             <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
                 {/* top bar */}
-                <TopBar />
+                <TopBar clickProfile={clickProfile} />
                 {/*  search bar */}
                 <SearchBar />
                 {/* menu */}

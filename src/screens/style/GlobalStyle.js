@@ -81,6 +81,8 @@ export default StyleSheet.create(
         fwMedium: { fontWeight: "500" },
         fwBold: { fontWeight: "600" },
         // top bar
-        TopBar: { borderBottomColor: "#F3F3F3", borderBottomWidth: 1, paddingVertical: 15, height: 60 }
+        TopBar: { borderBottomColor: "#F3F3F3", borderBottomWidth: 1, paddingVertical: 15, height: 60 },
+        // button
+        btnRoundedPrimary: { borderWidth: 1, borderColor: "#00A6A6", borderRadius: 1000, }
     }
 );

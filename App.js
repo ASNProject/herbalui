@@ -16,6 +16,7 @@ import MainNavigation from './src/screens/MainNavigation';
 import HerbalEduDetail from './src/screens/MainScreen/HerbalEduDetail';
 import HalalCenterDetail from './src/screens/MainScreen/HalalCenterDetail';
 import ConsultationDetail from './src/screens/MainScreen/ConsultationDetail';
+import Profile from './src/screens/Profile';
 // variable
 const Stack = createNativeStackNavigator();
 // content
@@ -30,6 +31,7 @@ function App() {
         <Stack.Screen name="HerbalEduDetail" component={HerbalEduDetail} />
         <Stack.Screen name="HalalCenterDetail" component={HalalCenterDetail} />
         <Stack.Screen name="ConsultationDetail" component={ConsultationDetail} />
+        <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Reset" component={Reset} />

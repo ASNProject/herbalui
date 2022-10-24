@@ -10,7 +10,7 @@ import Consultation from './MainScreen/Consultation';
 import HerbalEdu from './MainScreen/HerbalEdu';
 import HalalCenter from './MainScreen/HalalCenter';
 // screem names
-const HomeName = 'Home';
+const HomeName = 'HomeMain';
 const ConsultationName = 'Konsultasi';
 const HerbalEduName = "Herbal edu";
 const HalalCenterName = "Halal center";
