@@ -3,8 +3,6 @@ import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Ima
 import GS from "./style/GlobalStyle";
 // images
 import BackIcon from "../../assets/icons/back_button.svg"
-import ProfileImage from "../../assets/images/profile.png"
-import PenIcon from "../../assets/icons/ep_edit-pen.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 import MinusIcon from "../../assets/icons/minus.svg"
 import PlusIcon from "../../assets/icons/plus.svg"
@@ -30,32 +28,48 @@ const TopBar = function (props) {
 const MainContent = function () {
     return (
         <View style={[GS.container, GS.mt4, GS.flexColumn, GS.alignItemsCenter]}>
+            <View style={[{ width: "100%" }, GS.my3]}>
+                <Text style={[GS.fs3, GS.secondaryColor]}>Barang</Text>
+            </View>
             {/* card */}
             <View style={[Style.cardProduct, GS.mb4]}>
                 <View style={[GS.flexRow, GS.alignItemsCenter]}>
                     <Image source={example_product_1} style={[Style.productImage]} />
                     <View style={[GS.ml3]}>
                         <Text style={[GS.fs4, GS.fwRegular]}>Olvia turseena</Text>
-                        <Text style={[GS.fs5, GS.primaryColor, GS.mt1]}>Rp 19.000</Text>
+                        <Text style={[GS.fs5, GS.primaryColor, GS.mt1, GS.fs5]}>Rp 19.000</Text>
                         <View style={[GS.flexRow, GS.alignItemsCenter, GS.mt1]}>
-                            <TextInput placeholder="0" style={[Style.inputAmount, GS.fs6, GS.textCenter]} keyboardType="number-pad" cursorColor="#00A6A6" selectionColor="#00A6A6" />
-                            <TouchableOpacity style={[GS.ml2, Style.btnEditAmount]}>
-                                <MinusIcon width="15" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[GS.ml2, Style.btnEditAmount]}>
-                                <PlusIcon width="15" />
-                            </TouchableOpacity>
+                            <Text style={[GS.fs6]}>1 item</Text>
                         </View>
                     </View>
                 </View>
             </View>
-            {/* total */}
-            <View style={[GS.flexRow, GS.justifySpaceBetween, { width: "100%" }, GS.mt2]}>
-                <Text style={[GS.fs3, GS.secondaryColor]}>Total</Text>
-                <View style={[GS.flexRow, GS.alignItemsEnd]}>
-                    <Text style={[GS.fs5, GS.fwLight, GS.mr1]}>Rp</Text>
-                    <Text style={[GS.fs3]}>19.000</Text>
-                </View>
+            {/* form data pembeli */}
+            <View style={[GS.w100, GS.my3]}>
+                <Text style={[GS.fs3, GS.secondaryColor]}>Data pembeli</Text>
+            </View>
+            <View style={[GS.w100, GS.mb4]}>
+                <Text style={[GS.mb1, GS.fs5]}>Nama</Text>
+                <TextInput style={[Style.inputForm]} placeholder="Muhammad Alendra" />
+            </View>
+            <View style={[GS.w100, GS.mb4]}>
+                <Text style={[GS.mb1, GS.fs5]}>Email</Text>
+                <TextInput style={[Style.inputForm]} placeholder="alendra099@gmail.com" />
+            </View>
+            <View style={[GS.w100, GS.mb4]}>
+                <Text style={[GS.mb1, GS.fs5]}>No hp</Text>
+                <TextInput style={[Style.inputForm]} placeholder="No hp" />
+            </View>
+            <View style={[GS.w100, GS.mb4]}>
+                <Text style={[GS.mb1, GS.fs5]}>Alamat lengkap</Text>
+                <TextInput style={[Style.inputForm, { height: 50 }]}
+                    multiline={true} placeholder="Alamat lengkap" />
+            </View>
+            {/* button konfirmasi */}
+            <View style={[GS.py4, GS.container, { width: "100%" }]}>
+                <TouchableOpacity style={[Style.buttonCheckout, GS.flexRow, GS.justifyContentCenter, GS.alignItemsCenter]}>
+                    <Text style={[GS.whiteColor, GS.fs3]}>Konfirmasi</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -77,13 +91,6 @@ export default function Checkout({ navigation }) {
                     <MainContent />
                 </SafeAreaView>
             </ScrollView>
-            {/* button checkout */}
-            <View style={[GS.py4, GS.container]}>
-                <TouchableOpacity style={[Style.buttonCheckout, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                    <Text style={[GS.whiteColor, GS.fs3]}>Checkout</Text>
-                    <ArrowIcon />
-                </TouchableOpacity>
-            </View>
         </View >
     );
 }
@@ -146,6 +153,13 @@ const Style = StyleSheet.create({
         backgroundColor: "#00A6A6",
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 1000
+        borderRadius: 1000,
+    },
+    inputForm: {
+        borderWidth: 1,
+        borderColor: "#00A6A6",
+        padding: 10,
+        borderRadius: 3,
+        paddingVertical: 10
     }
 })

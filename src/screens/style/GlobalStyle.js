@@ -28,6 +28,18 @@ export default StyleSheet.create(
         mr3: { marginRight: 15 },
         mr4: { marginRight: 20 },
         mr5: { marginRight: 30 },
+        // margin Horizontal
+        mx1: { marginHorizontal: 5 },
+        mx2: { marginHorizontal: 10 },
+        mx3: { marginHorizontal: 15 },
+        mx4: { marginHorizontal: 20 },
+        mx5: { marginHorizontal: 30 },
+        // margin Vertical
+        my1: { marginVertical: 5 },
+        my2: { marginVertical: 10 },
+        my3: { marginVertical: 15 },
+        my4: { marginVertical: 20 },
+        my5: { marginVertical: 30 },
         // margin left
         ml1: { marginLeft: 5 },
         ml2: { marginLeft: 10 },
@@ -46,6 +58,12 @@ export default StyleSheet.create(
         pl3: { paddingLeft: 15 },
         pl4: { paddingLeft: 20 },
         pl5: { paddingLeft: 30 },
+        // padding bottom
+        pb1: { paddingBottom: 5 },
+        pb2: { paddingBottom: 10 },
+        pb3: { paddingBottom: 15 },
+        pb4: { paddingBottom: 20 },
+        pb5: { paddingBottom: 30 },
         // padding Vertical
         py1: { paddingVertical: 5 },
         py2: { paddingVertical: 10 },
@@ -92,6 +110,8 @@ export default StyleSheet.create(
         // top bar
         TopBar: { borderBottomColor: "#F3F3F3", borderBottomWidth: 1, paddingVertical: 15, height: 60 },
         // button
-        btnRoundedPrimary: { borderWidth: 1, borderColor: "#00A6A6", borderRadius: 1000, }
+        btnRoundedPrimary: { borderWidth: 1, borderColor: "#00A6A6", borderRadius: 1000, },
+        // width
+        w100: { width: "100%" }
     }
 );

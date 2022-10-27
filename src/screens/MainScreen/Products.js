@@ -57,7 +57,7 @@ const Contents = function (props) {
                 {/* card */}
                 <TouchableOpacity onPress={props.whenCardClick} style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
                     <Image style={[Style.imageProduct]} source={example_product_2} />
-                    <Text style={[GS.fs5]}>Olivia Turseena</Text>
+                    <Text style={[GS.fs5]}>Afia kids</Text>
                     <Text style={[GS.fs5, GS.primaryColor]}>Rp 19.000</Text>
                 </TouchableOpacity>
             </View>
@@ -73,7 +73,7 @@ export default function Products({ navigation }) {
         setOpenSearch(!openSearch);
     }
     const CardClick = function () {
-        navigation.navigate("Produk");
+        navigation.navigate("ProductDetail");
     }
     //
     return (
@@ -122,9 +122,11 @@ const Style = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#F3F3F3",
         width: "48%",
-        padding: 20
+        padding: 20,
     },
     imageProduct: {
         height: 100,
+        width: 90,
+        resizeMode: "contain",
     }
 });

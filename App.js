@@ -19,6 +19,12 @@ import ConsultationDetail from './src/screens/MainScreen/ConsultationDetail';
 import Profile from './src/screens/Profile';
 import Cart from './src/screens/Cart';
 import Checkout from './src/screens/Checkout';
+import ProductDetail from './src/screens/ProductDetail';
+import ProfileEdit from './src/screens/ProfileEdit';
+import ChangePassword from './src/screens/ChangePassword';
+import Favorite from './src/screens/Favorite';
+import FavoriteProduct from './src/screens/FavoriteProduct';
+import FavoriteArtikel from './src/screens/FavoriteArticle';
 // variable
 const Stack = createNativeStackNavigator();
 // content
@@ -33,9 +39,15 @@ function App() {
         <Stack.Screen name="HerbalEduDetail" component={HerbalEduDetail} />
         <Stack.Screen name="HalalCenterDetail" component={HalalCenterDetail} />
         <Stack.Screen name="ConsultationDetail" component={ConsultationDetail} />
+        <Stack.Screen name="Favorite" component={Favorite} />
+        <Stack.Screen name="FavoriteProduct" component={FavoriteProduct} />
+        <Stack.Screen name="FavoriteArtikel" component={FavoriteArtikel} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Checkout" component={Checkout} />
+        <Stack.Screen name="ProductDetail" component={ProductDetail} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="ProfileEdit" component={ProfileEdit} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Reset" component={Reset} />

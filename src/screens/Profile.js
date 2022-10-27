@@ -23,7 +23,7 @@ const TopBar = function (props) {
     )
 }
 //
-const MainContent = function () {
+const MainContent = function (props) {
     return (
         <View style={[GS.container, GS.mt4, GS.flexColumn, GS.alignItemsCenter]}>
             {/* profile */}
@@ -31,7 +31,7 @@ const MainContent = function () {
                 <Image source={ProfileImage} style={[Style.profileImage]} />
                 <Text style={[GS.mt4, GS.fs3]}>Muhammad Alendra</Text>
                 <Text style={[GS.fwLight, GS.fs5]}>alendra099@gmail.com</Text>
-                <TouchableOpacity style={[GS.flexRow, GS.mt3, GS.btnRoundedPrimary, Style.buttonUpdate]}>
+                <TouchableOpacity onPress={props.clickEdit} style={[GS.flexRow, GS.mt3, GS.btnRoundedPrimary, Style.buttonUpdate]}>
                     <PenIcon />
                     <Text style={[GS.primaryColor, GS.fs5]}>Update</Text>
                 </TouchableOpacity>
@@ -40,7 +40,7 @@ const MainContent = function () {
             <TouchableOpacity style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>Keranjang</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
+            <TouchableOpacity onPress={props.clickFavorite} style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>My Favorite</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
@@ -58,6 +58,12 @@ export default function Profile({ navigation }) {
     const backPage = function () {
         navigation.navigate("HomeMain");
     }
+    const clickEdit = function () {
+        navigation.navigate("ProfileEdit");
+    }
+    const clickFavorite = function () {
+        navigation.navigate("Favorite");
+    }
     // 
     return (
         <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
@@ -65,7 +71,7 @@ export default function Profile({ navigation }) {
                 {/* top bar */}
                 <TopBar backClick={backPage} />
                 {/* content */}
-                <MainContent />
+                <MainContent clickFavorite={clickFavorite} clickEdit={clickEdit} />
             </SafeAreaView>
         </ScrollView>
     );
@@ -75,12 +81,6 @@ const Style = StyleSheet.create({
     profileImage: {
         width: 75,
         height: 75
-    },
-    cardMyMessage: {
-        backgroundColor: "#00A6A6",
-        width: "75s%",
-        padding: 15,
-        borderRadius: 10
     },
     buttonUpdate: {
         paddingHorizontal: 10,
