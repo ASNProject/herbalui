@@ -17,6 +17,8 @@ import HerbalEduDetail from './src/screens/MainScreen/HerbalEduDetail';
 import HalalCenterDetail from './src/screens/MainScreen/HalalCenterDetail';
 import ConsultationDetail from './src/screens/MainScreen/ConsultationDetail';
 import Profile from './src/screens/Profile';
+import Cart from './src/screens/Cart';
+import Checkout from './src/screens/Checkout';
 // variable
 const Stack = createNativeStackNavigator();
 // content
@@ -31,6 +33,8 @@ function App() {
         <Stack.Screen name="HerbalEduDetail" component={HerbalEduDetail} />
         <Stack.Screen name="HalalCenterDetail" component={HalalCenterDetail} />
         <Stack.Screen name="ConsultationDetail" component={ConsultationDetail} />
+        <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="Checkout" component={Checkout} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="Login" component={Login} />

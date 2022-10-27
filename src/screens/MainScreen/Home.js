@@ -28,7 +28,9 @@ const TopBar = function (props) {
             <Text style={[GS.fs2]}>Safitri Aulia 👋🏻</Text>
         </View>
         <View style={[GS.flexRow, GS.alignItemsCenter]}>
-            <Cart width="25" height="25" style={[GS.mr2]} />
+            <TouchableOpacity onPress={props.cartClick}>
+                <Cart width="25" height="25" style={[GS.mr2]} />
+            </TouchableOpacity>
             <TouchableOpacity onPress={props.clickProfile}>
                 <Image source={personImage} style={[Style.profileImage]} />
             </TouchableOpacity>
@@ -241,12 +243,15 @@ export default function Home({ navigation }) {
     const clickProfile = function () {
         navigation.navigate("Profile");
     }
+    const cartClick = function () {
+        navigation.navigate("Cart");
+    }
     //
     return (
         <ScrollView ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
             <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
                 {/* top bar */}
-                <TopBar clickProfile={clickProfile} />
+                <TopBar cartClick={cartClick} clickProfile={clickProfile} />
                 {/*  search bar */}
                 <SearchBar />
                 {/* menu */}

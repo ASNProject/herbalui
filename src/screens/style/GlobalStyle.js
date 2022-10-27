@@ -46,6 +46,12 @@ export default StyleSheet.create(
         pl3: { paddingLeft: 15 },
         pl4: { paddingLeft: 20 },
         pl5: { paddingLeft: 30 },
+        // padding Vertical
+        py1: { paddingVertical: 5 },
+        py2: { paddingVertical: 10 },
+        py3: { paddingVertical: 15 },
+        py4: { paddingVertical: 20 },
+        py5: { paddingVertical: 30 },
         // shadow
         darkShadow: { shadowColor: '#171717', shadowOffset: { width: -2, height: 4 }, shadowOpacity: 0.05, shadowRadius: 20, },
         primaryShadow: { shadowColor: '#00A6A6', shadowOffset: { width: -2, height: 4 }, shadowOpacity: 0.08, shadowRadius: 3, },
@@ -59,13 +65,14 @@ export default StyleSheet.create(
         bgBlueLight: { backgroundColor: "#E6EDFF" },
         bgSecondary: { backgroundColor: "#A0A0A0" },
         //
-        container: { flex: 1, marginHorizontal: 20, backgroundColor: "#fff" },
+        container: { marginHorizontal: 20, backgroundColor: "#fff" },
         // layout
         flexColumn: { flexDirection: "column" },
         flexRow: { flexDirection: "row" },
         justifyContentCenter: { justifyContent: "center" },
         justifyContentEnd: { justifyContent: "flex-end" },
         alignItemsCenter: { alignItems: "center" },
+        alignItemsEnd: { alignItems: "flex-end" },
         justifySpaceBetween: { justifyContent: "space-between" },
         flexWrap: { flexWrap: "wrap" },
         // font size
@@ -80,6 +87,8 @@ export default StyleSheet.create(
         fwRegular: { fontWeight: "400" },
         fwMedium: { fontWeight: "500" },
         fwBold: { fontWeight: "600" },
+        // text align
+        textCenter: { textAlign: "center" },
         // top bar
         TopBar: { borderBottomColor: "#F3F3F3", borderBottomWidth: 1, paddingVertical: 15, height: 60 },
         // button
