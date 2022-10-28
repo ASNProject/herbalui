@@ -1,27 +1,11 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import GS from "./style/GlobalStyle";
+import TopBar from "./component/TopBar1";
 // icons
 import BackIcon from "../../assets/icons/back_button.svg"
 import FavoriteArticle from "../../assets/icons/favorite_artikel"
 import FavoriteProduct from "../../assets/icons/favorite_product"
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <View style={[GS.flexRow, GS.alignItemsCenter, GS.ml2]}>
-                        <Text style={[GS.fwMedium, GS.fs4]}>My Favorite</Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
-}
 const Content = function (props) {
     return (
         <View style={[GS.container, GS.mt4]}>
@@ -42,7 +26,7 @@ const Content = function (props) {
 // content  
 export default function Favorite({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("Profile");
     }
     const OpenProduct = function () {
@@ -53,16 +37,18 @@ export default function Favorite({ navigation }) {
     }
     // 
     return (
-        <View style={[{ backgroundColor: "#fff", height: "100%" }]}>
+        <SafeAreaView style={[GS.bgWhite, GS.h100]}>
+            {/* top bar */}
+            <TopBar title="My Favorite"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+            />
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
-                <SafeAreaView>
-                    {/* top bar */}
-                    <TopBar backClick={backPage} />
-                    {/* content */}
-                    <Content OpenArtikel={OpenArtikel} OpenProduct={OpenProduct} />
-                </SafeAreaView>
+                {/* content */}
+                <Content OpenArtikel={OpenArtikel} OpenProduct={OpenProduct} />
             </ScrollView>
-        </View >
+        </SafeAreaView>
     );
 }
 // specific style

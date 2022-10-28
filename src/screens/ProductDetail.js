@@ -1,6 +1,7 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import GS from "./style/GlobalStyle";
+import TopBar from "./component/TopBar1";
 // images
 import BackIcon from "../../assets/icons/back_button.svg"
 import FavoriteIcon from "../../assets/icons/favorite.svg"
@@ -9,29 +10,6 @@ import CartIconBlack from "../../assets/icons/cart_black.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../assets/images/afia_kids.png")
 const example_discuss_person = require("../../assets/images/example_discuss_person.png")
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <Text style={[GS.ml2, GS.fwMedium, GS.fs4]}>Afia kids</Text>
-                </View>
-                <View style={[GS.flexRow]}>
-                    <TouchableOpacity style={[GS.mr3]}>
-                        <CartIconBlack height="25" />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FavoriteIcon height="25" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </View>
-    )
-}
 // component photos
 const Photos = function () {
     return (
@@ -125,7 +103,7 @@ const Recomendations = function (props) {
 // content
 export default function ProductDetail({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("Produk");
     }
     const CardClick = function () {
@@ -133,22 +111,26 @@ export default function ProductDetail({ navigation }) {
     }
     // 
     return (
-        <View style={[{ backgroundColor: "#fff", height: "100%" }]}>
+        <SafeAreaView style={[{ backgroundColor: "#fff", height: "100%" }]}>
+            {/* top bar */}
+            <TopBar title="Afia kids"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+                showFavorite={true}
+                showCart={true}
+            />
             <ScrollView style={[{ backgroundColor: "#fff", height: "100%" }]}>
-                <SafeAreaView>
-                    {/* top bar */}
-                    <TopBar backClick={backPage} />
-                    {/* photos */}
-                    <Photos />
-                    {/* details */}
-                    <Details />
-                    {/* discuss */}
-                    <Discuss />
-                    {/* obat lainya */}
-                    <Recomendations whenCardClick={CardClick} />
-                </SafeAreaView>
+                {/* photos */}
+                <Photos />
+                {/* details */}
+                <Details />
+                {/* discuss */}
+                <Discuss />
+                {/* obat lainya */}
+                <Recomendations whenCardClick={CardClick} />
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
 // specific style

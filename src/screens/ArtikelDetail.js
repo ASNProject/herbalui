@@ -2,30 +2,11 @@
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import GS from "./style/GlobalStyle";
 import CardArtikel from "./component/Card-Artikel";
+import TopBar from "./component/TopBar1";
 // images
-import BackIcon from "../../assets/icons/back_button.svg"
-import FavoriteIcon from "../../assets/icons/favorite.svg"
 import artikel_1 from "../../assets/images/artikel_1.png";
 import artikel_2 from "../../assets/images/artikel_2.png";
 import artikel_3 from "../../assets/images/artikel_3.png";
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <Text style={[GS.ml2, GS.fwMedium, GS.fs4]}>Baca Artikel</Text>
-                </View>
-                <TouchableOpacity>
-                    <FavoriteIcon />
-                </TouchableOpacity>
-            </View>
-        </View>
-    )
-}
 //
 const MainContent = function () {
     return (
@@ -44,7 +25,7 @@ const MainContent = function () {
 // content
 export default function ArtikelDetail({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("Artikel");
     }
     const CardClick = function () {
@@ -52,10 +33,15 @@ export default function ArtikelDetail({ navigation }) {
     }
     // 
     return (
-        <ScrollView style={[{ backgroundColor: "#fff" }]}>
-            <SafeAreaView>
-                {/* top bar */}
-                <TopBar backClick={backPage} />
+        <SafeAreaView style={[GS.h100, GS.bgWhite]}>
+            {/* top bar */}
+            <TopBar title="Artikel"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+                showFavorite={true}
+            />
+            <ScrollView style={[{ backgroundColor: "#fff" }]}>
                 {/* content */}
                 <MainContent />
                 {/* read others */}
@@ -77,8 +63,8 @@ export default function ArtikelDetail({ navigation }) {
                         publishDate="Dipublikaiskan 10 mei 2022"
                     />
                 </View>
-            </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 // specific style
@@ -86,6 +72,7 @@ const Style = StyleSheet.create({
     imageArticle: {
         width: "100%",
         height: 200,
+        borderRadius: 3
     },
     sectionRecomend: {
         borderTopWidth: 1,

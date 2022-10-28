@@ -26,6 +26,8 @@ import ChangePassword from './src/screens/ChangePassword';
 import Favorite from './src/screens/Favorite';
 import FavoriteProduct from './src/screens/FavoriteProduct';
 import FavoriteArtikel from './src/screens/FavoriteArticle';
+import PrivacyPolicy from './src/screens/PrivacyPolicy';
+import Pencarian from './src/screens/Pencarian';
 // variable
 const Stack = createNativeStackNavigator();
 // content
@@ -56,8 +58,10 @@ function App() {
         <Stack.Screen name="ListProduk" component={ListProduk} />
         <Stack.Screen name="MenuBar" component={MenuBar} />
         <Stack.Screen name="MenuBar2" component={MenuBar2} />
+        <Stack.Screen name="Pencarian" component={Pencarian} />
         <Stack.Screen name="Artikel" component={Artikel} />
         <Stack.Screen name="ArtikelDetail" component={ArtikelDetail} />
+        <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
         <Stack.Screen name="SplashScreen" component={Splashscreen} />
       </Stack.Navigator>
     </NavigationContainer>

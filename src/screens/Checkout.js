@@ -1,29 +1,13 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
 import GS from "./style/GlobalStyle";
+import TopBar from "./component/TopBar1";
 // images
 import BackIcon from "../../assets/icons/back_button.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 import MinusIcon from "../../assets/icons/minus.svg"
 import PlusIcon from "../../assets/icons/plus.svg"
 import ArrowIcon from "../../assets/icons/arrow_right_white.svg"
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <View style={[GS.flexRow, GS.alignItemsCenter, GS.ml2]}>
-                        <Text style={[GS.fwMedium, GS.fs4]}>Checkout</Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
-}
 //
 const MainContent = function () {
     return (
@@ -77,21 +61,23 @@ const MainContent = function () {
 // content  
 export default function Checkout({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("Cart");
     }
     // 
     return (
-        <View style={[{ backgroundColor: "#fff", height: "100%" }]}>
+        <SafeAreaView style={[GS.bgWhite, GS.h100]}>
+            {/* top bar */}
+            <TopBar title="Checkout"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+            />
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
-                <SafeAreaView>
-                    {/* top bar */}
-                    <TopBar backClick={backPage} />
-                    {/* content */}
-                    <MainContent />
-                </SafeAreaView>
+                {/* content */}
+                <MainContent />
             </ScrollView>
-        </View >
+        </SafeAreaView>
     );
 }
 // specific style

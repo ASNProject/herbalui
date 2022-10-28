@@ -1,28 +1,13 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import GS from "./style/GlobalStyle";
+import TopBar from "./component/TopBar1";
 // icons
 import BackIcon from "../../assets/icons/back_button.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../assets/images/afia_kids.png")
 import FavoriteYellowIcon from "../../assets/icons/favorite_yellow.svg"
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <View style={[GS.flexRow, GS.alignItemsCenter, GS.ml2]}>
-                        <Text style={[GS.fwMedium, GS.fs4]}>Produk disimpan</Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
-}
+//content
 const Content = function (props) {
     return (
         <View style={[GS.container, GS.mt4]}>
@@ -53,7 +38,7 @@ const Content = function (props) {
 // content  
 export default function FavoriteProduct({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("Favorite");
     }
     // function
@@ -65,16 +50,18 @@ export default function FavoriteProduct({ navigation }) {
     }
     // 
     return (
-        <View style={[{ backgroundColor: "#fff", height: "100%" }]}>
+        <SafeAreaView style={[GS.h100, GS.bgWhite]}>
+            {/* top bar */}
+            <TopBar title="Produk disimpan"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+            />
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
-                <SafeAreaView>
-                    {/* top bar */}
-                    <TopBar backClick={backPage} />
-                    {/* content */}
-                    <Content whenCardClick={CardClick} />
-                </SafeAreaView>
+                {/* content */}
+                <Content whenCardClick={CardClick} />
             </ScrollView>
-        </View >
+        </SafeAreaView>
     );
 }
 // specific style

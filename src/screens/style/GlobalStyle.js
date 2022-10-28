@@ -82,6 +82,7 @@ export default StyleSheet.create(
         bgPrimary: { backgroundColor: "#00A6A6" },
         bgBlueLight: { backgroundColor: "#E6EDFF" },
         bgSecondary: { backgroundColor: "#A0A0A0" },
+        bgWhite: { backgroundColor: "#fff" },
         //
         container: { marginHorizontal: 20, backgroundColor: "#fff" },
         // layout
@@ -89,6 +90,7 @@ export default StyleSheet.create(
         flexRow: { flexDirection: "row" },
         justifyContentCenter: { justifyContent: "center" },
         justifyContentEnd: { justifyContent: "flex-end" },
+        alignItemsStart: { alignItems: "flex-start" },
         alignItemsCenter: { alignItems: "center" },
         alignItemsEnd: { alignItems: "flex-end" },
         justifySpaceBetween: { justifyContent: "space-between" },
@@ -112,6 +114,7 @@ export default StyleSheet.create(
         // button
         btnRoundedPrimary: { borderWidth: 1, borderColor: "#00A6A6", borderRadius: 1000, },
         // width
-        w100: { width: "100%" }
+        w100: { width: "100%" },
+        h100: { height: "100%" }
     }
 );

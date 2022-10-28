@@ -1,23 +1,13 @@
 // lib
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
-import { useState } from "react";
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, RefreshControl } from "react-native";
+import { useState, useCallback } from "react";
 import GS from "../style/GlobalStyle";
+import TopBar from "../component/TopBar1";
 // images
 import Search from "../../../assets/icons/ph_magnifying-glass-bold.svg"
 import ArrowRight from "../../../assets/icons/arrow_right.svg"
 import Times from "../../../assets/icons/la_times.svg";
 const headerImage = require("../../../assets/images/header_herbal_edu.png")
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.container, GS.TopBar, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-            <Text style={[GS.fwMedium, GS.fs4]}>Herbal edu</Text>
-            <TouchableOpacity onPress={props.onSearchClick}>
-                <Search />
-            </TouchableOpacity>
-        </View>
-    );
-}
 // component input search
 const InputSearch = function (props) {
     return (
@@ -59,6 +49,7 @@ const Contents = function (props) {
 export default function HerbalEdu({ navigation }) {
     // variable
     const [openSearch, setOpenSearch] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     // function
     const ToggleSearch = function () {
         setOpenSearch(!openSearch);
@@ -66,23 +57,31 @@ export default function HerbalEdu({ navigation }) {
     const CardClick = function () {
         navigation.navigate("HerbalEduDetail");
     }
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            alert("refreshing done")
+            setRefreshing(false);
+        }, 1000);
+    }, []);
     //
     return (
-        <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
-            <SafeAreaView style={[{ paddingBottom: 0 }]}>
-                {
-                    !openSearch
-                        // top bar
-                        ? <TopBar onSearchClick={ToggleSearch} />
-                        // input search
-                        : <InputSearch onTimesClick={ToggleSearch} />
+        <SafeAreaView style={[{ paddingBottom: 0, backgroundColor: "#fff" }]} >
+            <TopBar title="Herbal edu" openSearch={openSearch} onSearchClick={ToggleSearch} onTimesClick={ToggleSearch} />
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
                 }
+                style={[{ backgroundColor: "#fff", height: "100%" }]} showsVerticalScrollIndicator="false">
                 {/* header */}
                 <Image source={headerImage} style={[Style.header]} />
                 {/* content */}
                 <Contents whenCardClick={CardClick} />
-            </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 // style

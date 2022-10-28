@@ -1,27 +1,11 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, Touchable } from "react-native";
 import GS from "./style/GlobalStyle";
+import TopBar from "./component/TopBar1";
 // images
 import BackIcon from "../../assets/icons/back_button.svg"
 import ProfileImage from "../../assets/images/profile.png"
 import PenIcon from "../../assets/icons/ep_edit-pen.svg"
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <View style={[GS.flexRow, GS.alignItemsCenter, GS.ml2]}>
-                        <Text style={[GS.fwMedium, GS.fs4]}>My Profile</Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
-}
 //
 const MainContent = function (props) {
     return (
@@ -43,7 +27,9 @@ const MainContent = function (props) {
             <TouchableOpacity onPress={props.clickFavorite} style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>My Favorite</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
+            <TouchableOpacity
+                onPress={props.clickPrivacy}
+                style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>Privacy policy</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[GS.mb3, Style.buttonBorderless, GS.flexRow, GS.justifyContentCenter]}>
@@ -55,7 +41,7 @@ const MainContent = function (props) {
 // content  
 export default function Profile({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("HomeMain");
     }
     const clickEdit = function () {
@@ -64,16 +50,27 @@ export default function Profile({ navigation }) {
     const clickFavorite = function () {
         navigation.navigate("Favorite");
     }
+    const clickPrivacy = function () {
+        navigation.navigate("PrivacyPolicy");
+    }
     // 
     return (
-        <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
-            <SafeAreaView>
-                {/* top bar */}
-                <TopBar backClick={backPage} />
+        <SafeAreaView style={[GS.bgWhite, GS.h100]}>
+            {/* top bar */}
+            <TopBar title="My Profile"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+            />
+            <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
                 {/* content */}
-                <MainContent clickFavorite={clickFavorite} clickEdit={clickEdit} />
-            </SafeAreaView>
-        </ScrollView>
+                <MainContent
+                    clickEdit={clickEdit}
+                    clickFavorite={clickFavorite}
+                    clickPrivacy={clickPrivacy}
+                />
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 // specific style

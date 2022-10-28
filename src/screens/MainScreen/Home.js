@@ -60,14 +60,18 @@ const Menu = function (props) {
             <View style={[GS.mt4, GS.flexRow, GS.flexWrap]}>
                 {/* product herbal */}
                 <View style={[Style.colButtonMenu]}>
-                    <TouchableOpacity style={[Style.buttonMenu, Style.buttonMenuPrimary, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
+                    <TouchableOpacity
+                        onPress={props.clickProduk}
+                        style={[Style.buttonMenu, Style.buttonMenuPrimary, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuProduct width="100%" height="60%" />
                         <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Produk herbal</Text>
                     </TouchableOpacity>
                 </View>
                 {/* konsultasi */}
                 <View style={[Style.colButtonMenu]}>
-                    <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
+                    <TouchableOpacity
+                        onPress={props.clickKonsultasi}
+                        style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuConsultation width="100%" height="60%" />
                         <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Konsultasi</Text>
                     </TouchableOpacity>
@@ -85,14 +89,18 @@ const Menu = function (props) {
             <View style={[GS.mt1, GS.flexRow, GS.flexWrap]}>
                 {/* herbal edu */}
                 <View style={[Style.colButtonMenu]}>
-                    <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
+                    <TouchableOpacity
+                        onPress={props.clickHerbalEdu}
+                        style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuHerbalEdu width="100%" height="60%" />
                         <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Herbal Edu</Text>
                     </TouchableOpacity>
                 </View>
-                {/* artikel */}
+                {/* halalcenter */}
                 <View style={[Style.colButtonMenu]}>
-                    <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
+                    <TouchableOpacity
+                        onPress={props.clickHalalCenter}
+                        style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuHalalCenter width="100%" height="60%" />
                         <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Halal center</Text>
                     </TouchableOpacity>
@@ -251,6 +259,18 @@ export default function Home({ navigation }) {
     const articleClick = function () {
         navigation.navigate("Artikel");
     }
+    const clickProduk = function () {
+        navigation.navigate("Produk");
+    }
+    const clickKonsultasi = function () {
+        navigation.navigate("Konsultasi");
+    }
+    const clickHerbalEdu = function () {
+        navigation.navigate("Herbal edu");
+    }
+    const clickHalalCenter = function () {
+        navigation.navigate("Halal center");
+    }
     //
     return (
         <ScrollView ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
@@ -260,7 +280,10 @@ export default function Home({ navigation }) {
                 {/*  search bar */}
                 <SearchBar />
                 {/* menu */}
-                <Menu articleClick={articleClick} />
+                <Menu clickProduk={clickProduk} articleClick={articleClick}
+                    clickKonsultasi={clickKonsultasi} clickHerbalEdu={clickHerbalEdu}
+                    clickHalalCenter={clickHalalCenter}
+                />
                 {/* obat herbal */}
                 <ObatHerbal />
                 {/* articles */}

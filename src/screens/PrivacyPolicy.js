@@ -12,19 +12,16 @@ import artikel_1 from "../../assets/images/artikel_1.png";
 import artikel_2 from "../../assets/images/artikel_2.png";
 import artikel_3 from "../../assets/images/artikel_3.png";
 // content  
-export default function FavoriteArtikel({ navigation }) {
+export default function PrivacyPolicy({ navigation }) {
     // function 
     const backClick = function () {
-        navigation.navigate("Favorite");
-    }
-    const CardClick = function () {
-        navigation.navigate("ArtikelDetail");
+        navigation.navigate("Profile");
     }
     // 
     return (
         <SafeAreaView style={[GS.bgWhite, GS.h100]}>
             {/* top bar */}
-            <TopBar title="Artikel disimpan"
+            <TopBar title="Kebijakan privasi"
                 backButton={true}
                 backClick={backClick}
                 nosearch={true}
@@ -32,12 +29,13 @@ export default function FavoriteArtikel({ navigation }) {
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
                 {/* content */}
                 <View style={[GS.container, GS.mt4]}>
-                    {/* card */}
-                    <CardArtikel whenCardClick={CardClick} image={artikel_2}
-                        title="5 manfaat meditasi yang belum banyak orang tahu"
-                        publishDate="Dipublikaiskan 10 mei 2022"
-                        showFavorite={true}
-                    />
+                    <Text style={[GS.fwLight, GS.fs5]}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In imperdiet eros eget ipsum tempus dictum. Aliquam quis rhoncus orci, at bibendum elit. In eget odio luctus purus tincidunt pulvinar. Curabitur id tortor at lorem sodales fringilla. Donec augue sem, rutrum in urna quis, consequat porttitor tellus. Nulla ac condimentum lorem. Sed ultricies feugiat ex. Cras mollis justo quis ante vulputate, eu tristique enim commodo. Sed pretium vitae augue eu pulvinar. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam id diam lectus. Sed tempor augue augue, sed tristique neque porta ac.
+
+                        Suspendisse posuere gravida nisi, at condimentum arcu dictum venenatis. Nam rhoncus metus at turpis tempus dapibus. Aliquam suscipit placerat diam, vel posuere elit posuere quis. Proin id sem ut odio lobortis suscipit et eu dui. Vivamus at eros elementum, tristique felis et, commodo velit. Sed quis nunc vel dolor maximus condimentum. Etiam porta faucibus scelerisque. Sed facilisis velit a ex convallis, quis placerat lorem ullamcorper. Proin elementum eros erat, a commodo lorem varius vel. Nulla sit amet cursus risus. Praesent accumsan et mi vitae pretium.
+
+                        Praesent aliquam nibh urna. Morbi id erat pharetra, eleifend ex nec, pretium sapien. Vestibulum vestibulum cursus neque vitae vulputate. Nullam est purus, facilisis ac tincidunt at, laoreet vitae nisl. Aliquam erat volutpat. Maecenas dictum odio ligula, ac cursus lorem ultricies et. Phasellus quis feugiat augue. Donec pulvinar laoreet purus in dictum. Nunc eget fermentum lorem, vel ultricies est. Sed feugiat elementum mattis.
+                    </Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

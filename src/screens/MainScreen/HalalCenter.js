@@ -1,23 +1,13 @@
 // lib
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
-import { useState } from "react";
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, RefreshControl } from "react-native";
+import { useState, useCallback } from "react";
 import GS from "../style/GlobalStyle";
+import TopBar from "../component/TopBar1";
 // images
 import Search from "../../../assets/icons/ph_magnifying-glass-bold.svg"
 import ArrowRight from "../../../assets/icons/arrow_right.svg"
 import Times from "../../../assets/icons/la_times.svg";
 const headerImage = require("../../../assets/images/header_halal_center.png")
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.container, GS.TopBar, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-            <Text style={[GS.fwMedium, GS.fs4]}>Halal center</Text>
-            <TouchableOpacity onPress={props.onSearchClick}>
-                <Search />
-            </TouchableOpacity>
-        </View>
-    );
-}
 // component input search
 const InputSearch = function (props) {
     return (
@@ -59,6 +49,7 @@ const Contents = function (props) {
 export default function HalalCenter({ navigation }) {
     // variable
     const [openSearch, setOpenSearch] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
     // function
     const ToggleSearch = function () {
         setOpenSearch(!openSearch);
@@ -66,23 +57,31 @@ export default function HalalCenter({ navigation }) {
     const cardClick = function () {
         navigation.navigate("HalalCenterDetail");
     }
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            alert("refreshing done")
+            setRefreshing(false);
+        }, 1000);
+    }, []);
     //
     return (
-        <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
-            <SafeAreaView style={[{ paddingBottom: 0 }]}>
-                {
-                    !openSearch
-                        // top bar
-                        ? <TopBar onSearchClick={ToggleSearch} />
-                        // input search
-                        : <InputSearch onTimesClick={ToggleSearch} />
+        <SafeAreaView style={[{ paddingBottom: 0, backgroundColor: "#fff" }]} >
+            <TopBar title="Halal center" openSearch={openSearch} onSearchClick={ToggleSearch} onTimesClick={ToggleSearch} />
+            <ScrollView style={[{ backgroundColor: "#fff", height: "100%" }]}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
                 }
+                showsVerticalScrollIndicator="false">
                 {/* header */}
                 <Image source={headerImage} style={[Style.header]} />
                 {/* content */}
                 <Contents cardClick={cardClick} />
-            </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 // style

@@ -1,28 +1,11 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import GS from "../style/GlobalStyle";
+import TopBar from "../component/TopBar1";
 // images
 import BackIcon from "../../../assets/icons/back_button.svg"
 import FavoriteIcon from "../../../assets/icons/favorite.svg"
 import FavoriteYellowIcon from "../../../assets/icons/favorite_yellow.svg"
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar]}>
-            <View style={[GS.container, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                    <TouchableOpacity onPress={props.backClick}>
-                        <BackIcon />
-                    </TouchableOpacity>
-                    <Text style={[GS.ml2, GS.fwMedium, GS.fs4]}>Halal center</Text>
-                </View>
-                <TouchableOpacity>
-                    <FavoriteIcon />
-                </TouchableOpacity>
-            </View>
-        </View>
-    )
-}
 //
 const MainContent = function () {
     return (
@@ -38,20 +21,25 @@ const MainContent = function () {
 // content  
 export default function HalalCenterDetail({ navigation }) {
     // function 
-    const backPage = function () {
+    const backClick = function () {
         navigation.navigate("Halal center");
     }
     // 
     return (
-        <ScrollView style={[{ backgroundColor: "#fff" }]}>
-            <SafeAreaView>
-                {/* top bar */}
-                <TopBar backClick={backPage} />
+        <SafeAreaView style={[GS.bgWhite, GS.h100]}>
+            {/* top bar */}
+            <TopBar title="Halal center"
+                backButton={true}
+                backClick={backClick}
+                nosearch={true}
+                showFavorite={true}
+            />
+            <ScrollView style={[{ backgroundColor: "#fff" }]}>
                 {/* content */}
                 <MainContent />
                 {/* read others */}
-            </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 // specific style

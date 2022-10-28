@@ -1,30 +1,14 @@
 // lib
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
-import { useState } from "react";
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, RefreshControl } from "react-native";
+import { useState, useCallback } from "react";
 import GS from "./style/GlobalStyle";
 import CardArtikel from "./component/Card-Artikel";
+import TopBar from "./component/TopBar1";
 // images
 import Search from "../../assets/icons/ph_magnifying-glass-bold.svg"
 import Times from "../../assets/icons/la_times.svg";
 const headerImage = require("../../assets/images/header_herbal_edu.png")
-import BackIcon from "../../assets/icons/back_button.svg"
 import artikel_1 from "../../assets/images/artikel_1.png";
-// component topbar
-const TopBar = function (props) {
-  return (
-    <View style={[GS.container, GS.TopBar, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-      <View style={[GS.flexRow, GS.alignItemsCenter]}>
-        <TouchableOpacity onPress={props.backClick}>
-          <BackIcon />
-        </TouchableOpacity>
-        <Text style={[GS.fwMedium, GS.fs4, GS.ml2]}>Artikel</Text>
-      </View>
-      <TouchableOpacity onPress={props.onSearchClick}>
-        <Search />
-      </TouchableOpacity>
-    </View>
-  );
-}
 // component input search
 const InputSearch = function (props) {
   return (
@@ -59,6 +43,7 @@ const Contents = function (props) {
 export default function Artikel({ navigation }) {
   // variable
   const [openSearch, setOpenSearch] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   // function
   const ToggleSearch = function () {
     setOpenSearch(!openSearch);
@@ -69,17 +54,30 @@ export default function Artikel({ navigation }) {
   const backClick = function () {
     navigation.navigate("HomeMain");
   }
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      alert("refreshing done")
+      setRefreshing(false);
+    }, 1000);
+  }, []);
   //
   return (
-    <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
-      <SafeAreaView style={[{ paddingBottom: 0 }]}>
-        {
-          !openSearch
-            // top bar
-            ? <TopBar backClick={backClick} onSearchClick={ToggleSearch} />
-            // input search
-            : <InputSearch onTimesClick={ToggleSearch} />
+    <SafeAreaView style={[GS.h100, GS.bgWhite]}>
+      <TopBar title="Artikel"
+        backButton={true}
+        backClick={backClick}
+        openSearch={openSearch}
+        onSearchClick={ToggleSearch}
+        onTimesClick={ToggleSearch} />
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
         }
+        style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
         {/* content */}
         <View style={[GS.container, GS.mt4]}>
           {/* card */}
@@ -88,8 +86,8 @@ export default function Artikel({ navigation }) {
             publishDate="Dipublikaiskan 10 mei 2022"
           />
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView >
+    </SafeAreaView>
   )
 }
 // style

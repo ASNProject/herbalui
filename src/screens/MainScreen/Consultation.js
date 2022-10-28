@@ -1,22 +1,13 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GS from "../style/GlobalStyle";
+import TopBar from "../component/TopBar1";
 // images
 const profile_robot = require("../../../assets/images/konsultasi_robot.png");
 const profile_1 = require("../../../assets/images/konsultasi_1.png");
 const profile_2 = require("../../../assets/images/konsultasi_2.png");
 import IconOffline from "../../../assets/icons/offline.svg";
 import IconOnline from "../../../assets/icons/online.svg";
-// component topbar
-const TopBar = function (props) {
-    return (
-        <View style={[GS.TopBar, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-            <View style={[GS.container]}>
-                <Text style={[GS.fwMedium, GS.fs4]}>Konsultasi</Text>
-            </View>
-        </View>
-    );
-}
 // component consultants
 const Consultant = function (props) {
     return (
@@ -89,7 +80,7 @@ export default function Consultation({ navigation }) {
         <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
             <SafeAreaView>
                 {/* topbar */}
-                <TopBar />
+                <TopBar title="Konsultasi" nosearch={true} />
                 {/* consultants */}
                 <Consultant clickOpenChat={openChat} />
             </SafeAreaView>
