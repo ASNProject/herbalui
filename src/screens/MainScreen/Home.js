@@ -54,7 +54,7 @@ const SearchBar = function () {
     )
 }
 // component menu
-const Menu = function () {
+const Menu = function (props) {
     return (
         <View>
             <View style={[GS.mt4, GS.flexRow, GS.flexWrap]}>
@@ -74,7 +74,9 @@ const Menu = function () {
                 </View>
                 {/* artikel */}
                 <View style={[Style.colButtonMenu]}>
-                    <TouchableOpacity style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
+                    <TouchableOpacity
+                        onPress={props.articleClick}
+                        style={[Style.buttonMenu, GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter]}>
                         <IconMenuArtikel width="100%" height="60%" />
                         <Text style={[GS.whiteColor, GS.fs5, GS.mt1]}>Artikel</Text>
                     </TouchableOpacity>
@@ -246,6 +248,9 @@ export default function Home({ navigation }) {
     const cartClick = function () {
         navigation.navigate("Cart");
     }
+    const articleClick = function () {
+        navigation.navigate("Artikel");
+    }
     //
     return (
         <ScrollView ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
@@ -255,7 +260,7 @@ export default function Home({ navigation }) {
                 {/*  search bar */}
                 <SearchBar />
                 {/* menu */}
-                <Menu />
+                <Menu articleClick={articleClick} />
                 {/* obat herbal */}
                 <ObatHerbal />
                 {/* articles */}

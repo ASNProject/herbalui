@@ -1,134 +1,111 @@
-import React, { Component, useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  ImageBackground,
-  Image,
-  SectionList,
-  Dimensions,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/EvilIcons';
-import ArtikelLainnya from './component/artikel_lainnya';
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
-const Artikel = () => {
+// lib
+import { View, Text, SafeAreaView, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
+import { useState } from "react";
+import GS from "./style/GlobalStyle";
+import CardArtikel from "./component/Card-Artikel";
+// images
+import Search from "../../assets/icons/ph_magnifying-glass-bold.svg"
+import Times from "../../assets/icons/la_times.svg";
+const headerImage = require("../../assets/images/header_herbal_edu.png")
+import BackIcon from "../../assets/icons/back_button.svg"
+import artikel_1 from "../../assets/images/artikel_1.png";
+// component topbar
+const TopBar = function (props) {
   return (
-    <View style={style.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={style.wrap}>
-          <View style={style.body}>
-            <ImageBackground
-              style={style.img}
-              source={{
-                uri: 'https://picsum.photos/id/1/200',
-              }}
-              resizeMode="stretch"></ImageBackground>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              position: 'absolute',
-              top: 10,
-              marginHorizontal: 10,
-            }}>
-            <Icon name="arrow-left" size={40} style={{ color: 'black' }} />
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-                flex: 1,
-              }}>
-              <Icon name="star" size={30} color={'yellow'} />
-            </View>
-          </View>
-        </View>
-        <View style={style.body}>
-          <Text style={style.judul}>
-            Tips hidup sehat terhindar dari Covid 19
-          </Text>
-          <Text style={style.pubilkasi}>
-            Dipublikasikan pada 24 September 2022
-          </Text>
-          <Text style={style.isi}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-            imperdiet eros eget ipsum tempus dictum. Aliquam quis rhoncus orci,
-            at bibendum elit. In eget odio luctus purus tincidunt pulvinar.
-            Curabitur id tortor at lorem sodales fringilla. Donec augue sem,
-            rutrum in urna quis, consequat porttitor tellus. Nulla ac
-            condimentum lorem. Sed ultricies feugiat ex. Cras mollis justo quis
-            ante vulputate, eu tristique enim commodo. Sed pretium vitae augue
-            eu pulvinar. Orci varius natoque penatibus et magnis dis parturient
-            montes, nascetur ridiculus mus. Etiam id diam lectus. Sed tempor
-            augue augue, sed tristique neque porta ac. Suspendisse posuere
-            gravida nisi, at condimentum arcu dictum venenatis. Nam rhoncus
-            metus at turpis tempus dapibus. Aliquam suscipit placerat diam, vel
-            posuere elit posuere quis. Proin id sem ut odio lobortis suscipit et
-            eu dui. Vivamus at eros elementum, tristique felis et, commodo
-            velit. Sed quis nunc vel dolor maximus condimentum. Etiam porta
-            faucibus scelerisque. Sed facilisis velit a ex convallis, quis
-            placerat lorem ullamcorper. Proin elementum eros erat, a commodo
-            lorem varius vel. Nulla sit amet cursus risus. Praesent accumsan et
-            mi vitae pretium.
-          </Text>
-        </View>
-        <View style={style.line}></View>
-        <ArtikelLainnya />
-      </ScrollView>
+    <View style={[GS.container, GS.TopBar, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
+      <View style={[GS.flexRow, GS.alignItemsCenter]}>
+        <TouchableOpacity onPress={props.backClick}>
+          <BackIcon />
+        </TouchableOpacity>
+        <Text style={[GS.fwMedium, GS.fs4, GS.ml2]}>Artikel</Text>
+      </View>
+      <TouchableOpacity onPress={props.onSearchClick}>
+        <Search />
+      </TouchableOpacity>
     </View>
   );
-};
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
+}
+// component input search
+const InputSearch = function (props) {
+  return (
+    <View style={[GS.container, Style.InputSearch]}>
+      <View style={[GS.flexRow, GS.alignItemsCenter]}>
+        <Search width="10%" height="25" />
+        <TextInput
+          selectionColor={"#00A6A6"}
+          style={[GS.pl2, Style.textInput]} placeholder="Cari kata kunci"
+          returnKeyType="go"
+          onSubmitEditing={(event) => {
+            alert("searching")
+          }}
+        />
+        <TouchableOpacity onPress={props.onTimesClick} width="10%" height="25">
+          <Times height="25" />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+// component contents
+const Contents = function (props) {
+  return (
+    <View style={[GS.container, GS.mt4]}>
+      {/* card */}
+      <CardArtikel />
+    </View>
+  );
+}
+// content
+export default function Artikel({ navigation }) {
+  // variable
+  const [openSearch, setOpenSearch] = useState(false);
+  // function
+  const ToggleSearch = function () {
+    setOpenSearch(!openSearch);
+  }
+  const CardClick = function () {
+    navigation.navigate("ArtikelDetail");
+  }
+  const backClick = function () {
+    navigation.navigate("HomeMain");
+  }
+  //
+  return (
+    <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false">
+      <SafeAreaView style={[{ paddingBottom: 0 }]}>
+        {
+          !openSearch
+            // top bar
+            ? <TopBar backClick={backClick} onSearchClick={ToggleSearch} />
+            // input search
+            : <InputSearch onTimesClick={ToggleSearch} />
+        }
+        {/* content */}
+        <View style={[GS.container, GS.mt4]}>
+          {/* card */}
+          <CardArtikel whenCardClick={CardClick} image={artikel_1}
+            title="5 manfaat meditasi yang belum banyak orang tahu"
+            publishDate="Dipublikaiskan 10 mei 2022"
+          />
+        </View>
+      </SafeAreaView>
+    </ScrollView>
+  )
+}
+// style
+const Style = StyleSheet.create({
+  // header
+  header: {
+    width: "100%"
   },
-  body: {
-    flex: 1,
+  // search
+  InputSearch: {
+    paddingVertical: 15,
+    borderBottomColor: "#F3F3F3",
+    borderBottomWidth: 1,
+    height: 60
   },
-  img: {
-    width: WIDTH,
-    height: HEIGHT * 0.4,
-  },
-  wrap: {
-    width: WIDTH,
-    height: HEIGHT * 0.4,
-  },
-  judul: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 20,
-    marginHorizontal: 16,
-    marginTop: 20,
-    color: 'black',
-  },
-  pubilkasi: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 10,
-    marginHorizontal: 16,
-    marginTop: 20,
-    color: 'black',
-  },
-  isi: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 12,
-    marginHorizontal: 16,
-    marginTop: 20,
-    color: 'black',
-    marginBottom: 20,
-    textAlign: 'justify',
-  },
-  line: {
-    flex: 1,
-    height: 1,
-    borderBottomColor: 'black',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    alignSelf: 'stretch',
-    marginTop: 10,
-    marginBottom: 10,
-    marginHorizontal: 20,
+  textInput: {
+    width: "80%"
   },
 });
-
-export default Artikel;

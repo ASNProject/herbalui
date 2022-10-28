@@ -12,6 +12,7 @@ import ListProduk from './src/screens/Produk';
 import MenuBar from './src/screens/component/menubar';
 import MenuBar2 from './src/screens/component/menubar_produk';
 import Artikel from './src/screens/Artikel';
+import ArtikelDetail from './src/screens/ArtikelDetail';
 import MainNavigation from './src/screens/MainNavigation';
 import HerbalEduDetail from './src/screens/MainScreen/HerbalEduDetail';
 import HalalCenterDetail from './src/screens/MainScreen/HalalCenterDetail';
@@ -56,6 +57,7 @@ function App() {
         <Stack.Screen name="MenuBar" component={MenuBar} />
         <Stack.Screen name="MenuBar2" component={MenuBar2} />
         <Stack.Screen name="Artikel" component={Artikel} />
+        <Stack.Screen name="ArtikelDetail" component={ArtikelDetail} />
         <Stack.Screen name="SplashScreen" component={Splashscreen} />
       </Stack.Navigator>
     </NavigationContainer>
