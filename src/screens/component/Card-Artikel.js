@@ -1,5 +1,6 @@
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native"
 import GS from "../style/GlobalStyle";
+import FavoriteYellowIcon from "../../../assets/icons/favorite_yellow.svg"
 //
 export default function CardArtikel(props) {
     return (
@@ -13,6 +14,15 @@ export default function CardArtikel(props) {
                     <Image source={props.image} style={[Style.imageCard]} />
                 </View>
             </View>
+            {
+                props.showFavorite ?
+                    (
+                        <TouchableOpacity style={[Style.favoriteIcon]}>
+                            <FavoriteYellowIcon width="20" height="20" />
+                        </TouchableOpacity>
+                    )
+                    : ""
+            }
         </TouchableOpacity>
     )
 }
@@ -44,5 +54,10 @@ const Style = StyleSheet.create({
         height: 100,
         borderRadius: 10,
         resizeMode: "cover"
+    },
+    favoriteIcon: {
+        position: "absolute",
+        right: 10,
+        top: 10
     }
 });

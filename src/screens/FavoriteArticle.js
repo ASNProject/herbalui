@@ -1,12 +1,15 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import GS from "./style/GlobalStyle";
+import CardArtikel from "./component/Card-Artikel";
 // icons
 import BackIcon from "../../assets/icons/back_button.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../assets/images/afia_kids.png")
 import FavoriteYellowIcon from "../../assets/icons/favorite_yellow.svg"
-
+import artikel_1 from "../../assets/images/artikel_1.png";
+import artikel_2 from "../../assets/images/artikel_2.png";
+import artikel_3 from "../../assets/images/artikel_3.png";
 // component topbar
 const TopBar = function (props) {
     return (
@@ -24,12 +27,6 @@ const TopBar = function (props) {
         </View>
     )
 }
-const Content = function (props) {
-    return (
-        <View style={[GS.container, GS.mt4]}>
-        </View>
-    )
-}
 
 // content  
 export default function FavoriteArtikel({ navigation }) {
@@ -42,7 +39,7 @@ export default function FavoriteArtikel({ navigation }) {
         setOpenSearch(!openSearch);
     }
     const CardClick = function () {
-        navigation.navigate("ProductDetail");
+        navigation.navigate("ArtikelDetail");
     }
     // 
     return (
@@ -52,7 +49,14 @@ export default function FavoriteArtikel({ navigation }) {
                     {/* top bar */}
                     <TopBar backClick={backPage} />
                     {/* content */}
-                    <Content whenCardClick={CardClick} />
+                    <View style={[GS.container, GS.mt4]}>
+                        {/* card */}
+                        <CardArtikel whenCardClick={CardClick} image={artikel_2}
+                            title="5 manfaat meditasi yang belum banyak orang tahu"
+                            publishDate="Dipublikaiskan 10 mei 2022"
+                            showFavorite={true}
+                        />
+                    </View>
                 </SafeAreaView>
             </ScrollView>
         </View >

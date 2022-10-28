@@ -6,7 +6,6 @@ import BackIcon from "../../assets/icons/back_button.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../assets/images/afia_kids.png")
 import FavoriteYellowIcon from "../../assets/icons/favorite_yellow.svg"
-
 // component topbar
 const TopBar = function (props) {
     return (

@@ -277,7 +277,8 @@ const Style = StyleSheet.create({
     profileImage: {
         width: 50,
         height: 50,
-        borderRadius: 1000
+        borderRadius: 1000,
+        resizeMode: "cover",
     },
     // search bar
     searchBar: {
