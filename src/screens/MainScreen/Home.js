@@ -1,9 +1,6 @@
 // library
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
-import { TextInput } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useScrollToTop } from '@react-navigation/native';
-import { useEffect, useRef, useState } from "react";
+import { View, TextInput, Text, StyleSheet, Image, TouchableOpacity, ScrollView, SafeAreaView, ImageBackground, RefreshControl } from "react-native";
+import { useEffect, useCallback, useState } from "react";
 //images
 import Cart from "../../../assets/icons/bi_cart.svg";
 import SearchIcon from "../../../assets/icons/ph_magnifying-glass-bold.svg"
@@ -110,35 +107,43 @@ const Menu = function (props) {
     )
 }
 // component obat herbal
-const ObatHerbal = function () {
+const ObatHerbal = function (props) {
     return (
         <View style={[GS.mt4]}>
             <Text style={[GS.fwMedium, GS.fs3]}>Obat herbal</Text>
             <View style={[GS.flexRow, GS.mt2]}>
                 {/* category jantung */}
                 <View style={[Style.colButtonCategoryObat]}>
-                    <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
+                    <TouchableOpacity
+                        onPress={props.clickProduk}
+                        style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconJantung width="60%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Jantung</Text>
                     </TouchableOpacity>
                 </View>
                 {/* category demam */}
                 <View style={[Style.colButtonCategoryObat]}>
-                    <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
+                    <TouchableOpacity
+                        onPress={props.clickProduk}
+                        style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconSakitKepala width="100%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Demam</Text>
                     </TouchableOpacity>
                 </View>
                 {/* category ginja; */}
                 <View style={[Style.colButtonCategoryObat]}>
-                    <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
+                    <TouchableOpacity
+                        onPress={props.clickProduk}
+                        style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconGinjal width="100%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Ginjal</Text>
                     </TouchableOpacity>
                 </View>
                 {/* category stamina; */}
                 <View style={[Style.colButtonCategoryObat]}>
-                    <TouchableOpacity style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
+                    <TouchableOpacity
+                        onPress={props.clickProduk}
+                        style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconStamina width="60%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Stamina</Text>
                     </TouchableOpacity>
@@ -148,7 +153,7 @@ const ObatHerbal = function () {
     )
 }
 // article / tambah wawasan
-const TambahWawasan = function () {
+const TambahWawasan = function (props) {
     const imageSource = require("../../../assets/images/artikel_1.png");
     const imageSource2 = require("../../../assets/images/artikel_2.png");
     return (
@@ -156,7 +161,9 @@ const TambahWawasan = function () {
             <Text style={[GS.fwMedium, GS.fs3]}>Tambah wawasan</Text>
             <ScrollView horizontal style={[GS.flexRow, GS.mt2]} showsHorizontalScrollIndicator="false">
                 {/* article card */}
-                <TouchableOpacity style={[GS.mr2]}>
+                <TouchableOpacity
+                    onPress={props.articleClick}
+                    style={[GS.mr2]}>
                     <ImageBackground style={[Style.cardArtikel]} source={imageSource}>
                         <View style={[Style.coverArtikel]}>
                             <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
@@ -166,7 +173,9 @@ const TambahWawasan = function () {
                     </ImageBackground>
                 </TouchableOpacity>
                 {/* article card */}
-                <TouchableOpacity style={[GS.mr2]}>
+                <TouchableOpacity
+                    onPress={props.articleClick}
+                    style={[GS.mr2]}>
                     <ImageBackground style={[Style.cardArtikel]} source={imageSource2}>
                         <View style={[Style.coverArtikel]}>
                             <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
@@ -180,7 +189,7 @@ const TambahWawasan = function () {
     )
 }
 // konultasi
-const Consultation = function () {
+const Consultation = function (props) {
     // variable
     const profile_robot = require("../../../assets/images/konsultasi_robot.png");
     const profile_1 = require("../../../assets/images/konsultasi_1.png");
@@ -191,7 +200,7 @@ const Consultation = function () {
             <Text style={[GS.fwMedium, GS.fs3]}>Konsultasi online</Text>
             <ScrollView style={[GS.mt2, GS.flexRow]} horizontal showsHorizontalScrollIndicator="false">
                 {/* card konsultasi */}
-                <TouchableOpacity style={[GS.mr2]}>
+                <TouchableOpacity onPress={props.clickKonsultasiDetail} style={[GS.mr2]}>
                     <View style={[GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter, Style.cardKonsultasi]}>
                         {/* status */}
                         <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
@@ -205,7 +214,7 @@ const Consultation = function () {
                     </View>
                 </TouchableOpacity>
                 {/* card konsultasi */}
-                <TouchableOpacity style={[GS.mr2]}>
+                <TouchableOpacity onPress={props.clickKonsultasiDetail} style={[GS.mr2]}>
                     <View style={[GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter, Style.cardKonsultasi]}>
                         {/* status */}
                         <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
@@ -219,7 +228,7 @@ const Consultation = function () {
                     </View>
                 </TouchableOpacity>
                 {/* card konsultasi */}
-                <TouchableOpacity style={[GS.mr2]}>
+                <TouchableOpacity onPress={props.clickKonsultasiDetail} style={[GS.mr2]}>
                     <View style={[GS.flexColumn, GS.justifyContentCenter, GS.alignItemsCenter, Style.cardKonsultasi]}>
                         {/* status */}
                         <View style={[GS.flexRow, GS.alignItemsCenter, { width: "80%" }]}>
@@ -239,6 +248,7 @@ const Consultation = function () {
 //content
 export default function Home({ navigation }) {
     const [ref, setRef] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             // The screen is focused
@@ -265,15 +275,32 @@ export default function Home({ navigation }) {
     const clickKonsultasi = function () {
         navigation.navigate("Konsultasi");
     }
+    const clickKonsultasiDetail = function () {
+        navigation.navigate("ConsultationDetail");
+    }
     const clickHerbalEdu = function () {
         navigation.navigate("Herbal edu");
     }
     const clickHalalCenter = function () {
         navigation.navigate("Halal center");
     }
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            alert("refreshing done")
+            setRefreshing(false);
+        }, 1000);
+    }, []);
     //
     return (
-        <ScrollView ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
+        <ScrollView
+            refreshControl={
+                <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                />
+            }
+            ref={(ref) => { setRef(ref) }} style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator="false" >
             <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
                 {/* top bar */}
                 <TopBar cartClick={cartClick} clickProfile={clickProfile} />
@@ -285,11 +312,11 @@ export default function Home({ navigation }) {
                     clickHalalCenter={clickHalalCenter}
                 />
                 {/* obat herbal */}
-                <ObatHerbal />
+                <ObatHerbal clickProduk={clickProduk} />
                 {/* articles */}
-                <TambahWawasan />
+                <TambahWawasan articleClick={articleClick} />
                 {/* konsultasi online */}
-                <Consultation />
+                <Consultation clickKonsultasiDetail={clickKonsultasiDetail} />
             </SafeAreaView>
         </ScrollView >
     )
