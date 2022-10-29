@@ -7,16 +7,29 @@ import CardProduct from "../component/Card-Product";
 // images
 const example_product_1 = require("../../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../../assets/images/afia_kids.png")
+const example_product_3 = require("../../../assets/images/temu-putih.png")
 // component contents
 const Contents = function (props) {
     return (
         <View style={[GS.container, GS.mt4]}>
-            <View style={[GS.flexRow, GS.justifySpaceBetween]}>
+            <View style={[GS.flexRow, GS.flexWrap]}>
+                {/* card */}
+                <CardProduct whenCardClick={props.whenCardClick}
+                    image={example_product_1}
+                    title="Olivia Turseena"
+                    price="Rp 20.000"
+                />
                 {/* card */}
                 <CardProduct whenCardClick={props.whenCardClick}
                     image={example_product_2}
                     title="Afia kids"
-                    price="Rp 19.000"
+                    price="Rp 50.000"
+                />
+                {/* card */}
+                <CardProduct whenCardClick={props.whenCardClick}
+                    image={example_product_3}
+                    title="Temu putih"
+                    price="Rp 35.000"
                 />
             </View>
         </View>

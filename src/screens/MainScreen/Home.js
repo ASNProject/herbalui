@@ -35,16 +35,14 @@ const TopBar = function (props) {
     </View>)
 }
 // component search bar
-const SearchBar = function () {
+const SearchBar = function (props) {
     return (
         <View style={[Style.searchBar, GS.flexRow, GS.alignItemsCenter, GS.mt4]}>
             <SearchIcon width="8%" style={[GS.ml3]} />
             <TextInput style={[Style.inputSearchBar, GS.pl1, GS.fs5]}
                 selectionColor="#000"
                 returnKeyType="go"
-                onSubmitEditing={(event) => {
-                    alert("searching")
-                }}
+                onSubmitEditing={props.onSearching}
                 underlineColor="none" underlineColorAndroid="none" activeUnderlineColor="none"
                 placeholder="Cari obat atau gejala" placeholderTextColor="#A0A0A0sasa" />
         </View>
@@ -284,6 +282,9 @@ export default function Home({ navigation }) {
     const clickHalalCenter = function () {
         navigation.navigate("Halal center");
     }
+    const onSearching = function () {
+        navigation.navigate("Pencarian");
+    }
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
@@ -305,7 +306,7 @@ export default function Home({ navigation }) {
                 {/* top bar */}
                 <TopBar cartClick={cartClick} clickProfile={clickProfile} />
                 {/*  search bar */}
-                <SearchBar />
+                <SearchBar onSearching={onSearching} />
                 {/* menu */}
                 <Menu clickProduk={clickProduk} articleClick={articleClick}
                     clickKonsultasi={clickKonsultasi} clickHerbalEdu={clickHerbalEdu}
