@@ -21,6 +21,9 @@ export default function Pencarian({ navigation }) {
     const CardClick = function () {
         navigation.navigate("ArtikelDetail");
     }
+    const ProdukClick = function () {
+        navigation.navigate("ProductDetail");
+    }
     // 
     return (
         <SafeAreaView style={[GS.bgWhite, GS.h100]}>
@@ -38,15 +41,15 @@ export default function Pencarian({ navigation }) {
                         <Text style={[GS.fs4]}>Produk berkaitan</Text>
                         <View style={[GS.flexRow, GS.flexWrap, GS.mt3]}>
                             {/* card */}
-                            <CardProduct whenCardClick={CardClick}
+                            <CardProduct whenCardClick={ProdukClick}
                                 image={example_product_1} title="Olivia Turseena" price="Rp 19.000"
                             />
                             {/* card */}
-                            <CardProduct whenCardClick={CardClick}
+                            <CardProduct whenCardClick={ProdukClick}
                                 image={example_product_2} title="Afia kids" price="Rp 19.000"
                             />
                             {/* card */}
-                            <CardProduct whenCardClick={CardClick}
+                            <CardProduct whenCardClick={ProdukClick}
                                 image={example_product_2} title="Afia kids" price="Rp 19.000"
                             />
                         </View>

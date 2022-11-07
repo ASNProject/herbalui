@@ -2,6 +2,7 @@
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import GS from "./style/GlobalStyle";
 import TopBar from "./component/TopBar1";
+import CardProduct from "./component/Card-Product";
 // images
 import BackIcon from "../../assets/icons/back_button.svg"
 import FavoriteIcon from "../../assets/icons/favorite.svg"
@@ -9,6 +10,7 @@ import FavoriteYellowIcon from "../../assets/icons/favorite_yellow.svg"
 import CartIconBlack from "../../assets/icons/cart_black.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../assets/images/afia_kids.png")
+const example_product_3 = require("../../assets/images/temu-putih.png")
 const example_discuss_person = require("../../assets/images/example_discuss_person.png")
 // component photos
 const Photos = function () {
@@ -27,8 +29,8 @@ const Details = function () {
     return (
         <View style={[GS.container, GS.mt4]}>
             <View>
-                <Text style={[GS.fwMedium, GS.fs3]}>Jasmine tea</Text>
-                <Text style={[GS.fs3]}>Rp 20.000/pack</Text>
+                <Text style={[GS.fwMedium, GS.fs3]}>Oliviea Turseena</Text>
+                <Text style={[GS.fs3]}>Rp 20.000</Text>
             </View>
             <View style={[GS.mt4]}>
                 <Text style={[GS.fs5]}>Deskripsi</Text>
@@ -83,19 +85,19 @@ const Recomendations = function (props) {
     return (
         <View style={[GS.container, GS.mt4]}>
             <Text style={[GS.fs5]}>Obat lainya</Text>
-            <View style={[GS.flexRow, GS.justifySpaceBetween]}>
+            <View style={[GS.flexRow, GS.flexWrap]}>
                 {/* card */}
-                <TouchableOpacity onPress={props.whenCardClick} style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
-                    <Image style={[Style.imageProduct]} source={example_product_1} />
-                    <Text style={[GS.fs5]}>Olivia Turseena</Text>
-                    <Text style={[GS.fs5, GS.primaryColor]}>Rp 19.000</Text>
-                </TouchableOpacity>
+                <CardProduct whenCardClick={props.whenCardClick}
+                    image={example_product_2}
+                    title="Afia kids"
+                    price="Rp 50.000"
+                />
                 {/* card */}
-                <TouchableOpacity onPress={props.whenCardClick} style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
-                    <Image style={[Style.imageProduct]} source={example_product_2} />
-                    <Text style={[GS.fs5]}>Afia kids</Text>
-                    <Text style={[GS.fs5, GS.primaryColor]}>Rp 19.000</Text>
-                </TouchableOpacity>
+                <CardProduct whenCardClick={props.whenCardClick}
+                    image={example_product_3}
+                    title="Temu putih"
+                    price="Rp 35.000"
+                />
             </View>
         </View>
     )
@@ -113,7 +115,7 @@ export default function ProductDetail({ navigation }) {
     return (
         <SafeAreaView style={[{ backgroundColor: "#fff", height: "100%" }]}>
             {/* top bar */}
-            <TopBar title="Afia kids"
+            <TopBar title="Olivia turseena"
                 backButton={true}
                 backClick={backClick}
                 nosearch={true}

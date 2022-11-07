@@ -21,7 +21,9 @@ const MainContent = function (props) {
                 </TouchableOpacity>
             </View>
             {/* Menus */}
-            <TouchableOpacity style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
+            <TouchableOpacity
+                onPress={props.clickCart}
+                style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>Keranjang</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={props.clickFavorite} style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
@@ -53,6 +55,9 @@ export default function Profile({ navigation }) {
     const clickPrivacy = function () {
         navigation.navigate("PrivacyPolicy");
     }
+    const clickCart = function () {
+        navigation.navigate("Cart");
+    }
     // 
     return (
         <SafeAreaView style={[GS.bgWhite, GS.h100]}>
@@ -68,6 +73,7 @@ export default function Profile({ navigation }) {
                     clickEdit={clickEdit}
                     clickFavorite={clickFavorite}
                     clickPrivacy={clickPrivacy}
+                    clickCart={clickCart}
                 />
             </ScrollView>
         </SafeAreaView>

@@ -37,7 +37,7 @@ const Contents = function (props) {
             <TouchableOpacity onPress={props.cardClick}>
                 <View style={[GS.flexRow, GS.alignItemsCenter, GS.justifySpaceBetween, Style.cardHalalCenter]}>
                     <Text style={[Style.textCard, GS.fs5]}>
-                        Sejarah obat herbal di dunia dan di indonesia
+                        Proses produksi yang terjamin kehalalan nya
                     </Text>
                     <ArrowRight width="30" height="30" />
                 </View>

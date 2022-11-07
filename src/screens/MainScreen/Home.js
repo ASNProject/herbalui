@@ -113,7 +113,7 @@ const ObatHerbal = function (props) {
                 {/* category jantung */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity
-                        onPress={props.clickProduk}
+                        onPress={props.clickPencarian}
                         style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconJantung width="60%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Jantung</Text>
@@ -122,7 +122,7 @@ const ObatHerbal = function (props) {
                 {/* category demam */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity
-                        onPress={props.clickProduk}
+                        onPress={props.clickPencarian}
                         style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconSakitKepala width="100%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Demam</Text>
@@ -131,7 +131,7 @@ const ObatHerbal = function (props) {
                 {/* category ginja; */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity
-                        onPress={props.clickProduk}
+                        onPress={props.clickPencarian}
                         style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconGinjal width="100%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Ginjal</Text>
@@ -140,7 +140,7 @@ const ObatHerbal = function (props) {
                 {/* category stamina; */}
                 <View style={[Style.colButtonCategoryObat]}>
                     <TouchableOpacity
-                        onPress={props.clickProduk}
+                        onPress={props.clickPencarian}
                         style={[{ width: "100%", height: "100%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.buttonCategory]}>
                         <IconStamina width="60%" height="60%" />
                         <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Stamina</Text>
@@ -267,6 +267,9 @@ export default function Home({ navigation }) {
     const articleClick = function () {
         navigation.navigate("Artikel");
     }
+    const articleDetailClick = function () {
+        navigation.navigate("ArtikelDetail");
+    }
     const clickProduk = function () {
         navigation.navigate("Produk");
     }
@@ -313,9 +316,9 @@ export default function Home({ navigation }) {
                     clickHalalCenter={clickHalalCenter}
                 />
                 {/* obat herbal */}
-                <ObatHerbal clickProduk={clickProduk} />
+                <ObatHerbal clickPencarian={onSearching} />
                 {/* articles */}
-                <TambahWawasan articleClick={articleClick} />
+                <TambahWawasan articleClick={articleDetailClick} />
                 {/* konsultasi online */}
                 <Consultation clickKonsultasiDetail={clickKonsultasiDetail} />
             </SafeAreaView>
