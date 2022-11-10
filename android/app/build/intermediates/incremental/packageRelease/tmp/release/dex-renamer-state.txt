@@ -1,4 +1,0 @@
-#Mon Sep 19 18:31:22 WIB 2022
-base.0=/Users/ariefsetyonugroho/Documents/ReactNative/herbalui/android/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

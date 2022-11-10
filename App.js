@@ -35,13 +35,16 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="MainNavigation"
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="MainNavigation" component={MainNavigation} />
         <Stack.Screen name="HerbalEduDetail" component={HerbalEduDetail} />
         <Stack.Screen name="HalalCenterDetail" component={HalalCenterDetail} />
-        <Stack.Screen name="ConsultationDetail" component={ConsultationDetail} />
+        <Stack.Screen
+          name="ConsultationDetail"
+          component={ConsultationDetail}
+        />
         <Stack.Screen name="Favorite" component={Favorite} />
         <Stack.Screen name="FavoriteProduct" component={FavoriteProduct} />
         <Stack.Screen name="FavoriteArtikel" component={FavoriteArtikel} />

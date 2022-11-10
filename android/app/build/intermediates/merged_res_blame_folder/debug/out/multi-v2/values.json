@@ -59,6 +59,23 @@
                     }
                 },
                 {
+                    "source": "/Users/ariefsetyonugroho/Documents/GitHub/herbalui/android/app/build/generated/res/resValues/debug/values/gradleResValues.xml",
+                    "from": {
+                        "startLines": "6,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "156,262",
+                        "endColumns": "63,68",
+                        "endOffsets": "215,326"
+                    },
+                    "to": {
+                        "startLines": "661,662",
+                        "startColumns": "4,4",
+                        "startOffsets": "41901,41965",
+                        "endColumns": "63,68",
+                        "endOffsets": "41960,42029"
+                    }
+                },
+                {
                     "source": "/Users/ariefsetyonugroho/.gradle/caches/transforms-3/a6ec09d3f9a35c2cdb66c074ce2dc724/transformed/jetified-autofill-1.1.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3,19,20,27,32,37,44,53",
@@ -186,23 +203,6 @@
                     }
                 },
                 {
-                    "source": "/Users/ariefsetyonugroho/Documents/ReactNative/herbalui/android/app/build/generated/res/resValues/debug/values/gradleResValues.xml",
-                    "from": {
-                        "startLines": "6,8",
-                        "startColumns": "4,4",
-                        "startOffsets": "156,262",
-                        "endColumns": "63,68",
-                        "endOffsets": "215,326"
-                    },
-                    "to": {
-                        "startLines": "661,662",
-                        "startColumns": "4,4",
-                        "startOffsets": "41901,41965",
-                        "endColumns": "63,68",
-                        "endOffsets": "41960,42029"
-                    }
-                },
-                {
                     "source": "/Users/ariefsetyonugroho/.gradle/caches/transforms-3/03f04a3f11198ce3b7c6cedb9b41266b/transformed/jetified-flipper-0.125.0/res/values/values.xml",
                     "from": {
                         "startLines": "2,3",
@@ -239,22 +239,20 @@
                     }
                 },
                 {
-                    "source": "/Users/ariefsetyonugroho/Documents/ReactNative/herbalui/android/app/src/main/res/values/styles.xml",
+                    "source": "/Users/ariefsetyonugroho/Documents/GitHub/herbalui/android/app/src/main/res/values/strings.xml",
                     "from": {
-                        "startLines": "3",
+                        "startLines": "1",
                         "startColumns": "4",
-                        "startOffsets": "54",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "267"
+                        "startOffsets": "16",
+                        "endColumns": "45",
+                        "endOffsets": "57"
                     },
                     "to": {
-                        "startLines": "828",
+                        "startLines": "698",
                         "startColumns": "4",
-                        "startOffsets": "60026",
-                        "endLines": "831",
-                        "endColumns": "12",
-                        "endOffsets": "60204"
+                        "startOffsets": "44503",
+                        "endColumns": "45",
+                        "endOffsets": "44544"
                     }
                 },
                 {
@@ -313,20 +311,22 @@
                     }
                 },
                 {
-                    "source": "/Users/ariefsetyonugroho/Documents/ReactNative/herbalui/android/app/src/main/res/values/strings.xml",
+                    "source": "/Users/ariefsetyonugroho/Documents/GitHub/herbalui/android/app/src/main/res/values/styles.xml",
                     "from": {
-                        "startLines": "1",
+                        "startLines": "3",
                         "startColumns": "4",
-                        "startOffsets": "16",
-                        "endColumns": "45",
-                        "endOffsets": "57"
+                        "startOffsets": "54",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "267"
                     },
                     "to": {
-                        "startLines": "698",
+                        "startLines": "828",
                         "startColumns": "4",
-                        "startOffsets": "44503",
-                        "endColumns": "45",
-                        "endOffsets": "44544"
+                        "startOffsets": "60026",
+                        "endLines": "831",
+                        "endColumns": "12",
+                        "endOffsets": "60204"
                     }
                 },
                 {

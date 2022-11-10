@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import axios from 'react-native-axios';
 // icons
-import Eye from "../../assets/icons/akar-icons_eye.svg"
-import EyeClose from "../../assets/icons/ant-design_eye-invisible-outlined"
+import Eye from '../../assets/icons/akar-icons_eye.svg';
+import EyeClose from '../../assets/icons/ant-design_eye-invisible-outlined';
 // global style
-import GlobalStyle from "./style/GlobalStyle"
+import GlobalStyle from './style/GlobalStyle';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -22,30 +22,34 @@ const Login = ({ navigation }) => {
   //
   const Login = function () {
     const form = new FormData();
-    form.append("email", "alendra099@gmail.com");
-    form.append("password", "123456");
+    form.append('email', 'alendra099@gmail.com');
+    form.append('password', '123456');
 
     const options = {
       method: 'POST',
       url: 'https://staging-herbaluad.adolweb.com/api/login',
-      data: form
+      data: form,
     };
 
-    axios.request(options).then(function (response) {
-      console.log(response.data);
-      alert("succeess!")
-    }).catch(function (error) {
-      alert("failed!")
-      console.error(error);
-      console.error(error.response.data);
-    });
-  }
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        alert('succeess!');
+        // navigation.navigate('Home');
+      })
+      .catch(function (error) {
+        alert('failed!');
+        console.error(error);
+        console.error(error.response.data);
+      });
+  };
   //
   function handleEye(condition) {
     if (condition == 'show') {
-      setSecureTextEntry(true)
+      setSecureTextEntry(true);
     } else {
-      setSecureTextEntry(false)
+      setSecureTextEntry(false);
     }
   }
   return (
@@ -53,8 +57,11 @@ const Login = ({ navigation }) => {
       {/* Main area */}
       <View style={{ flex: 1 }}>
         {/* title */}
-        <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>Silahkan Masuk!</Text>
-        <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5, GlobalStyle.mt1]}>
+        <Text style={[style.txt_silhkan, GlobalStyle.fs1]}>
+          Silahkan Masuk!
+        </Text>
+        <Text
+          style={[style.txt_pusatinformasi, GlobalStyle.fs5, GlobalStyle.mt1]}>
           Pusat Informasi dan Kajian Obat
         </Text>
         <Text style={[style.txt_pusatinformasi, GlobalStyle.fs5]}>
@@ -78,37 +85,31 @@ const Login = ({ navigation }) => {
             secureTextEntry={secureTextEntry}
             value={password}
             onChangeText={password => setPassword(password)}></TextInput>
-          {
-            secureTextEntry ?
-              (
-                <TouchableOpacity
-                  style={style.eye_icon}
-                  onPress={() => { handleEye('hide') }}
-                >
-                  <Eye width={50} height={20} />
-                </TouchableOpacity>
-              )
-              :
-              (
-                <TouchableOpacity
-                  style={style.eye_icon}
-                  onPress={() => { handleEye('show') }}
-                >
-                  <EyeClose width={50} height={20} />
-                </TouchableOpacity>
-              )
-
-          }
+          {secureTextEntry ? (
+            <TouchableOpacity
+              style={style.eye_icon}
+              onPress={() => {
+                handleEye('hide');
+              }}>
+              <Eye width={50} height={20} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={style.eye_icon}
+              onPress={() => {
+                handleEye('show');
+              }}>
+              <EyeClose width={50} height={20} />
+            </TouchableOpacity>
+          )}
         </View>
         {/* Button masuk */}
         <TouchableOpacity
           onPress={() => {
-            Login()
+            Login();
           }}
           style={[style.btn_login, GlobalStyle.primaryShadow]}>
-          <Text
-            style={[style.txt_login, GlobalStyle.fs3]}
-          >Masuk</Text>
+          <Text style={[style.txt_login, GlobalStyle.fs3]}>Masuk</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={style.btn_lupapassword}
@@ -147,7 +148,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 25,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   txt_silhkan: {
     fontFamily: 'Roboto-Medium',
@@ -235,10 +236,10 @@ const style = StyleSheet.create({
     fontSize: 13,
   },
   eye_icon: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 10,
-  }
+  },
 });
 
 export default Login;
