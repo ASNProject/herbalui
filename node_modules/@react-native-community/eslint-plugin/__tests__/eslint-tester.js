@@ -12,9 +12,8 @@
 const ESLintTester = require('eslint').RuleTester;
 
 ESLintTester.setDefaultConfig({
-  parser: require.resolve('@babel/eslint-parser'),
+  parser: require.resolve('babel-eslint'),
   parserOptions: {
-    requireConfigFile: false,
     ecmaVersion: 6,
     sourceType: 'module',
   },
