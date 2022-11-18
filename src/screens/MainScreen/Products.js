@@ -9,15 +9,22 @@ import {
   TouchableOpacity,
   TextInput,
   RefreshControl,
+  Card,
+  FlatList,
+  ToastAndroid,
 } from 'react-native';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 import CardProduct from '../component/Card-Product';
+import axios from 'axios';
+
 // images
 const example_product_1 = require('../../../assets/images/olivia_turseena.png');
 const example_product_2 = require('../../../assets/images/afia_kids.png');
 const example_product_3 = require('../../../assets/images/temu-putih.png');
+
+const url = 'https://staging-herbaluad.adolweb.com/api/products';
 // component contents
 const Contents = function (props) {
   return (
@@ -30,26 +37,30 @@ const Contents = function (props) {
           title="Olivia Turseena"
           price="Rp 20.000"
         />
-        {/* card */}
-        <CardProduct
-          whenCardClick={props.whenCardClick}
-          image={example_product_2}
-          title="Afia kids"
-          price="Rp 50.000"
-        />
-        {/* card */}
-        <CardProduct
-          whenCardClick={props.whenCardClick}
-          image={example_product_3}
-          title="Temu putih"
-          price="Rp 35.000"
-        />
       </View>
     </View>
   );
 };
 // content
 export default function Products({ navigation }) {
+  //axios
+  const [data, getData] = useState();
+
+  useEffect(() => {
+    getAllData();
+  });
+  const getAllData = () => {
+    axios
+      .get(`${url}`)
+      .then(response => {
+        const allData = response.data.data.data;
+        getData(allData);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   // variable
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -81,10 +92,29 @@ export default function Products({ navigation }) {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          style={[{ backgroundColor: '#fff', height: '100%' }]} //showsVerticalScrollIndicator="false"
-        >
-          {/* content */}
-          <Contents whenCardClick={CardClick} />
+          style={[{ backgroundColor: '#fff', height: '100%' }]}>
+          <View style={[GS.container, GS.mt4]}>
+            {/* card */}
+
+            <FlatList
+              data={data}
+              numColumns={2}
+              style={Style.s}
+              keyExtractor={(item, index) => {
+                return index.toString();
+              }}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity onPress={() => console.log('1')}>
+                    <CardProduct
+                      image={example_product_1}
+                      title={item.name}
+                      price={item.price}
+                    />
+                  </TouchableOpacity>
+                );
+              }}></FlatList>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -95,5 +125,8 @@ const Style = StyleSheet.create({
   // header
   header: {
     width: '100%',
+  },
+  s: {
+    marginBottom: 150,
   },
 });
