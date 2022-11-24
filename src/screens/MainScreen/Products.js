@@ -45,20 +45,28 @@ const Contents = function (props) {
 export default function Products({ navigation }) {
   //axios
   const [data, getData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const Yscroll = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     getAllData();
-  });
-  const getAllData = () => {
-    axios
-      .get(`${url}`)
-      .then(response => {
-        const allData = response.data.data.data;
-        getData(allData);
+    return () => {};
+  }, []);
+
+  getAllData = () => {
+    fetch(`${url}`)
+      .then(res => res.join())
+      .then(resJson => {
+        getData(resJson.data);
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  };
+
+  const renderItem = ({ item, index }) => {
+    const scale = Yscroll.interpolate({
+      inputRange: [-1],
+    });
   };
 
   // variable
