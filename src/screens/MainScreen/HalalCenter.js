@@ -10,13 +10,15 @@ import {
   TextInput,
   RefreshControl,
 } from 'react-native';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
+import axios from 'axios';
 // images
 import Search from '../../../assets/icons/ph_magnifying-glass-bold.svg';
 import ArrowRight from '../../../assets/icons/arrow_right.svg';
 import Times from '../../../assets/icons/la_times.svg';
+import { FlatList } from 'react-native-gesture-handler';
 const headerImage = require('../../../assets/images/header_halal_center.png');
 // component input search
 const InputSearch = function (props) {
@@ -64,6 +66,26 @@ const Contents = function (props) {
 };
 // content
 export default function HalalCenter({ navigation }) {
+  //axios
+  const [data, setData] = useState();
+
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        'https://staging-herbaluad.adolweb.com/api/halal-center',
+      );
+
+      setData(res.data.data.data);
+      console.log(res.data.data.data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   // variable
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -100,7 +122,28 @@ export default function HalalCenter({ navigation }) {
         {/* header */}
         <Image source={headerImage} style={[Style.header]} />
         {/* content */}
-        <Contents cardClick={cardClick} />
+        <FlatList
+          data={data}
+          renderItem={({ item, index }) => {
+            const lastitem = index === data.length - 1;
+            return (
+              <View style={[GS.container, GS.mt4]}>
+                {/* card */}
+                <TouchableOpacity>
+                  <View
+                    style={[
+                      GS.flexRow,
+                      GS.alignItemsCenter,
+                      GS.justifySpaceBetween,
+                      Style.cardHalalCenter,
+                    ]}>
+                    <Text style={[Style.textCard, GS.fs5]}>{item.title}</Text>
+                    <ArrowRight width="30" height="30" />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            );
+          }}></FlatList>
       </ScrollView>
     </SafeAreaView>
   );

@@ -129,15 +129,20 @@ export default function HerbalEdu({ navigation }) {
           renderItem={({ item, index }) => {
             const lastitem = index === data.length - 1;
             return (
-              <View
-                style={[
-                  GS.flexRow,
-                  GS.alignItemsCenter,
-                  GS.justifySpaceBetween,
-                  Style.cardHerbalEdu,
-                ]}>
-                <Text style={[Style.textCard, GS.fs5]}>{item.title}</Text>
-                <ArrowRight width="30" height="30" />
+              <View style={[GS.container, GS.mt4]}>
+                {/* card */}
+                <TouchableOpacity onPress={() => console.log(item.id)}>
+                  <View
+                    style={[
+                      GS.flexRow,
+                      GS.alignItemsCenter,
+                      GS.justifySpaceBetween,
+                      Style.cardHerbalEdu,
+                    ]}>
+                    <Text style={[Style.textCard, GS.fs5]}>{item.title}</Text>
+                    <ArrowRight width="30" height="30" />
+                  </View>
+                </TouchableOpacity>
               </View>
             );
           }}></FlatList>
