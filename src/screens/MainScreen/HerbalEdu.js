@@ -10,13 +10,16 @@ import {
   TextInput,
   RefreshControl,
 } from 'react-native';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 // images
 import Search from '../../../assets/icons/ph_magnifying-glass-bold.svg';
 import ArrowRight from '../../../assets/icons/arrow_right.svg';
 import Times from '../../../assets/icons/la_times.svg';
+import axios from 'axios';
+import { FlatList } from 'react-native-gesture-handler';
+//import { err } from 'react-native-svg/lib/typescript/xml';
 const headerImage = require('../../../assets/images/header_herbal_edu.png');
 // component input search
 const InputSearch = function (props) {
@@ -43,27 +46,48 @@ const InputSearch = function (props) {
 // component contents
 const Contents = function (props) {
   return (
-    <View style={[GS.container, GS.mt4]}>
-      {/* card */}
-      <TouchableOpacity onPress={props.whenCardClick}>
-        <View
-          style={[
-            GS.flexRow,
-            GS.alignItemsCenter,
-            GS.justifySpaceBetween,
-            Style.cardHerbalEdu,
-          ]}>
-          <Text style={[Style.textCard, GS.fs5]}>
-            Sejarah obat herbal di dunia dan di indonesia
-          </Text>
-          <ArrowRight width="30" height="30" />
-        </View>
-      </TouchableOpacity>
-    </View>
+    <>
+      <View style={[GS.container, GS.mt4]}>
+        {/* card */}
+        <TouchableOpacity onPress={props.whenCardClick}>
+          <View
+            style={[
+              GS.flexRow,
+              GS.alignItemsCenter,
+              GS.justifySpaceBetween,
+              Style.cardHerbalEdu,
+            ]}>
+            <Text style={[Style.textCard, GS.fs5]}>
+              Sejarah obat herbal di dunia dan di indonesia
+            </Text>
+            <ArrowRight width="30" height="30" />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 // content
 export default function HerbalEdu({ navigation }) {
+  const [data, setData] = useState();
+
+  const getData = async () => {
+    try {
+      const res = await axios.get(
+        'https://staging-herbaluad.adolweb.com/api/herbal-edu',
+      );
+
+      setData(res.data.data.data);
+      console.log(res.data.data.data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   // variable
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -100,7 +124,23 @@ export default function HerbalEdu({ navigation }) {
         {/* header */}
         <Image source={headerImage} style={[Style.header]} />
         {/* content */}
-        <Contents whenCardClick={CardClick} />
+        <FlatList
+          data={data}
+          renderItem={({ item, index }) => {
+            const lastitem = index === data.length - 1;
+            return (
+              <View
+                style={[
+                  GS.flexRow,
+                  GS.alignItemsCenter,
+                  GS.justifySpaceBetween,
+                  Style.cardHerbalEdu,
+                ]}>
+                <Text style={[Style.textCard, GS.fs5]}>{item.title}</Text>
+                <ArrowRight width="30" height="30" />
+              </View>
+            );
+          }}></FlatList>
       </ScrollView>
     </SafeAreaView>
   );
