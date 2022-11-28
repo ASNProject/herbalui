@@ -111,11 +111,13 @@ export default function Products({ navigation }) {
                       padding: 8,
                       maxWidth: lastitem ? '50%' : '100%',
                     }}>
-                    <CardProduct
-                      image={example_product_1}
-                      title={item.name}
-                      price={item.price}
-                    />
+                    <TouchableOpacity onPress={() => this.actionOnRow(item)}>
+                      <CardProduct
+                        image={example_product_1}
+                        title={item.name}
+                        price={item.price}
+                      />
+                    </TouchableOpacity>
                   </View>
                 );
               }}></FlatList>
