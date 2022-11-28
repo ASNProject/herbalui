@@ -44,30 +44,24 @@ const Contents = function (props) {
 // content
 export default function Products({ navigation }) {
   //axios
-  const [data, getData] = useState();
+  const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const Yscroll = React.useRef(new Animated.Value(0)).current;
+  // const Yscroll = React.useRef(new Animated.Value(0)).current;
+
+  const getData = async () => {
+    try {
+      const res = await axios.get(url);
+      //  console.log(res)
+
+      setData(res.data.data.data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   useEffect(() => {
-    getAllData();
-    return () => {};
+    getData();
   }, []);
-
-  getAllData = () => {
-    fetch(`${url}`)
-      .then(res => res.join())
-      .then(resJson => {
-        getData(resJson.data);
-      })
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  };
-
-  const renderItem = ({ item, index }) => {
-    const scale = Yscroll.interpolate({
-      inputRange: [-1],
-    });
-  };
 
   // variable
   const [openSearch, setOpenSearch] = useState(false);
@@ -108,18 +102,21 @@ export default function Products({ navigation }) {
               data={data}
               numColumns={2}
               style={Style.s}
-              keyExtractor={(item, index) => {
-                return index.toString();
-              }}
-              renderItem={({ item }) => {
+              renderItem={({ item, index }) => {
+                const lastitem = index === data.length - 1;
                 return (
-                  <TouchableOpacity onPress={() => console.log('1')}>
+                  <View
+                    style={{
+                      flex: 1,
+                      padding: 8,
+                      maxWidth: lastitem ? '50%' : '100%',
+                    }}>
                     <CardProduct
                       image={example_product_1}
                       title={item.name}
                       price={item.price}
                     />
-                  </TouchableOpacity>
+                  </View>
                 );
               }}></FlatList>
           </View>
