@@ -18,7 +18,7 @@ const MainContent = function () {
   return (
     <View style={[GS.container, GS.mt4]}>
       <Text style={[GS.fs2, GS.fwMedium]}>
-        {this.props.navigation.state.params.YourParamsName}
+        Sejarah obat herbal di dunia dan di indonesia
       </Text>
       <Text style={[GS.fs6, GS.fwLight]}>
         Di publikasikan pada 3 oktober 2022

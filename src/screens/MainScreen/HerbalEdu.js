@@ -131,7 +131,12 @@ export default function HerbalEdu({ navigation }) {
             return (
               <View style={[GS.container, GS.mt4]}>
                 {/* card */}
-                <TouchableOpacity onPress={() => console.log(item.id)}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('HerbalEduDetail', {
+                      paramKey: item.id,
+                    })
+                  }>
                   <View
                     style={[
                       GS.flexRow,
