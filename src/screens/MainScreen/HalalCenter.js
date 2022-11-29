@@ -42,28 +42,6 @@ const InputSearch = function (props) {
     </View>
   );
 };
-// component contents
-const Contents = function (props) {
-  return (
-    <View style={[GS.container, GS.mt4]}>
-      {/* card */}
-      <TouchableOpacity onPress={props.cardClick}>
-        <View
-          style={[
-            GS.flexRow,
-            GS.alignItemsCenter,
-            GS.justifySpaceBetween,
-            Style.cardHalalCenter,
-          ]}>
-          <Text style={[Style.textCard, GS.fs5]}>
-            Proses produksi yang terjamin kehalalan nya
-          </Text>
-          <ArrowRight width="30" height="30" />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
 // content
 export default function HalalCenter({ navigation }) {
   //axios
@@ -129,7 +107,10 @@ export default function HalalCenter({ navigation }) {
             return (
               <View style={[GS.container, GS.mt4]}>
                 {/* card */}
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('HalalCenterDetail', item)
+                  }>
                   <View
                     style={[
                       GS.flexRow,

@@ -43,30 +43,6 @@ const InputSearch = function (props) {
     </View>
   );
 };
-// component contents
-const Contents = function (props) {
-  return (
-    <>
-      <View style={[GS.container, GS.mt4]}>
-        {/* card */}
-        <TouchableOpacity onPress={props.whenCardClick}>
-          <View
-            style={[
-              GS.flexRow,
-              GS.alignItemsCenter,
-              GS.justifySpaceBetween,
-              Style.cardHerbalEdu,
-            ]}>
-            <Text style={[Style.textCard, GS.fs5]}>
-              Sejarah obat herbal di dunia dan di indonesia
-            </Text>
-            <ArrowRight width="30" height="30" />
-          </View>
-        </TouchableOpacity>
-      </View>
-    </>
-  );
-};
 // content
 export default function HerbalEdu({ navigation }) {
   const [data, setData] = useState();
@@ -132,11 +108,7 @@ export default function HerbalEdu({ navigation }) {
               <View style={[GS.container, GS.mt4]}>
                 {/* card */}
                 <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('HerbalEduDetail', {
-                      paramKey: item.id,
-                    })
-                  }>
+                  onPress={() => navigation.navigate('HerbalEduDetail', item)}>
                   <View
                     style={[
                       GS.flexRow,
