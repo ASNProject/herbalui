@@ -90,7 +90,7 @@ export default function HalalCenter({ navigation }) {
         onSearchClick={ToggleSearch}
         onTimesClick={ToggleSearch}
       />
-      <ScrollView
+      <View
         style={[{ backgroundColor: '#fff', height: '100%' }]}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -125,7 +125,7 @@ export default function HalalCenter({ navigation }) {
               </View>
             );
           }}></FlatList>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

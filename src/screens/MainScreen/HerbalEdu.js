@@ -90,7 +90,7 @@ export default function HerbalEdu({ navigation }) {
         onSearchClick={ToggleSearch}
         onTimesClick={ToggleSearch}
       />
-      <ScrollView
+      <View
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -123,7 +123,7 @@ export default function HerbalEdu({ navigation }) {
               </View>
             );
           }}></FlatList>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

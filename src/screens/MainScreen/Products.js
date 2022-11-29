@@ -90,7 +90,7 @@ export default function Products({ navigation }) {
           onSearchClick={ToggleSearch}
           onTimesClick={ToggleSearch}
         />
-        <ScrollView
+        <View
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -111,18 +111,32 @@ export default function Products({ navigation }) {
                       padding: 8,
                       maxWidth: lastitem ? '50%' : '100%',
                     }}>
-                    <TouchableOpacity onPress={() => this.actionOnRow(item)}>
-                      <CardProduct
-                        image={example_product_1}
-                        title={item.name}
-                        price={item.price}
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('ProductDetail', item)}
+                      style={[
+                        Style.cardProduct,
+                        GS.flexColumn,
+                        GS.alignItemsCenter,
+                      ]}>
+                      <Image
+                        style={[Style.imageProduct]}
+                        source={{
+                          uri:
+                            'https://staging-herbaluad.adolweb.com/storage/products/example/product_' +
+                            item.id +
+                            '.png',
+                        }}
                       />
+                      <Text style={[GS.fs5]}>{item.name}</Text>
+                      <Text style={[GS.fs5, GS.primaryColor]}>
+                        {item.price}
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 );
               }}></FlatList>
           </View>
-        </ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -135,5 +149,18 @@ const Style = StyleSheet.create({
   },
   s: {
     marginBottom: 150,
+  },
+  // card
+  cardProduct: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#F3F3F3',
+    padding: 20,
+    margin: '2%',
+  },
+  imageProduct: {
+    height: 100,
+    width: 90,
+    resizeMode: 'contain',
   },
 });
