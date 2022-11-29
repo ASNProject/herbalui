@@ -374,7 +374,7 @@ export default function Home({ navigation }) {
     navigation.navigate('Artikel');
   };
   const articleDetailClick = function () {
-    navigation.navigate('ArtikelDetail');
+    navigation.navigate('Artikel');
   };
   const clickProduk = function () {
     navigation.navigate('Produk');
