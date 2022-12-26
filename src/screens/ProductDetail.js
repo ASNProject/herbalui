@@ -29,7 +29,7 @@ const Photos = function (route) {
           <Image
             source={{
               uri:
-                'https://staging-herbaluad.adolweb.com/storage/products/example/product_' +
+                'https://staging.herbalinfo.site/storage/products/example/product_' +
                 item.id +
                 '.png',
             }}
@@ -162,7 +162,7 @@ export default function ProductDetail({ navigation, route }) {
               <Image
                 source={{
                   uri:
-                    'https://staging-herbaluad.adolweb.com/storage/products/example/product_' +
+                    'https://staging.herbalinfo.site/storage/products/example/product_' +
                     route.params.id +
                     '.png',
                 }}

@@ -60,7 +60,7 @@ export default function Artikel({ navigation }) {
   const getData = async () => {
     try {
       const res = await axios.get(
-        'https://staging-herbaluad.adolweb.com/api/articles',
+        'https://staging.herbalinfo.site/api/articles',
       );
       setData(res.data.data.data);
       console.log(res.data.data.data);
@@ -140,7 +140,7 @@ export default function Artikel({ navigation }) {
                       <Image
                         source={{
                           uri:
-                            'https://staging-herbaluad.adolweb.com/storage/articles/example/article_' +
+                            'https://staging.herbalinfo.site/storage/articles/example/article_' +
                             item.id +
                             '.png',
                         }}

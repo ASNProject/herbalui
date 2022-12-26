@@ -50,7 +50,7 @@ export default function HalalCenter({ navigation }) {
   const getData = async () => {
     try {
       const res = await axios.get(
-        'https://staging-herbaluad.adolweb.com/api/halal-center',
+        'https://staging.herbalinfo.site/api/halal-center',
       );
 
       setData(res.data.data.data);
@@ -95,7 +95,7 @@ export default function HalalCenter({ navigation }) {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        //showsVerticalScrollIndicator="false"
+      //showsVerticalScrollIndicator="false"
       >
         {/* header */}
         <Image source={headerImage} style={[Style.header]} />

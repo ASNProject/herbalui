@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
 
     const options = {
       method: 'POST',
-      url: 'https://staging-herbaluad.adolweb.com/api/login',
+      url: 'https://staging.herbalinfo.site/api/login',
       data: form,
     };
 

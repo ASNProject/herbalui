@@ -24,7 +24,7 @@ const example_product_1 = require('../../../assets/images/olivia_turseena.png');
 const example_product_2 = require('../../../assets/images/afia_kids.png');
 const example_product_3 = require('../../../assets/images/temu-putih.png');
 
-const url = 'https://staging-herbaluad.adolweb.com/api/products';
+const url = 'https://staging.herbalinfo.site/api/products';
 // component contents
 const Contents = function (props) {
   return (
@@ -122,7 +122,7 @@ export default function Products({ navigation }) {
                         style={[Style.imageProduct]}
                         source={{
                           uri:
-                            'https://staging-herbaluad.adolweb.com/storage/products/example/product_' +
+                            'https://staging.herbalinfo.site/storage/products/example/product_' +
                             item.id +
                             '.png',
                         }}

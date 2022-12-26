@@ -70,7 +70,7 @@ export default function ArtikelDetail({ navigation, route }) {
           <Image
             source={{
               uri:
-                'https://staging-herbaluad.adolweb.com/storage/articles/example/article_' +
+                'https://staging.herbalinfo.site/storage/articles/example/article_' +
                 route.params.id +
                 '.png',
             }}

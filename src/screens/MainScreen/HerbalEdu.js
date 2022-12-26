@@ -50,7 +50,7 @@ export default function HerbalEdu({ navigation }) {
   const getData = async () => {
     try {
       const res = await axios.get(
-        'https://staging-herbaluad.adolweb.com/api/herbal-edu',
+        'https://staging.herbalinfo.site/api/herbal-edu',
       );
 
       setData(res.data.data.data);
@@ -95,7 +95,7 @@ export default function HerbalEdu({ navigation }) {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         style={[{ backgroundColor: '#fff', height: '100%' }]}
-        //showsVerticalScrollIndicator="false"
+      //showsVerticalScrollIndicator="false"
       >
         {/* header */}
         <Image source={headerImage} style={[Style.header]} />
