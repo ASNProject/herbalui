@@ -10,14 +10,68 @@ import {
   Image,
 } from 'react-native';
 import GlobalStyle from './style/GlobalStyle';
+import axios from 'react-native-axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import Icon from 'react-native-vector-icons/AntDesign';
 // import App from './Home';
-
+//
 const Daftar = ({ navigation }) => {
+  // state variable
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [konfirmasipassword, setKonfirmasiPassword] = useState('');
+  // function
+  // handle daftar
+  const HandleDaftar = function () {
+    const form = new FormData();
+    form.append('name', nama);
+    form.append('email', email);
+    form.append('password', password);
+    form.append('confirm_password', konfirmasipassword);
+    // handle post api daftar
+    const options = {
+      method: 'POST',
+      url: 'https://staging.herbalinfo.site/api/register',
+      data: form,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        // console.log(response.data);
+        const storeData = async (value) => {
+          try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('@userAuth', jsonValue)
+            // redirect to main navigation
+            navigation.navigate("MainNavigation")
+          } catch (e) {
+            // saving error
+            console.log(e)
+            alert('Terjadi kesalahan!');
+          }
+        }
+        storeData(response.data.data)
+      })
+      .catch(function (error) {
+        alert('failed!');
+        console.error(error);
+        console.error(error.response.data);
+      });
+  };
+  // handle click lewati
+  const clickLewati = async () => {
+    try {
+      await AsyncStorage.setItem('@skipLogin', "true")
+      // redirect to main navigation
+      navigation.navigate("MainNavigation")
+    } catch (e) {
+      // saving error
+      console.log(e)
+      alert('Terjadi kesalahan!');
+    }
+  }
 
   return (
     <View style={style.container}>
@@ -66,20 +120,56 @@ const Daftar = ({ navigation }) => {
             }></TextInput>
         </View>
         <View style={style.x}>
-          <Image
-            style={style.img_x}
-            source={require('./images/Vector-2.png')}></Image>
+          {
+            password.length >= 6
+              ? (
+                <Image
+                  style={style.img_v}
+                  source={require('./images/Vector.png')}></Image>
+              )
+              :
+              (
+                <Image
+                  style={style.img_x}
+                  source={require('./images/Vector-2.png')}></Image>
+              )
+          }
           <Text style={[style.txt_x, GlobalStyle.fs5]}>Password baru minimal 6 karakter</Text>
         </View>
         <View style={style.v}>
-          <Image
-            style={style.img_v}
-            source={require('./images/Vector.png')}></Image>
+          {
+            password == konfirmasipassword
+              ? (
+                <Image
+                  style={style.img_v}
+                  source={require('./images/Vector.png')}></Image>
+              )
+              :
+              (
+                <Image
+                  style={style.img_x}
+                  source={require('./images/Vector-2.png')}></Image>
+              )
+          }
           <Text style={[style.txt_v, GlobalStyle.fs5]}>Password baru terkonfirmasi</Text>
         </View>
-        <TouchableOpacity style={[style.btn_login, GlobalStyle.bgPrimary]}>
-          <Text style={[style.txt_login, GlobalStyle.fs3]}>Daftar</Text>
-        </TouchableOpacity>
+        {
+          password == konfirmasipassword && password.length >= 6
+            ? (
+              <TouchableOpacity
+                onPress={() => { HandleDaftar() }}
+                style={[style.btn_login, GlobalStyle.bgPrimary]}>
+                <Text style={[style.txt_login, GlobalStyle.fs3]}>Daftar</Text>
+              </TouchableOpacity>
+            )
+            :
+            (
+              <TouchableOpacity
+                style={[style.btn_login, GlobalStyle.bgSecondary]}>
+                <Text style={[style.txt_login, GlobalStyle.fs3]}>Daftar</Text>
+              </TouchableOpacity>
+            )
+        }
       </View>
       {/* bottom area */}
       <View style={{ marginBottom: 20 }}>
@@ -100,11 +190,11 @@ const Daftar = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={[style.btn_lewati, GlobalStyle.mt2]}
-          onPress={() => navigation.navigate('MainNavigation')}>
+          onPress={() => clickLewati()}>
           <Text style={style.txt_lewati}>Lewati</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   );
 };
 

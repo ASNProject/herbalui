@@ -1,3 +1,4 @@
+import { API_URL } from "@env"
 // lib
 import {
   View,
@@ -17,35 +18,21 @@ import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 import CardProduct from '../component/Card-Product';
+
 import axios from 'axios';
+import { IMAGE_LOC, PRODUCT_PRICE } from "../script/GlobalScript";
 
 // images
 const example_product_1 = require('../../../assets/images/olivia_turseena.png');
 const example_product_2 = require('../../../assets/images/afia_kids.png');
 const example_product_3 = require('../../../assets/images/temu-putih.png');
 
-const url = 'https://staging.herbalinfo.site/api/products';
-// component contents
-const Contents = function (props) {
-  return (
-    <View style={[GS.container, GS.mt4]}>
-      <View style={[GS.flexRow, GS.flexWrap]}>
-        {/* card */}
-        <CardProduct
-          whenCardClick={props.whenCardClick}
-          image={example_product_1}
-          title="Olivia Turseena"
-          price="Rp 20.000"
-        />
-      </View>
-    </View>
-  );
-};
 // content
 export default function Products({ navigation }) {
   //axios
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const url = API_URL + '/products';
   // const Yscroll = React.useRef(new Animated.Value(0)).current;
 
   const getData = async () => {
@@ -70,15 +57,14 @@ export default function Products({ navigation }) {
   const ToggleSearch = function () {
     setOpenSearch(!openSearch);
   };
-  const CardClick = function () {
-    navigation.navigate('ProductDetail');
+  const CardClick = function (item) {
+    navigation.navigate('ProductDetail', item);
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    setTimeout(() => {
-      alert('refreshing done');
-      setRefreshing(false);
-    }, 1000);
+    // alert('refreshing done');
+    getData();
+    setRefreshing(false);
   }, []);
   //
   return (
@@ -91,9 +77,6 @@ export default function Products({ navigation }) {
           onTimesClick={ToggleSearch}
         />
         <View
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
           style={[{ backgroundColor: '#fff', height: '100%' }]}>
           <View style={[GS.container, GS.mt4]}>
             {/* card */}
@@ -101,38 +84,18 @@ export default function Products({ navigation }) {
             <FlatList
               data={data}
               numColumns={2}
-              style={Style.s}
+              onRefresh={() => onRefresh()}
+              refreshing={refreshing}
+              style={[Style.s, GS.h100]}
               renderItem={({ item, index }) => {
                 const lastitem = index === data.length - 1;
                 return (
-                  <View
-                    style={{
-                      flex: 1,
-                      padding: 8,
-                      maxWidth: lastitem ? '50%' : '100%',
-                    }}>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate('ProductDetail', item)}
-                      style={[
-                        Style.cardProduct,
-                        GS.flexColumn,
-                        GS.alignItemsCenter,
-                      ]}>
-                      <Image
-                        style={[Style.imageProduct]}
-                        source={{
-                          uri:
-                            'https://staging.herbalinfo.site/storage/products/example/product_' +
-                            item.id +
-                            '.png',
-                        }}
-                      />
-                      <Text style={[GS.fs5]}>{item.name}</Text>
-                      <Text style={[GS.fs5, GS.primaryColor]}>
-                        {item.price}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
+                  <CardProduct
+                    whenCardClick={() => { CardClick(item) }}
+                    image={{ url: IMAGE_LOC(item.images[0]["path"]) }}
+                    title={item.name}
+                    price={PRODUCT_PRICE(item.price)}
+                  />
                 );
               }}></FlatList>
           </View>

@@ -1,4 +1,6 @@
 // library
+import { API_URL } from "@env"
+import { LIMIT_STRING, IMAGE_LOC } from "../script/GlobalScript"
 import {
   View,
   TextInput,
@@ -12,6 +14,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { useEffect, useCallback, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //images
 import Cart from '../../../assets/icons/bi_cart.svg';
 import SearchIcon from '../../../assets/icons/ph_magnifying-glass-bold.svg';
@@ -20,14 +23,14 @@ import IconMenuConsultation from '../../../assets/icons/menu_konsultasi.svg';
 import IconMenuArtikel from '../../../assets/icons/menu_artikel.svg';
 import IconMenuHerbalEdu from '../../../assets/icons/menu_herbal_edu.svg';
 import IconMenuHalalCenter from '../../../assets/icons/menu_halal_center.svg';
-const personImage = require('../../../assets/images/example-person.png');
+const personImage = require('../../../assets/images/default-user.jpeg');
 import IconJantung from '../../../assets/icons/icon-park-outline_heart.svg';
 import IconSakitKepala from '../../../assets/icons/openmoji_headache.svg';
 import IconGinjal from '../../../assets/icons/openmoji_kidney.svg';
 import IconStamina from '../../../assets/icons/icon-park-outline_muscle.svg';
-import IconOnline from '../../../assets/icons/online.svg';
 //style
 import GS from '../style/GlobalStyle';
+import axios from 'axios';
 // component top bar
 const TopBar = function (props) {
   return (
@@ -35,7 +38,7 @@ const TopBar = function (props) {
       style={[GS.mt2, GS.flexRow, GS.alignItemsCenter, GS.justifySpaceBetween]}>
       <View>
         <Text style={[GS.fs4, GS.fwLight]}>Halo</Text>
-        <Text style={[GS.fs2]}>Safitri Aulia 👋🏻</Text>
+        <Text style={[GS.fs2]}>Guest 👋🏻</Text>
       </View>
       <View style={[GS.flexRow, GS.alignItemsCenter]}>
         <TouchableOpacity onPress={props.cartClick}>
@@ -63,6 +66,8 @@ const SearchBar = function (props) {
         activeUnderlineColor="none"
         placeholder="Cari obat atau gejala"
         placeholderTextColor="#A0A0A0sasa"
+        value={props.keyword}
+        onChangeText={props.setKeyword}
       />
     </View>
   );
@@ -158,7 +163,7 @@ const ObatHerbal = function (props) {
         {/* category jantung */}
         <View style={[Style.colButtonCategoryObat]}>
           <TouchableOpacity
-            onPress={props.clickPencarian}
+            onPress={props.clickJantung}
             style={[
               { width: '100%', height: '100%' },
               GS.flexColumn,
@@ -173,7 +178,7 @@ const ObatHerbal = function (props) {
         {/* category demam */}
         <View style={[Style.colButtonCategoryObat]}>
           <TouchableOpacity
-            onPress={props.clickPencarian}
+            onPress={props.clickDemam}
             style={[
               { width: '100%', height: '100%' },
               GS.flexColumn,
@@ -185,10 +190,10 @@ const ObatHerbal = function (props) {
             <Text style={[[GS.mt1, GS.primaryColor, GS.fs5]]}>Demam</Text>
           </TouchableOpacity>
         </View>
-        {/* category ginja; */}
+        {/* category ginjal */}
         <View style={[Style.colButtonCategoryObat]}>
           <TouchableOpacity
-            onPress={props.clickPencarian}
+            onPress={props.clickGinjal}
             style={[
               { width: '100%', height: '100%' },
               GS.flexColumn,
@@ -203,7 +208,7 @@ const ObatHerbal = function (props) {
         {/* category stamina; */}
         <View style={[Style.colButtonCategoryObat]}>
           <TouchableOpacity
-            onPress={props.clickPencarian}
+            onPress={props.clickStamina}
             style={[
               { width: '100%', height: '100%' },
               GS.flexColumn,
@@ -229,28 +234,22 @@ const TambahWawasan = function (props) {
       <ScrollView
         horizontal
         style={[GS.flexRow, GS.mt2]}
-        // showsHorizontalScrollIndicator="false"
+      // showsHorizontalScrollIndicator="false"
       >
-        {/* article card */}
-        <TouchableOpacity onPress={props.articleClick} style={[GS.mr2]}>
-          <ImageBackground style={[Style.cardArtikel]} source={imageSource}>
-            <View style={[Style.coverArtikel]}>
-              <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
-                Tips menjaga kesehatan mata
-              </Text>
-            </View>
-          </ImageBackground>
-        </TouchableOpacity>
-        {/* article card */}
-        <TouchableOpacity onPress={props.articleClick} style={[GS.mr2]}>
-          <ImageBackground style={[Style.cardArtikel]} source={imageSource2}>
-            <View style={[Style.coverArtikel]}>
-              <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
-                Tips makanan sehat & bergizi
-              </Text>
-            </View>
-          </ImageBackground>
-        </TouchableOpacity>
+        {
+          props.dataArtikel.map((item) =>
+            <TouchableOpacity onPress={props.articleClick} style={[GS.mr2]}>
+              <ImageBackground style={[Style.cardArtikel]} source={{ uri: IMAGE_LOC(item.images[0].path) }}>
+                <View style={[Style.coverArtikel]}>
+                  <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
+                    {LIMIT_STRING(item.title, 60)}
+                  </Text>
+                </View>
+              </ImageBackground>
+            </TouchableOpacity>
+
+          )
+        }
       </ScrollView>
     </View>
   );
@@ -263,104 +262,144 @@ const Consultation = function (props) {
   const profile_2 = require('../../../assets/images/konsultasi_2.png');
   // content
   return (
-    <View style={[GS.mt4]}>
+    <View style={[GS.my4]}>
       <Text style={[GS.fwMedium, GS.fs3]}>Konsultasi online</Text>
       <ScrollView
         style={[GS.mt2, GS.flexRow]}
         horizontal
-        // showsHorizontalScrollIndicator="false"
+      // showsHorizontalScrollIndicator="false"
       >
+        {/* card konsultasi robot */}
+        {
+          false
+            ?
+            (
+              <TouchableOpacity
+                onPress={props.clickKonsultasiDetail}
+                style={[GS.mr2]}>
+                <View
+                  style={[
+                    GS.flexColumn,
+                    GS.justifyContentCenter,
+                    GS.alignItemsCenter,
+                    Style.cardKonsultasi,
+                  ]}>
+                  {/* <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
+                  <IconOnline width="8" height="8" />
+                  <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
+                </View> */}
+                  <Image
+                    source={profile_robot}
+                    style={[Style.konsultasiProfileRobot, GS.mt2]}
+                  />
+                  <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Robot</Text>
+                </View>
+              </TouchableOpacity >
+            )
+            :
+            ""
+        }
         {/* card konsultasi */}
-        <TouchableOpacity
-          onPress={props.clickKonsultasiDetail}
-          style={[GS.mr2]}>
-          <View
-            style={[
-              GS.flexColumn,
-              GS.justifyContentCenter,
-              GS.alignItemsCenter,
-              Style.cardKonsultasi,
-            ]}>
-            {/* status */}
-            <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
-              <IconOnline width="8" height="8" />
-              <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
-            </View>
-            {/* profile image */}
-            <Image
-              source={profile_robot}
-              style={[Style.konsultasiProfile, GS.mt2]}
-            />
-            {/* name */}
-            <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Robot</Text>
-          </View>
-        </TouchableOpacity>
-        {/* card konsultasi */}
-        <TouchableOpacity
-          onPress={props.clickKonsultasiDetail}
-          style={[GS.mr2]}>
-          <View
-            style={[
-              GS.flexColumn,
-              GS.justifyContentCenter,
-              GS.alignItemsCenter,
-              Style.cardKonsultasi,
-            ]}>
-            {/* status */}
-            <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
-              <IconOnline width="8" height="8" />
-              <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
-            </View>
-            {/* profile image */}
-            <Image
-              source={profile_1}
-              style={[Style.konsultasiProfile, GS.mt2]}
-            />
-            {/* name */}
-            <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Yaseefa</Text>
-          </View>
-        </TouchableOpacity>
-        {/* card konsultasi */}
-        <TouchableOpacity
-          onPress={props.clickKonsultasiDetail}
-          style={[GS.mr2]}>
-          <View
-            style={[
-              GS.flexColumn,
-              GS.justifyContentCenter,
-              GS.alignItemsCenter,
-              Style.cardKonsultasi,
-            ]}>
-            {/* status */}
-            <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
-              <IconOnline width="8" height="8" />
-              <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
-            </View>
-            {/* profile image */}
-            <Image
-              source={profile_2}
-              style={[Style.konsultasiProfile, GS.mt2]}
-            />
-            {/* name */}
-            <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Maemunah</Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+        {
+          props.dataApoteker.map((item) =>
+            <TouchableOpacity
+              onPress={props.clickKonsultasiDetail}
+              style={[GS.mr2]}>
+              <View
+                style={[
+                  GS.flexColumn,
+                  GS.justifyContentCenter,
+                  GS.alignItemsCenter,
+                  Style.cardKonsultasi,
+                ]}>
+                {/* status */}
+                {/* <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
+                  <IconOnline width="8" height="8" />
+                  <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
+                </View> */}
+                {/* profile image */}
+                <Image
+                  source={{ url: IMAGE_LOC(item.image) }}
+                  style={[Style.konsultasiProfile, GS.mt2]}
+                />
+                {/* name */}
+                <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>{item.name}</Text>
+              </View>
+            </TouchableOpacity>
+          )
+        }
+      </ScrollView >
+    </View >
   );
 };
 //content
 export default function Home({ navigation }) {
   const [ref, setRef] = useState(null);
+  const [keyword, setKeyword] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [dataWawasan, setDataWawasan] = useState([]);
+  const [dataApoteker, setDataApoteker] = useState([]);
+  // get homepage content
+  const getHomepage = async () => {
+    const options = { method: 'GET', url: API_URL + '/home-content' };
+    axios.request(options).then(function (response) {
+      // console.log("response home", response.data);
+      // set data articles
+      setDataWawasan(response.data.data.articles)
+      setDataApoteker(response.data.data.apoteker)
+    }).catch(function (error) {
+      // console.error(error);
+      alert("Terjadi kesalahan!")
+    });
+  }
+  //
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // The screen is focused
       if (ref != null) {
+        setKeyword("")
         ref.scrollTo({ x: 0, y: 0, animated: false });
       }
       // Call any action
     });
+    // check if user auth token is valid
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@userAuth')
+        // validasi data user
+        if (value !== null) {
+          // value previously stored
+          // validate user data
+          let userData = JSON.parse(value);
+          // setup data
+          const options = {
+            method: 'GET',
+            url: 'https://staging.herbalinfo.site/api/auth/me',
+            headers: {
+              Auth: userData.token
+            },
+          };
+          // request
+          axios.request(options).then(function (response) {
+            // console.log(response.data);
+            // handle as login user
+          }).catch(function (error) {
+            AsyncStorage.removeItem('@userAuth')
+            // navigation.navigate("Login");
+            // handle as guest
+          });
+        }
+        // handle as guest
+      } catch (e) {
+        // error reading value
+        alert("error");
+      }
+    }
+    // get user auth localstorage
+    getData();
+    // get homepage data
+    getHomepage();
+    //
     return unsubscribe;
   }, [navigation]);
   // function
@@ -392,12 +431,17 @@ export default function Home({ navigation }) {
     navigation.navigate('Halal center');
   };
   const onSearching = function () {
-    navigation.navigate('Pencarian');
+    if (keyword.length > 0) {
+      navigation.navigate('Pencarian', { keyword: keyword });
+    }
+  };
+  const defaultSearching = function (key) {
+    navigation.navigate('Pencarian', { keyword: key });
   };
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
-      alert('refreshing done');
+      // alert('refreshing done');
       setRefreshing(false);
     }, 1000);
   }, []);
@@ -411,13 +455,13 @@ export default function Home({ navigation }) {
         setRef(ref);
       }}
       style={[{ backgroundColor: '#fff' }]}
-      // showsVerticalScrollIndicator="false"
+    // showsVerticalScrollIndicator="false"
     >
       <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
         {/* top bar */}
         <TopBar cartClick={cartClick} clickProfile={clickProfile} />
         {/*  search bar */}
-        <SearchBar onSearching={onSearching} />
+        <SearchBar setKeyword={setKeyword} keyword={keyword} onSearching={onSearching} />
         {/* menu */}
         <Menu
           clickProduk={clickProduk}
@@ -427,11 +471,34 @@ export default function Home({ navigation }) {
           clickHalalCenter={clickHalalCenter}
         />
         {/* obat herbal */}
-        <ObatHerbal clickPencarian={onSearching} />
+        <ObatHerbal
+          clickJantung={() => { defaultSearching("jantung") }}
+          clickDemam={() => { defaultSearching("demam") }}
+          clickGinjal={() => { defaultSearching("ginjal") }}
+          clickStamina={() => { defaultSearching("stamina") }}
+          clickPencarian={onSearching} />
         {/* articles */}
-        <TambahWawasan articleClick={articleDetailClick} />
+        {
+          dataWawasan.length > 0
+            ?
+            (
+              <TambahWawasan
+                dataArtikel={dataWawasan}
+                articleClick={articleDetailClick} />
+            )
+            : ""
+        }
         {/* konsultasi online */}
-        <Consultation clickKonsultasiDetail={clickKonsultasiDetail} />
+        {
+          dataApoteker.length > 0
+            ?
+            (
+              <Consultation
+                dataApoteker={dataApoteker}
+                clickKonsultasiDetail={clickKonsultasiDetail} />
+            )
+            : ""
+        }
       </SafeAreaView>
     </ScrollView>
   );
@@ -492,7 +559,7 @@ const Style = StyleSheet.create({
   },
   // artikel
   cardArtikel: {
-    height: 100,
+    height: 120,
     width: 200,
     borderRadius: 10,
     overflow: 'hidden',
@@ -513,6 +580,11 @@ const Style = StyleSheet.create({
     paddingVertical: 10,
   },
   konsultasiProfile: {
+    width: 60,
+    height: 60,
+    borderRadius: 1000
+  },
+  konsultasiProfileRobot: {
     width: 60,
     height: 60,
   },

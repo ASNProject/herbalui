@@ -1,9 +1,10 @@
 // import
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, Touchable } from "react-native";
+import { useEffect } from 'react';
 import GS from "./style/GlobalStyle";
 import TopBar from "./component/TopBar1";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // images
-import BackIcon from "../../assets/icons/back_button.svg"
 import ProfileImage from "../../assets/images/profile.png"
 import PenIcon from "../../assets/icons/ep_edit-pen.svg"
 //
@@ -58,6 +59,46 @@ export default function Profile({ navigation }) {
     const clickCart = function () {
         navigation.navigate("Cart");
     }
+    // on page load
+    useEffect(() => {
+        // check if user auth token is valid
+        const getData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('@userAuth')
+                // validasi data user
+                if (value !== null) {
+                    // value previously stored
+                    // validate user data
+                    let userData = JSON.parse(value);
+                    // setup data
+                    const options = {
+                        method: 'GET',
+                        url: 'https://staging.herbalinfo.site/api/auth/me',
+                        headers: {
+                            Auth: userData.token
+                        },
+                    };
+                    // request
+                    axios.request(options).then(function (response) {
+                        // console.log(response.data);
+                        // handle as login user
+                    }).catch(function (error) {
+                        AsyncStorage.removeItem('@userAuth')
+                        // navigation.navigate("Login");
+                        // handle as guest
+                        navigation.replace("PleaseLogin")
+                    });
+                }
+                // handle as guest
+                navigation.replace("PleaseLogin")
+            } catch (e) {
+                // error reading value
+                alert("error");
+            }
+        }
+        // get user auth localstorage
+        getData();
+    }, [])
     // 
     return (
         <SafeAreaView style={[GS.bgWhite, GS.h100]}>

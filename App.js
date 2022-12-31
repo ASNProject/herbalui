@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import screen
@@ -28,15 +28,20 @@ import FavoriteProduct from './src/screens/FavoriteProduct';
 import FavoriteArtikel from './src/screens/FavoriteArticle';
 import PrivacyPolicy from './src/screens/PrivacyPolicy';
 import Pencarian from './src/screens/Pencarian';
+import PleaseLogin from './src/screens/PleaseLogin';
 // variable
 const Stack = createNativeStackNavigator();
 // content
 function App() {
+  // define initial route name
+  const initialRouteName = "Login";
+  // 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="MainNavigation"
+        initialRouteName={initialRouteName}
         screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="PleaseLogin" component={PleaseLogin} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="MainNavigation" component={MainNavigation} />
         <Stack.Screen name="HerbalEduDetail" component={HerbalEduDetail} />

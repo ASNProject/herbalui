@@ -7,8 +7,8 @@ export default function CardProduct(props) {
       onPress={props.whenCardClick}
       style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
       <Image style={[Style.imageProduct]} source={props.image} />
-      <Text style={[GS.fs5]}>{props.title}</Text>
-      <Text style={[GS.fs5, GS.primaryColor]}>{props.price}</Text>
+      <Text style={[GS.fs5, GS.textCenter]}>{props.title}</Text>
+      <Text style={[GS.fs5, GS.primaryColor, GS.mt1]}>{props.price}</Text>
     </TouchableOpacity>
   );
 }

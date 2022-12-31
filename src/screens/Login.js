@@ -5,8 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StackNavigator,
 } from 'react-native';
 import axios from 'react-native-axios';
 // icons
@@ -14,36 +12,80 @@ import Eye from '../../assets/icons/akar-icons_eye.svg';
 import EyeClose from '../../assets/icons/ant-design_eye-invisible-outlined';
 // global style
 import GlobalStyle from './style/GlobalStyle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
+  // saat halaman di muat
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@userAuth')
+        const value2 = await AsyncStorage.getItem('@skipLogin')
+        if (value !== null || value2 != null) {
+          // value previously stored
+          navigation.replace("MainNavigation");
+        }
+      } catch (e) {
+        // error reading value
+        // alert("error");
+      }
+    }
+    // get user auth localstorage
+    getData();
+  }, []);
   //
   const Login = function () {
     const form = new FormData();
-    form.append('email', 'alendra099@gmail.com');
-    form.append('password', '123456');
-
+    form.append('email', email);
+    form.append('password', password);
+    // setup
     const options = {
       method: 'POST',
       url: 'https://staging.herbalinfo.site/api/login',
       data: form,
     };
-
+    // run axios
     axios
       .request(options)
       .then(function (response) {
         console.log(response.data);
-        alert('succeess!');
         // navigation.navigate('Home');
+        const storeData = async (value) => {
+          try {
+            const jsonValue = JSON.stringify(value)
+            await AsyncStorage.setItem('@userAuth', jsonValue)
+            // redirect to main navigation
+            navigation.navigate("MainNavigation")
+          } catch (e) {
+            // saving error
+            console.log(e)
+            alert('Terjadi kesalahan!');
+          }
+        }
+        storeData(response.data.data)
       })
       .catch(function (error) {
-        alert('failed!');
+        alert('Terjadi kesalahan!');
         console.error(error);
         console.error(error.response.data);
       });
   };
+  // handle click lewati
+  const clickLewati = async () => {
+    try {
+      await AsyncStorage.setItem('@skipLogin', "true")
+      // redirect to main navigation
+      navigation.navigate("MainNavigation")
+    } catch (e) {
+      // saving error
+      console.log(e)
+      alert('Terjadi kesalahan!');
+    }
+  }
+
   //
   function handleEye(condition) {
     if (condition == 'show') {
@@ -111,11 +153,11 @@ const Login = ({ navigation }) => {
           style={[style.btn_login, GlobalStyle.primaryShadow]}>
           <Text style={[style.txt_login, GlobalStyle.fs3]}>Masuk</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={style.btn_lupapassword}
           onPress={() => navigation.navigate('Reset')}>
           <Text style={style.txt_lupapassword}>Lupa password</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {/* Bottom area */}
       <View style={{ marginBottom: 20 }}>
@@ -136,11 +178,11 @@ const Login = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={[style.btn_lewati, GlobalStyle.mt2]}
-          onPress={() => navigation.navigate('MainNavigation')}>
+          onPress={() => clickLewati()} >
           <Text style={style.txt_lewati}>Lewati</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   );
 };
 // styling
