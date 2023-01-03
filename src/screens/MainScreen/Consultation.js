@@ -6,9 +6,11 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
+import { API_URL } from "@env";
 // images
 const profile_robot = require('../../../assets/images/konsultasi_robot.png');
 const profile_1 = require('../../../assets/images/konsultasi_1.png');
@@ -17,6 +19,12 @@ import IconOffline from '../../../assets/icons/offline.svg';
 import IconOnline from '../../../assets/icons/online.svg';
 // component consultants
 const Consultant = function (props) {
+  const [dataConnsult, setDataConsult] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // on page load
+  useEffect(function () {
+  }, [])
+  //
   return (
     <View style={[GS.container, GS.mt4]}>
       {/* card */}
