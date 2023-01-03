@@ -11,87 +11,99 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 import { API_URL } from "@env";
+import { IMAGE_LOC } from '../script/GlobalScript';
 // images
 const profile_robot = require('../../../assets/images/konsultasi_robot.png');
 const profile_1 = require('../../../assets/images/konsultasi_1.png');
 const profile_2 = require('../../../assets/images/konsultasi_2.png');
 import IconOffline from '../../../assets/icons/offline.svg';
 import IconOnline from '../../../assets/icons/online.svg';
+import axios from "axios";
 // component consultants
 const Consultant = function (props) {
   const [dataConnsult, setDataConsult] = useState([]);
   const [loading, setLoading] = useState(false);
+  const roboAvail = false;
+  // functions
+  const getConsultantData = function () {
+    const form = new FormData();
+    const options = {
+      method: 'GET',
+      url: API_URL + '/consultants',
+      data: form
+    };
+    axios.request(options).then(function (response) {
+      // console.log(response.data);
+      setDataConsult(response.data.data);
+      // alert("Berhasil!");
+    }).catch(function (error) {
+      console.error(error);
+      alert("Terjadi kesalahan!");
+    });
+  }
   // on page load
   useEffect(function () {
+    // get consultation data
+    getConsultantData();
   }, [])
   //
   return (
     <View style={[GS.container, GS.mt4]}>
-      {/* card */}
-      <TouchableOpacity onPress={props.clickOpenChat}>
-        <View style={[Style.Card, GS.flexRow, GS.mb4]}>
-          <View>
-            <Image style={[Style.cardImage]} source={profile_robot} />
-          </View>
-          <View style={[GS.ml3]}>
-            {/* online */}
-            <View style={[GS.flexRow, GS.alignItemsCenter]}>
+      {/* robo consult */}
+      {
+        roboAvail ?
+          (
+            <TouchableOpacity onPress={props.clickOpenChat}>
+              <View style={[Style.Card, GS.flexRow, GS.mb4]}>
+                <View>
+                  <Image style={[Style.cardImageRobo]} source={profile_robot} />
+                </View>
+                <View style={[GS.ml3]}>
+                  {/* online */}
+                  {/* <View style={[GS.flexRow, GS.alignItemsCenter]}>
               <IconOnline />
               <Text style={[GS.ml1, GS.fs6, GS.fwLight]}>online</Text>
-            </View>
-            <Text style={[GS.fs4, GS.fwLight]}>Robo</Text>
-            <Text style={[GS.fwLight, GS.fs5]}>klik untuk mulai chat</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-      {/* card */}
-      <TouchableOpacity onPress={props.clickOpenChat}>
-        <View style={[Style.Card, GS.flexRow, GS.mb4]}>
-          <View>
-            <Image style={[Style.cardImage]} source={profile_1} />
-          </View>
-          <View style={[GS.ml3]}>
-            {/* online */}
-            <View style={[GS.flexRow, GS.alignItemsCenter]}>
-              <IconOnline />
-              <Text style={[GS.ml1, GS.fs6, GS.fwLight]}>online</Text>
-            </View>
-            <Text style={[GS.fs4, GS.fwLight]}>Dr Nafa</Text>
-            <Text style={[GS.fwLight, GS.fs5]}>klik untuk mulai chat</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-      {/* card */}
-      <TouchableOpacity onPress={props.clickOpenChat}>
-        <View style={[Style.Card, GS.flexRow, GS.mb4]}>
-          <View>
-            <Image style={[Style.cardImage]} source={profile_2} />
-          </View>
-          <View style={[GS.ml3]}>
-            {/* online */}
-            <View style={[GS.flexRow, GS.alignItemsCenter]}>
-              <IconOffline />
-              <Text style={[GS.ml1, GS.fs6, GS.fwLight]}>offline</Text>
-            </View>
-            <Text style={[GS.fs4, GS.fwLight]}>Dr Yaseefa</Text>
-            <View
-              style={[GS.flexRow, GS.justifySpaceBetween, { width: '84%' }]}>
-              <Text style={[GS.fwRegular, GS.fs5]}>
-                Silahkan kunjungi rs terdekatya
-              </Text>
-              <View
-                style={[
-                  Style.BGnumberIncomingMessage,
-                  GS.flexRow,
-                  GS.alignItemsCenter,
-                  GS.justifyContentCenter,
-                ]}>
-                <Text style={[Style.numberIncomingMessage]}>1</Text>
+            </View> */}
+                  <Text style={[GS.fs4, GS.fwLight]}>Robo</Text>
+                  <Text style={[GS.fwLight, GS.fs5]}>klik untuk mulai chat</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )
+          : ""
+      }
+      {/* chat konsultan */}
+      {
+        dataConnsult.map((item) =>
+          <TouchableOpacity>
+            <View style={[Style.Card, GS.flexRow, GS.mb4]}>
+              <View>
+                <Image style={[Style.cardImage]} source={{ uri: IMAGE_LOC(item.profile_image) }} />
+              </View>
+              <View style={[GS.ml3]}>
+                {/* online */}
+                {/* <View style={[GS.flexRow, GS.alignItemsCenter]}>
+                <IconOnline />
+                <Text style={[GS.ml1, GS.fs6, GS.fwLight]}>online</Text>
+              </View> */}
+                <Text style={[GS.fs4, GS.fwLight]}>{item.name}</Text>
+                <Text style={[GS.fwLight, GS.fs5]}>klik untuk mulai chat</Text>
               </View>
             </View>
-          </View>
-        </View>
-      </TouchableOpacity>
+          </TouchableOpacity>
+        )
+      }
+      {/* jika data kosong */}
+      {
+        !roboAvail && dataConnsult.length == 0 ?
+          (
+            <View style={[GS.flexColum]}>
+              <Text style={[GS.fwBold, GS.fs2, GS.textCenter, GS.primaryColor]}>Mohon maaf</Text>
+              <Text style={[GS.textCenter, GS.fwLight, GS.fs5]}>Konsultasi online seddang tidak tersedia</Text>
+            </View>
+          )
+          : ""
+      }
     </View>
   );
 };
@@ -121,6 +133,12 @@ const Style = StyleSheet.create({
     padding: 20,
   },
   cardImage: {
+    width: 60,
+    height: 60,
+    resizeMode: "cover",
+    borderRadius: 100,
+  },
+  cardImageRobo: {
     width: 60,
     height: 60,
   },

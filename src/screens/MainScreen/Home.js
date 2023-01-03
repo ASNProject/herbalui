@@ -258,8 +258,6 @@ const TambahWawasan = function (props) {
 const Consultation = function (props) {
   // variable
   const profile_robot = require('../../../assets/images/konsultasi_robot.png');
-  const profile_1 = require('../../../assets/images/konsultasi_1.png');
-  const profile_2 = require('../../../assets/images/konsultasi_2.png');
   // content
   return (
     <View style={[GS.my4]}>
@@ -319,7 +317,7 @@ const Consultation = function (props) {
                 </View> */}
                 {/* profile image */}
                 <Image
-                  source={{ url: IMAGE_LOC(item.image) }}
+                  source={{ url: IMAGE_LOC(item.profile_image) }}
                   style={[Style.konsultasiProfile, GS.mt2]}
                 />
                 {/* name */}
