@@ -1,6 +1,6 @@
 // library
 import { API_URL } from "@env"
-import { LIMIT_STRING, IMAGE_LOC } from "../script/GlobalScript"
+import { LIMIT_STRING, IMAGE_LOC, OPEN_LINK } from "../script/GlobalScript"
 import {
   View,
   TextInput,
@@ -301,7 +301,7 @@ const Consultation = function (props) {
         {
           props.dataApoteker.map((item) =>
             <TouchableOpacity
-              onPress={props.clickKonsultasiDetail}
+              onPress={() => { OPEN_LINK("https://wa.me/" + item.whatsapp) }}
               style={[GS.mr2]}>
               <View
                 style={[

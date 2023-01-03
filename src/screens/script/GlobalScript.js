@@ -1,5 +1,7 @@
 import moment from "moment";
 import "moment/locale/id";
+import { useCallback } from "react";
+import { Linking } from "react-native";
 
 const IMAGE_LOC = function (value) {
     let url = "https://staging.herbalinfo.site/" + value.replace("public", "storage")
@@ -44,6 +46,18 @@ const DIPUBLIKASIKAN = function (value) {
     return moment(value).format('Do MMMM YYYY');
 }
 
+const OPEN_LINK = async (url) => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+    } else {
+        Alert.alert(`Gagal membuka link`);
+    }
+}
+
 export {
     IMAGE_LOC,
     PRODUCT_TITLE,
@@ -52,4 +66,5 @@ export {
     ARTICLE_TITLE,
     DIPUBLIKASIKAN,
     LIMIT_STRING,
+    OPEN_LINK,
 }

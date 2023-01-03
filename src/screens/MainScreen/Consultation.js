@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 import { API_URL } from "@env";
-import { IMAGE_LOC } from '../script/GlobalScript';
+import { IMAGE_LOC, OPEN_LINK } from '../script/GlobalScript';
 // images
 const profile_robot = require('../../../assets/images/konsultasi_robot.png');
 const profile_1 = require('../../../assets/images/konsultasi_1.png');
@@ -75,7 +75,7 @@ const Consultant = function (props) {
       {/* chat konsultan */}
       {
         dataConnsult.map((item) =>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { OPEN_LINK("https://wa.me/" + item.whatsapp) }}>
             <View style={[Style.Card, GS.flexRow, GS.mb4]}>
               <View>
                 <Image style={[Style.cardImage]} source={{ uri: IMAGE_LOC(item.profile_image) }} />
