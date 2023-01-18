@@ -1,10 +1,12 @@
-import React, { Component, useState, useEffect } from 'react';
+import { API_URL } from "@env"
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   View,
   Text,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import axios from 'react-native-axios';
 // icons
@@ -44,7 +46,7 @@ const Login = ({ navigation }) => {
     // setup
     const options = {
       method: 'POST',
-      url: 'https://staging.herbalinfo.site/api/login',
+      url: API_URL + '/login',
       data: form,
     };
     // run axios
@@ -61,16 +63,16 @@ const Login = ({ navigation }) => {
             navigation.navigate("MainNavigation")
           } catch (e) {
             // saving error
-            console.log(e)
+            // console.log(e)
             alert('Terjadi kesalahan!');
           }
         }
         storeData(response.data.data)
       })
       .catch(function (error) {
-        alert('Terjadi kesalahan!');
+        Alert.alert("Gagal masuk", error.response.data.message);
         console.error(error);
-        console.error(error.response.data);
+        console.error(error.response);
       });
   };
   // handle click lewati

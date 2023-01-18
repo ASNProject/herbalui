@@ -1,75 +1,55 @@
 // lib
+import { API_URL } from "@env"
 import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Image,
   TouchableOpacity,
-  TextInput,
   RefreshControl,
 } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 // images
-import Search from '../../../assets/icons/ph_magnifying-glass-bold.svg';
 import ArrowRight from '../../../assets/icons/arrow_right.svg';
-import Times from '../../../assets/icons/la_times.svg';
 import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
-//import { err } from 'react-native-svg/lib/typescript/xml';
 const headerImage = require('../../../assets/images/header_herbal_edu.png');
-// component input search
-const InputSearch = function (props) {
-  return (
-    <View style={[GS.container, Style.InputSearch]}>
-      <View style={[GS.flexRow, GS.alignItemsCenter]}>
-        <Search width="10%" height="25" />
-        <TextInput
-          selectionColor={'#00A6A6'}
-          style={[GS.pl2, Style.textInput]}
-          placeholder="Cari kata kunci"
-          returnKeyType="go"
-          onSubmitEditing={event => {
-            alert('searching');
-          }}
-        />
-        <TouchableOpacity onPress={props.onTimesClick} width="10%" height="25">
-          <Times height="25" />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
 // content
 export default function HerbalEdu({ navigation }) {
-  const [data, setData] = useState();
-
-  const getData = async () => {
+  // variable
+  const [data, setData] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  //
+  const getData = async (params) => {
+    let key = keyword
+    if (params == "default") {
+      key = "";
+    }
     try {
       const res = await axios.get(
-        'https://staging.herbalinfo.site/api/herbal-edu',
+        API_URL + '/herbal-edu?keyword=' + key,
       );
-
-      setData(res.data.data.data);
-      console.log(res.data.data.data);
+      setData(res.data.data);
+      // console.log(res.data.data.data);
     } catch (error) {
-      alert(error.message);
+      // alert(error.message);
     }
   };
-
+  // when page is loaded
   useEffect(() => {
     getData();
   }, []);
-
   // variable
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   // function
-  const ToggleSearch = function () {
+  const ToggleSearch = function (params) {
     setOpenSearch(!openSearch);
+    setKeyword("");
+    getData(params);
   };
   const CardClick = function () {
     navigation.navigate('HerbalEduDetail');
@@ -88,7 +68,10 @@ export default function HerbalEdu({ navigation }) {
         title="Herbal edu"
         openSearch={openSearch}
         onSearchClick={ToggleSearch}
-        onTimesClick={ToggleSearch}
+        onTimesClick={() => { ToggleSearch("default") }}
+        value={keyword}
+        setValue={setKeyword}
+        onSubmit={() => { getData() }}
       />
       <View
         refreshControl={
@@ -99,7 +82,16 @@ export default function HerbalEdu({ navigation }) {
       >
         {/* header */}
         <Image source={headerImage} style={[Style.header]} />
-        {/* content */}
+        {/* data is empty */}
+        {
+          data.length == 0 ?
+            (
+              <Text style={[GS.textCenter, GS.fs5, GS.mt4]}>Data tidak tersedia</Text>
+            )
+            :
+            ""
+        }
+        {/* content kartu-kartu artikel */}
         <FlatList
           data={data}
           renderItem={({ item, index }) => {

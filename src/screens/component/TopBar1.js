@@ -76,9 +76,9 @@ export default function TopBar(props) {
                                     selectionColor={"#00A6A6"}
                                     style={[GS.pl2, Style.textInput]} placeholder="Cari kata kunci"
                                     returnKeyType="go"
-                                    onSubmitEditing={(event) => {
-                                        alert("searching")
-                                    }}
+                                    value={props.value}
+                                    onChangeText={props.setValue}
+                                    onSubmitEditing={props.onSubmit}
                                 />
                                 <TouchableOpacity onPress={props.onTimesClick} width="10%" height="25">
                                     <Times height="25" />

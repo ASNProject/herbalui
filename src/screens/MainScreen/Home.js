@@ -38,7 +38,16 @@ const TopBar = function (props) {
       style={[GS.mt2, GS.flexRow, GS.alignItemsCenter, GS.justifySpaceBetween]}>
       <View>
         <Text style={[GS.fs4, GS.fwLight]}>Halo</Text>
-        <Text style={[GS.fs2]}>Guest 👋🏻</Text>
+        {/* user name */}
+        {props.user
+          ?
+          (
+            <Text style={[GS.fs2]}>{props.user.name} 👋🏻</Text>
+          ) :
+          (
+            <Text style={[GS.fs2]}>Guest 👋🏻</Text>
+          )
+        }
       </View>
       <View style={[GS.flexRow, GS.alignItemsCenter]}>
         <TouchableOpacity onPress={props.cartClick}>
@@ -226,8 +235,6 @@ const ObatHerbal = function (props) {
 };
 // article / tambah wawasan
 const TambahWawasan = function (props) {
-  const imageSource = require('../../../assets/images/artikel_1.png');
-  const imageSource2 = require('../../../assets/images/artikel_2.png');
   return (
     <View style={[GS.mt4]}>
       <Text style={[GS.fwMedium, GS.fs3]}>Tambah wawasan</Text>
@@ -337,6 +344,7 @@ export default function Home({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [dataWawasan, setDataWawasan] = useState([]);
   const [dataApoteker, setDataApoteker] = useState([]);
+  const [user, setUser] = useState(null);
   // get homepage content
   const getHomepage = async () => {
     const options = { method: 'GET', url: API_URL + '/home-content' };
@@ -365,6 +373,7 @@ export default function Home({ navigation }) {
       try {
         const value = await AsyncStorage.getItem('@userAuth')
         // validasi data user
+        // alert("ok")
         if (value !== null) {
           // value previously stored
           // validate user data
@@ -372,7 +381,7 @@ export default function Home({ navigation }) {
           // setup data
           const options = {
             method: 'GET',
-            url: 'https://staging.herbalinfo.site/api/auth/me',
+            url: API_URL + '/api/auth/me',
             headers: {
               Auth: userData.token
             },
@@ -381,6 +390,8 @@ export default function Home({ navigation }) {
           axios.request(options).then(function (response) {
             // console.log(response.data);
             // handle as login user
+            setUser(response.data.data)
+            alert(user.name)
           }).catch(function (error) {
             AsyncStorage.removeItem('@userAuth')
             // navigation.navigate("Login");
@@ -457,7 +468,9 @@ export default function Home({ navigation }) {
     >
       <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
         {/* top bar */}
-        <TopBar cartClick={cartClick} clickProfile={clickProfile} />
+        <TopBar
+          user={user}
+          cartClick={cartClick} clickProfile={clickProfile} />
         {/*  search bar */}
         <SearchBar setKeyword={setKeyword} keyword={keyword} onSearching={onSearching} />
         {/* menu */}

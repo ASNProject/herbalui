@@ -1,4 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
+import { API_URL } from "@env"
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StackNavigator,
+  Alert,
   Image,
 } from 'react-native';
 import GlobalStyle from './style/GlobalStyle';
@@ -32,7 +34,7 @@ const Daftar = ({ navigation }) => {
     // handle post api daftar
     const options = {
       method: 'POST',
-      url: 'https://staging.herbalinfo.site/api/register',
+      url: API_URL + '/register',
       data: form,
     };
 
@@ -55,9 +57,8 @@ const Daftar = ({ navigation }) => {
         storeData(response.data.data)
       })
       .catch(function (error) {
-        alert('failed!');
-        console.error(error);
-        console.error(error.response.data);
+        Alert.alert("Gagal masuk", error.response.data.message);
+        // console.error(error.response.data);
       });
   };
   // handle click lewati

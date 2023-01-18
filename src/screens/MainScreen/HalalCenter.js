@@ -1,13 +1,12 @@
 // lib
+import { API_URL } from "@env"
 import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Image,
   TouchableOpacity,
-  TextInput,
   RefreshControl,
 } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
@@ -20,41 +19,24 @@ import ArrowRight from '../../../assets/icons/arrow_right.svg';
 import Times from '../../../assets/icons/la_times.svg';
 import { FlatList } from 'react-native-gesture-handler';
 const headerImage = require('../../../assets/images/header_halal_center.png');
-// component input search
-const InputSearch = function (props) {
-  return (
-    <View style={[GS.container, Style.InputSearch]}>
-      <View style={[GS.flexRow, GS.alignItemsCenter]}>
-        <Search width="10%" height="25" />
-        <TextInput
-          selectionColor={'#00A6A6'}
-          style={[GS.pl2, Style.textInput]}
-          placeholder="Cari kata kunci"
-          returnKeyType="go"
-          onSubmitEditing={event => {
-            alert('searching');
-          }}
-        />
-        <TouchableOpacity onPress={props.onTimesClick} width="10%" height="25">
-          <Times height="25" />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
 // content
 export default function HalalCenter({ navigation }) {
-  //axios
-  const [data, setData] = useState();
-
-  const getData = async () => {
+  // variable
+  const [data, setData] = useState([]);
+  const [keyword, setKeyword] = useState([]);
+  //
+  const getData = async (params) => {
+    let key = keyword;
+    if (params == "default") {
+      key = "";
+    }
     try {
       const res = await axios.get(
-        'https://staging.herbalinfo.site/api/halal-center',
+        API_URL + '/halal-center?keyword=' + key,
       );
 
-      setData(res.data.data.data);
-      console.log(res.data.data.data);
+      setData(res.data.data);
+      console.log(res.data.data);
     } catch (error) {
       alert(error.message);
     }
@@ -68,8 +50,10 @@ export default function HalalCenter({ navigation }) {
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   // function
-  const ToggleSearch = function () {
+  const ToggleSearch = function (params) {
     setOpenSearch(!openSearch);
+    setKeyword("");
+    getData(params);
   };
   const cardClick = function () {
     navigation.navigate('HalalCenterDetail');
@@ -88,7 +72,10 @@ export default function HalalCenter({ navigation }) {
         title="Halal center"
         openSearch={openSearch}
         onSearchClick={ToggleSearch}
-        onTimesClick={ToggleSearch}
+        onTimesClick={() => { ToggleSearch("default") }}
+        value={keyword}
+        setValue={setKeyword}
+        onSubmit={() => { getData() }}
       />
       <View
         style={[{ backgroundColor: '#fff', height: '100%' }]}
@@ -99,7 +86,16 @@ export default function HalalCenter({ navigation }) {
       >
         {/* header */}
         <Image source={headerImage} style={[Style.header]} />
-        {/* content */}
+        {/* data is empty */}
+        {
+          data.length == 0 ?
+            (
+              <Text style={[GS.textCenter, GS.fs5, GS.mt4]}>Data tidak tersedia</Text>
+            )
+            :
+            ""
+        }
+        {/* content kartu artikel */}
         <FlatList
           data={data}
           renderItem={({ item, index }) => {

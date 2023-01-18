@@ -4,15 +4,8 @@ import {
   View,
   Text,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  RefreshControl,
-  Card,
   FlatList,
-  ToastAndroid,
 } from 'react-native';
 import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
@@ -22,29 +15,12 @@ import CardProduct from '../component/Card-Product';
 import axios from 'axios';
 import { IMAGE_LOC, PRODUCT_PRICE } from "../script/GlobalScript";
 
-// images
-const example_product_1 = require('../../../assets/images/olivia_turseena.png');
-const example_product_2 = require('../../../assets/images/afia_kids.png');
-const example_product_3 = require('../../../assets/images/temu-putih.png');
-
 // content
 export default function Products({ navigation }) {
   //axios
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const url = API_URL + '/products';
-  // const Yscroll = React.useRef(new Animated.Value(0)).current;
-
-  const getData = async () => {
-    try {
-      const res = await axios.get(url);
-      //  console.log(res)
-
-      setData(res.data.data.data);
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     getData();
@@ -54,9 +30,27 @@ export default function Products({ navigation }) {
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   // function
-  const ToggleSearch = function () {
+  const ToggleSearch = function (params) {
     setOpenSearch(!openSearch);
+    setKeyword("");
+    getData(params);
   };
+  //
+  const getData = async (params) => {
+    try {
+      let key = keyword;
+      if (params == "default") {
+        key = ""
+      }
+      let url = API_URL + '/products?keyword=' + key;
+      const res = await axios.get(url);
+      //  console.log(res)
+      setData(res.data.data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  //
   const CardClick = function (item) {
     navigation.navigate('ProductDetail', item);
   };
@@ -74,13 +68,24 @@ export default function Products({ navigation }) {
           title="Produk Herbal"
           openSearch={openSearch}
           onSearchClick={ToggleSearch}
-          onTimesClick={ToggleSearch}
+          onTimesClick={() => { ToggleSearch("default") }}
+          value={keyword}
+          setValue={setKeyword}
+          onSubmit={() => { getData() }}
         />
         <View
           style={[{ backgroundColor: '#fff', height: '100%' }]}>
           <View style={[GS.container, GS.mt4]}>
-            {/* card */}
-
+            {/* data is empty */}
+            {
+              data.length == 0 ?
+                (
+                  <Text style={[GS.textCenter, GS.fs5]}>Data tidak tersedia</Text>
+                )
+                :
+                ""
+            }
+            {/* kartu-kartu products */}
             <FlatList
               data={data}
               numColumns={2}
