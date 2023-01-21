@@ -381,7 +381,7 @@ export default function Home({ navigation }) {
           // setup data
           const options = {
             method: 'GET',
-            url: API_URL + '/api/auth/me',
+            url: API_URL + '/auth/me',
             headers: {
               Auth: userData.token
             },
@@ -391,7 +391,6 @@ export default function Home({ navigation }) {
             // console.log(response.data);
             // handle as login user
             setUser(response.data.data)
-            alert(user.name)
           }).catch(function (error) {
             AsyncStorage.removeItem('@userAuth')
             // navigation.navigate("Login");

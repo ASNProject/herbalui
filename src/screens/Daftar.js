@@ -57,7 +57,7 @@ const Daftar = ({ navigation }) => {
         storeData(response.data.data)
       })
       .catch(function (error) {
-        Alert.alert("Gagal masuk", error.response.data.message);
+        Alert.alert("Gagal daftar", error.response.data.message);
         // console.error(error.response.data);
       });
   };

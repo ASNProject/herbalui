@@ -1,11 +1,13 @@
 // import
+import { API_URL } from "@env"
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, Touchable } from "react-native";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import GS from "./style/GlobalStyle";
 import TopBar from "./component/TopBar1";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 // images
-import ProfileImage from "../../assets/images/profile.png"
+import ProfileImage from "../../assets/images/default-user.jpeg"
 import PenIcon from "../../assets/icons/ep_edit-pen.svg"
 //
 const MainContent = function (props) {
@@ -14,8 +16,8 @@ const MainContent = function (props) {
             {/* profile */}
             <View style={[GS.mt4, GS.flexColumn, GS.alignItemsCenter, GS.mb5]}>
                 <Image source={ProfileImage} style={[Style.profileImage]} />
-                <Text style={[GS.mt4, GS.fs3]}>Muhammad Alendra</Text>
-                <Text style={[GS.fwLight, GS.fs5]}>alendra099@gmail.com</Text>
+                <Text style={[GS.mt4, GS.fs3]}>{props.name}</Text>
+                <Text style={[GS.fwLight, GS.fs5]}>{props.email}</Text>
                 <TouchableOpacity onPress={props.clickEdit} style={[GS.flexRow, GS.mt3, GS.btnRoundedPrimary, Style.buttonUpdate]}>
                     <PenIcon />
                     <Text style={[GS.primaryColor, GS.fs5]}>Update</Text>
@@ -43,6 +45,8 @@ const MainContent = function (props) {
 }
 // content  
 export default function Profile({ navigation }) {
+    // variable
+    const [userData, setUserData] = useState({});
     // function 
     const backClick = function () {
         navigation.navigate("HomeMain");
@@ -73,32 +77,44 @@ export default function Profile({ navigation }) {
                     // setup data
                     const options = {
                         method: 'GET',
-                        url: 'https://staging.herbalinfo.site/api/auth/me',
+                        url: API_URL + '/auth/me',
                         headers: {
                             Auth: userData.token
                         },
                     };
                     // request
-                    axios.request(options).then(function (response) {
+                    axios.request(options).then(async function (response) {
                         // console.log(response.data);
                         // handle as login user
+                        let newUserData = response.data.data;
+                        newUserData.token = userData.token;
+                        const jsonValue = JSON.stringify(newUserData)
+                        await AsyncStorage.setItem('@userAuth', jsonValue)
+                        setUserData(newUserData);
+                        return true;
                     }).catch(function (error) {
                         AsyncStorage.removeItem('@userAuth')
                         // navigation.navigate("Login");
                         // handle as guest
-                        navigation.replace("PleaseLogin")
+                        return navigation.replace("PleaseLogin")
                     });
+                } else {
+                    // handle as guest
+                    navigation.replace("PleaseLogin")
                 }
-                // handle as guest
-                navigation.replace("PleaseLogin")
             } catch (e) {
                 // error reading value
-                alert("error");
+                alert("Terjadi kesalahan");
             }
         }
+        const unsubscribe = navigation.addListener('focus', () => {
+            // Call any action
+            getData();
+        });
         // get user auth localstorage
         getData();
-    }, [])
+        return unsubscribe;
+    }, navigation)
     // 
     return (
         <SafeAreaView style={[GS.bgWhite, GS.h100]}>
@@ -111,6 +127,8 @@ export default function Profile({ navigation }) {
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
                 {/* content */}
                 <MainContent
+                    name={userData.name}
+                    email={userData.email}
                     clickEdit={clickEdit}
                     clickFavorite={clickFavorite}
                     clickPrivacy={clickPrivacy}
@@ -124,7 +142,8 @@ export default function Profile({ navigation }) {
 const Style = StyleSheet.create({
     profileImage: {
         width: 75,
-        height: 75
+        height: 75,
+        borderRadius: 1000
     },
     buttonUpdate: {
         paddingHorizontal: 10,

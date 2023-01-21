@@ -1,12 +1,12 @@
 // import
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
+import { API_URL } from "@env"
+import { useEffect, useState } from "react";
+import { View, Text, Alert, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
 import GS from "./style/GlobalStyle";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 // images
 import BackIcon from "../../assets/icons/back_button.svg"
-import ProfileImage from "../../assets/images/profile.png"
-import MinusIcon from "../../assets/icons/minus.svg"
-import PlusIcon from "../../assets/icons/plus.svg"
-import ArrowIcon from "../../assets/icons/arrow_right_white.svg"
 // component topbar
 const TopBar = function (props) {
     return (
@@ -24,39 +24,44 @@ const TopBar = function (props) {
         </View>
     )
 }
-//
+// component
 const MainContent = function (props) {
+    // content
     return (
         <View style={[GS.container, GS.mt4, GS.flexColumn, GS.alignItemsCenter]}>
             {/* profile picture */}
-            <Image source={ProfileImage} />
-            <TouchableOpacity style={[GS.flexRow, GS.mt3, GS.btnRoundedPrimary, Style.buttonUpdate]}>
+            {/* <Image source={ProfileImage} /> */}
+            {/* <TouchableOpacity style={[GS.flexRow, GS.mt3, GS.btnRoundedPrimary, Style.buttonUpdate]}>
                 <Text style={[GS.primaryColor, GS.fs5]}>Ganti gambar</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {/* form */}
             <View style={[GS.w100, GS.mb4]}>
                 <Text style={[GS.mb1, GS.fs5]}>Nama</Text>
-                <TextInput style={[Style.inputForm]} placeholder="Muhammad Alendra" />
-            </View>
-            <View style={[GS.w100, GS.mb4]}>
-                <Text style={[GS.mb1, GS.fs5]}>Email</Text>
-                <TextInput style={[Style.inputForm]} placeholder="alendra099@gmail.com" />
+                <TextInput
+                    onChangeText={(props.setName)}
+                    style={[Style.inputForm]} defaultValue={props.name} placeholder="Nama saya" />
             </View>
             <View style={[GS.w100, GS.mb4]}>
                 <Text style={[GS.mb1, GS.fs5]}>No hp</Text>
-                <TextInput style={[Style.inputForm]} placeholder="No hp" />
+                <TextInput
+                    onChangeText={(props.setPhone)}
+                    style={[Style.inputForm]} defaultValue={props.phone} placeholder="No hp" />
             </View>
             <View style={[GS.w100, GS.mb4]}>
                 <Text style={[GS.mb1, GS.fs5]}>Alamat lengkap</Text>
-                <TextInput style={[Style.inputForm, { height: 50 }]}
-                    multiline={true} placeholder="Alamat lengkap" />
+                <TextInput
+                    onChangeText={(props.setAddress)}
+                    style={[Style.inputForm, { height: 50 }]}
+                    multiline={true}
+                    defaultValue={props.address}
+                    placeholder="Alamat lengkap" />
             </View>
             {/* button konfirmasi */}
             <View style={[GS.py4, GS.container, { width: "100%" }]}>
                 <TouchableOpacity
                     onPress={props.updateClick}
                     style={[Style.buttonCheckout, GS.flexRow, GS.justifyContentCenter, GS.alignItemsCenter]}>
-                    <Text style={[GS.whiteColor, GS.fs3]}>Update</Text>
+                    <Text style={[GS.whiteColor, GS.fs3]}>Update profil</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={props.gantiPasswordClick}
@@ -69,15 +74,81 @@ const MainContent = function (props) {
 }
 // content  
 export default function ProfileEdit({ navigation }) {
+    // variable
+    const [userData, setUserData] = useState({});
+    const [userName, setUserName] = useState(null);
+    const [userPhone, setUserPhone] = useState(null);
+    const [userAddress, setUserAddress] = useState(null);
+    // use effect
+    useEffect(() => {
+        //
+        const getData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('@userAuth')
+                // validasi data user
+                if (value !== null) {
+                    // value previously stored
+                    // validate user data
+                    let data = JSON.parse(value);
+                    setUserData(data);
+                    setUserName(data.name)
+                    setUserPhone(data.phone)
+                    setUserAddress(data.address)
+                } else {
+                    // handle as guest
+                    navigation.replace("PleaseLogin")
+                }
+            } catch (e) {
+                // error reading value
+                alert("Terjadi kesalahan");
+            }
+        }
+        // unsubscribe focus
+        const unsubscribe = navigation.addListener('focus', () => {
+            // Call any action
+            getData();
+        });
+        // get user auth localstorage
+        getData();
+        return unsubscribe;
+    }, navigation)
     // function 
     const backPage = function () {
         navigation.navigate("Profile");
     }
     const updateClick = function () {
-        alert("updating")
+        const form = new FormData();
+        form.append("name", userName);
+        form.append("phone", userPhone);
+        form.append("address", userAddress);
+
+        const options = {
+            method: 'POST',
+            url: API_URL + '/auth/me/update',
+            headers: {
+                Auth: userData.token
+            },
+            data: form
+        };
+
+        axios.request(options).then(function (response) {
+            console.log(response.data);
+            Alert.alert("Berhasil", "Data berhasil diperbaruhi");
+            navigation.navigate("Profile")
+        }).catch(function (error) {
+            console.error(error);
+            Alert.alert("Terjadi kesalahan", "Gagal memperbaruhi data");
+        });
     }
     const gantiPasswordClick = function () {
         navigation.navigate("ChangePassword");
+    }
+    const setName = (text) => {
+        alert(text)
+        let ud = userData;
+        ud.name = text;
+        setUserData(ud);
+        // alert(userData.name)
     }
     // 
     return (
@@ -87,7 +158,10 @@ export default function ProfileEdit({ navigation }) {
                     {/* top bar */}
                     <TopBar backClick={backPage} />
                     {/* content */}
-                    <MainContent updateClick={updateClick} gantiPasswordClick={gantiPasswordClick} />
+                    <MainContent
+                        name={userName} phone={userPhone} address={userAddress}
+                        setName={setUserName} setPhone={setUserPhone} setAddress={setUserAddress}
+                        updateClick={updateClick} gantiPasswordClick={gantiPasswordClick} />
                 </SafeAreaView>
             </ScrollView>
         </View >
