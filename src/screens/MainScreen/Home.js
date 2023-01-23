@@ -42,10 +42,10 @@ const TopBar = function (props) {
         {props.user
           ?
           (
-            <Text style={[GS.fs2]}>{props.user.name} 👋🏻</Text>
+            <Text style={[GS.fs3]}>{LIMIT_STRING(props.user.name, 16)}</Text>
           ) :
           (
-            <Text style={[GS.fs2]}>Guest 👋🏻</Text>
+            <Text style={[GS.fs3]}>Guest</Text>
           )
         }
       </View>

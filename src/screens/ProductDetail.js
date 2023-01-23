@@ -22,10 +22,10 @@ import GS from './style/GlobalStyle';
 import TopBar from './component/TopBar1';
 import CardProduct from './component/Card-Product';
 import axios from 'axios';
+import CartIcon from "../../assets/icons/ant-design_shopping-cart-outlined"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // images
 const personImage = require('../../assets/images/default-user.jpeg');
-const example_product_2 = require('../../assets/images/afia_kids.png');
-const example_product_3 = require('../../assets/images/temu-putih.png');
 // form buat pertanyaan / diskusi
 const FormDiskusi = function (props) {
   return (
@@ -115,7 +115,7 @@ const Discuss = function (props) {
                   />
                   <View style={[GS.ml2]}>
                     <Text>{item.user.name}</Text>
-                    <Text>{moment(item.created_at).startOf('day').fromNow()}</Text>
+                    <Text>{moment(item.created_at).fromNow()}</Text>
                   </View>
                 </View>
                 <Text style={[GS.mt3, GS.fwLight]}>
@@ -135,7 +135,7 @@ const Discuss = function (props) {
                     </View>
                     <View>
                       <Text style={[GS.fwLight, GS.fs5]}>{item2.user.name}</Text>
-                      <Text style={[GS.fs6, GS.fwLight]}>{moment(item2.created_at).startOf('day').fromNow()}</Text>
+                      <Text style={[GS.fs6, GS.fwLight]}>{moment(item2.created_at).fromNow()}</Text>
                     </View>
                   </View>
                 )}
@@ -190,6 +190,7 @@ export default function ProductDetail({ navigation, route }) {
   const [discussionData, setDiscussionData] = useState([]);
   const [message, setMessage] = useState("");
   const [recomendations, setRecomendations] = useState([]);
+  const [userToken, setUserToken] = useState(null);
   //
   const actionSheetRef = useRef(null);
   // function
@@ -202,6 +203,10 @@ export default function ProductDetail({ navigation, route }) {
   // show action sheet
   const showActionSheet = function () {
     actionSheetRef.current?.show();
+  }
+  // tambah keranjang
+  const tambah_keranjang = function () {
+
   }
   //
   // get discussions data
@@ -236,7 +241,7 @@ export default function ProductDetail({ navigation, route }) {
               method: 'POST',
               url: API_URL + '/auth/create-discussion',
               headers: {
-                Auth: 'cAzsqNelQddDNdBho2M7YTNu5Fx81AiTeXcwyUgFFcSMY2cOPJqSeeWA'
+                Auth: userToken
               },
               data: form
             };
@@ -280,6 +285,29 @@ export default function ProductDetail({ navigation, route }) {
   }
   //
   useEffect(() => {
+    // get user data
+    // check if user auth token is valid
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@userAuth')
+        // validasi data user
+        if (value !== null) {
+          // value previously stored
+          // validate user data
+          let userData = JSON.parse(value);
+          // set variable user token
+          setUserToken(userData.token);
+        } else {
+          // handle as guest
+          navigation.replace("PleaseLogin")
+        }
+      } catch (e) {
+        // error reading value
+        alert("Terjadi kesalahan");
+      }
+    }
+    // get user data
+    getData()
     // get disucussions data
     getDiscussions();
     // get recomendations data
@@ -297,7 +325,7 @@ export default function ProductDetail({ navigation, route }) {
         showFavorite={true}
         showCart={true}
       />
-      <ScrollView style={[{ backgroundColor: '#fff', height: '100%' }]}>
+      <ScrollView style={[{ backgroundColor: '#fff', height: '100%', marginBottom: 40 }]}>
         {/* photos */}
         <Photos imageSource={IMAGE_LOC(route.params.images[0]["path"])} />
         {/* details */}
@@ -329,6 +357,20 @@ export default function ProductDetail({ navigation, route }) {
             onChange={setMessage} />
         </ActionSheet>
       </ScrollView>
+      {/* buton beli sekarang */}
+      <View style={[Style.buttonBeliSekarang, GS.flexRow]}>
+        <TouchableOpacity style={[GS.py2, GS.bgPrimary, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
+          <CartIcon width={30} height={30} />
+          <Text style={[GS.fs5, GS.whiteColor, GS.textCenter]}>
+            Masukan keranjang
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[GS.py2, GS.bgWhite, GS.textCenter, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
+          <Text style={[GS.textCenter, GS.fs4, GS.primaryColor]}>
+            Beli sekarang
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -406,5 +448,16 @@ const Style = StyleSheet.create({
   buttonSubmit: {
     backgroundColor: "#00A6A6",
     borderRadius: 4
+  },
+  // button beli sekarang
+  buttonBeliSekarang: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    zIndex: 1,
+  },
+  borderTopFloatingButton: {
+    borderColor: "#D9D9D9",
+    borderTopWidth: 1
   }
 });

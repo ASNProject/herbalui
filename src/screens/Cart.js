@@ -1,16 +1,17 @@
 // import
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
+import { API_URL } from "@env"
+import { View, Alert, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
 import GS from "./style/GlobalStyle";
 import TopBar from "./component/TopBar1";
+import { useState, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 // images
-import BackIcon from "../../assets/icons/back_button.svg"
-import ProfileImage from "../../assets/images/profile.png"
-import PenIcon from "../../assets/icons/ep_edit-pen.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 import MinusIcon from "../../assets/icons/minus.svg"
 import PlusIcon from "../../assets/icons/plus.svg"
 import ArrowIcon from "../../assets/icons/arrow_right_white.svg"
-//
+// konten utama
 const MainContent = function () {
     return (
         <View style={[GS.container, GS.mt4, GS.flexColumn, GS.alignItemsCenter]}>
@@ -44,8 +45,93 @@ const MainContent = function () {
         </View>
     )
 }
+// empty content
+const EmptyContent = function () {
+    return (
+        <View style={[GS.container, GS.mt5]}>
+            <Text style={[GS.textCenter, GS.fs3]}>Keranjang kosong</Text>
+            <Text style={[GS.textCenter]}>Silahkan tambahkan barang terlebih dahulu</Text>
+        </View>
+    );
+}
 // content  
 export default function Cart({ navigation }) {
+    // variable
+    const [userData, setUserData] = useState({});
+    const [userToken, setUserToken] = useState(null);
+    const [cart, setCart] = useState([]);
+    // variable
+    const getCartData = () => {
+    }
+    useEffect(() => {
+        // check if user auth token is valid
+        const getData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('@userAuth')
+                // validasi data user
+                if (value !== null) {
+                    // value previously stored
+                    // validate user data
+                    let userData = JSON.parse(value);
+                    // set variable user token
+                    setUserToken(userData.token);
+                    // setup data
+                    const options = {
+                        method: 'GET',
+                        url: API_URL + '/auth/me',
+                        headers: {
+                            Auth: userData.token
+                        },
+                    };
+                    // request
+                    axios.request(options).then(async function (response) {
+                        // console.log(response.data);
+                        // handle as login user
+                        let newUserData = response.data.data;
+                        newUserData.token = userData.token;
+                        const jsonValue = JSON.stringify(newUserData)
+                        await AsyncStorage.setItem('@userAuth', jsonValue)
+                        setUserData(newUserData);
+                        return true;
+                    }).catch(function (error) {
+                        AsyncStorage.removeItem('@userAuth')
+                        // navigation.navigate("Login");
+                        // handle as guest
+                        return navigation.replace("PleaseLogin")
+                    });
+
+                    // get carts data
+                    const form_cart = new FormData();
+                    const options_cart = {
+                        method: 'GET',
+                        url: API_URL + '/auth/cart',
+                        headers: {
+                            Auth: userData.token
+                        },
+                        data: form_cart
+                    };
+
+                    axios.request(options_cart).then(function (response) {
+                        // console.log(response.data);
+                        if (response.data.data != null) {
+                            setCart(response.data.data);
+                        }
+                    }).catch(function (error) {
+                        Alert.alert("Terjadi kesalahan", "tidak dapat mengambil data keranjang");
+                        console.error(error.response);
+                    });
+                } else {
+                    // handle as guest
+                    navigation.replace("PleaseLogin")
+                }
+            } catch (e) {
+                // error reading value
+                alert("Terjadi kesalahan");
+            }
+        }
+        // get user data
+        getData()
+    }, [])
     // function 
     const backClick = function () {
         navigation.navigate("HomeMain");
@@ -63,18 +149,32 @@ export default function Cart({ navigation }) {
                 nosearch={true}
             />
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
-                {/* content */}
-                <MainContent />
+                {
+                    cart.length > 0
+                        ?
+                        (
+                            <MainContent />
+                        ) :
+                        (
+                            <EmptyContent />
+                        )
+                }
             </ScrollView>
             {/* button checkout */}
-            <View style={[GS.py4, GS.container]}>
-                <TouchableOpacity
-                    onPress={() => { checkout() }}
-                    style={[Style.buttonCheckout, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
-                    <Text style={[GS.whiteColor, GS.fs3]}>Checkout</Text>
-                    <ArrowIcon />
-                </TouchableOpacity>
-            </View>
+            {
+                cart.length > 0
+                    ?
+                    (
+                        <View style={[GS.py4, GS.container]}>
+                            <TouchableOpacity
+                                onPress={() => { checkout() }}
+                                style={[Style.buttonCheckout, GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter]}>
+                                <Text style={[GS.whiteColor, GS.fs3]}>Checkout</Text>
+                                <ArrowIcon />
+                            </TouchableOpacity>
+                        </View>
+                    ) : ""
+            }
         </SafeAreaView>
     );
 }
