@@ -205,8 +205,48 @@ export default function ProductDetail({ navigation, route }) {
     actionSheetRef.current?.show();
   }
   // tambah keranjang
-  const tambah_keranjang = function () {
-
+  const tambahKeranjang = function () {
+    const form = new FormData();
+    form.append("product_id", route.params.id);
+    form.append("amount", "1");
+    const options = {
+      method: 'POST',
+      url: API_URL + '/auth/cart/add-cart',
+      headers: {
+        Auth: userToken
+      },
+      data: form
+    };
+    // axios request
+    axios.request(options).then(function (response) {
+      Alert.alert("Berhasil ditambahkan", "produk berhasil ditambahkan ke keranjang");
+      console.log(response.data);
+    }).catch(function (error) {
+      Alert.alert("Gagal menambahkan produk", "gagal menambahkan produk ke keranjang");
+      console.error(error);
+    });
+  }
+  const beliSekarang = function () {
+    const form = new FormData();
+    form.append("product_id", route.params.id);
+    form.append("amount", "1");
+    const options = {
+      method: 'POST',
+      url: API_URL + '/auth/cart/add-cart',
+      headers: {
+        Auth: userToken
+      },
+      data: form
+    };
+    // axios request
+    axios.request(options).then(function (response) {
+      // Alert.alert("Berhasil ditambahkan", "produk berhasil ditambahkan ke keranjang");
+      navigation.navigate("Checkout");
+      console.log(response.data);
+    }).catch(function (error) {
+      Alert.alert("Gagal menambahkan produk", "gagal menambahkan produk ke keranjang");
+      console.error(error);
+    });
   }
   //
   // get discussions data
@@ -359,13 +399,17 @@ export default function ProductDetail({ navigation, route }) {
       </ScrollView>
       {/* buton beli sekarang */}
       <View style={[Style.buttonBeliSekarang, GS.flexRow]}>
-        <TouchableOpacity style={[GS.py2, GS.bgPrimary, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
+        <TouchableOpacity
+          onPress={tambahKeranjang}
+          style={[GS.py2, GS.bgPrimary, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
           <CartIcon width={30} height={30} />
           <Text style={[GS.fs5, GS.whiteColor, GS.textCenter]}>
             Masukan keranjang
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[GS.py2, GS.bgWhite, GS.textCenter, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
+        <TouchableOpacity
+          onPress={beliSekarang}
+          style={[GS.py2, GS.bgWhite, GS.textCenter, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
           <Text style={[GS.textCenter, GS.fs4, GS.primaryColor]}>
             Beli sekarang
           </Text>
