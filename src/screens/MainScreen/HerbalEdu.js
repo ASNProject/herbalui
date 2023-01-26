@@ -48,8 +48,8 @@ export default function HerbalEdu({ navigation }) {
   // function
   const ToggleSearch = function (params) {
     setOpenSearch(!openSearch);
-    setKeyword("");
     getData(params);
+    setKeyword("");
   };
   const CardClick = function () {
     navigation.navigate('HerbalEduDetail');

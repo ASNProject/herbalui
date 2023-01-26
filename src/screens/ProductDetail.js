@@ -191,6 +191,7 @@ export default function ProductDetail({ navigation, route }) {
   const [message, setMessage] = useState("");
   const [recomendations, setRecomendations] = useState([]);
   const [userToken, setUserToken] = useState(null);
+  const [userFavorite, setuserFavorite] = useState(false);
   //
   const actionSheetRef = useRef(null);
   // function
@@ -323,6 +324,28 @@ export default function ProductDetail({ navigation, route }) {
       // console.log("terjadi kesalahan!")
     });
   }
+  // toggle favorite
+  const toggleFavorite = function () {
+    // alert("ok")
+    setuserFavorite(!userFavorite);
+    const form = new FormData();
+    form.append("product_id", route.params.id);
+    const options = {
+      method: 'POST',
+      url: API_URL + '/auth/toggle-favorite',
+      headers: {
+        Auth: userToken
+      },
+      data: form
+    };
+
+    axios.request(options).then(function (response) {
+      // console.log(response.data);
+    }).catch(function (error) {
+      Alert.alert("Terjadi kesalahan", "tidak dapat memperbaruhi data")
+      // console.error(error);
+    });
+  }
   //
   useEffect(() => {
     // get user data
@@ -337,6 +360,27 @@ export default function ProductDetail({ navigation, route }) {
           let userData = JSON.parse(value);
           // set variable user token
           setUserToken(userData.token);
+          // get users favorite data
+          // request user favorite
+          const options = {
+            method: 'GET',
+            url: API_URL + '/auth/favorite',
+            headers: {
+              Auth: userData.token
+            },
+          };
+
+          axios.request(options).then(function (response) {
+            // alert("halo")
+            let userFavorite = response.data.data.products;
+            userFavorite.forEach((item, index) => {
+              if (item.product_id == route.params.id) {
+                setuserFavorite(true)
+              }
+            })
+          }).catch(function (error) {
+            console.error(error);
+          });
         } else {
           // handle as guest
           navigation.replace("PleaseLogin")
@@ -364,6 +408,9 @@ export default function ProductDetail({ navigation, route }) {
         nosearch={true}
         showFavorite={true}
         showCart={true}
+        navigation={navigation}
+        favoriteStatus={userFavorite}
+        toggleFavorite={toggleFavorite}
       />
       <ScrollView style={[{ backgroundColor: '#fff', height: '100%', marginBottom: 40 }]}>
         {/* photos */}

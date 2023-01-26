@@ -359,6 +359,41 @@ export default function Home({ navigation }) {
     });
   }
   //
+  // check if user auth token is valid
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@userAuth')
+      // validasi data user
+      // alert("ok")
+      if (value !== null) {
+        // value previously stored
+        // validate user data
+        let userData = JSON.parse(value);
+        // setup data
+        const options = {
+          method: 'GET',
+          url: API_URL + '/auth/me',
+          headers: {
+            Auth: userData.token
+          },
+        };
+        // request
+        axios.request(options).then(function (response) {
+          // console.log(response.data);
+          // handle as login user
+          setUser(response.data.data)
+        }).catch(function (error) {
+          AsyncStorage.removeItem('@userAuth')
+          // navigation.navigate("Login");
+          // handle as guest
+        });
+      }
+      // handle as guest
+    } catch (e) {
+      // error reading value
+      alert("error");
+    }
+  }
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // The screen is focused
@@ -368,41 +403,6 @@ export default function Home({ navigation }) {
       }
       // Call any action
     });
-    // check if user auth token is valid
-    const getData = async () => {
-      try {
-        const value = await AsyncStorage.getItem('@userAuth')
-        // validasi data user
-        // alert("ok")
-        if (value !== null) {
-          // value previously stored
-          // validate user data
-          let userData = JSON.parse(value);
-          // setup data
-          const options = {
-            method: 'GET',
-            url: API_URL + '/auth/me',
-            headers: {
-              Auth: userData.token
-            },
-          };
-          // request
-          axios.request(options).then(function (response) {
-            // console.log(response.data);
-            // handle as login user
-            setUser(response.data.data)
-          }).catch(function (error) {
-            AsyncStorage.removeItem('@userAuth')
-            // navigation.navigate("Login");
-            // handle as guest
-          });
-        }
-        // handle as guest
-      } catch (e) {
-        // error reading value
-        alert("error");
-      }
-    }
     // get user auth localstorage
     getData();
     // get homepage data
@@ -449,6 +449,7 @@ export default function Home({ navigation }) {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
+      getData();
       // alert('refreshing done');
       setRefreshing(false);
     }, 1000);

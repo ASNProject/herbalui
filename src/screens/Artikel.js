@@ -1,4 +1,5 @@
 // lib
+import { API_URL } from "@env"
 import {
   View,
   Text,
@@ -17,8 +18,6 @@ import TopBar from './component/TopBar1';
 // images
 import Search from '../../assets/icons/ph_magnifying-glass-bold.svg';
 import Times from '../../assets/icons/la_times.svg';
-const headerImage = require('../../assets/images/header_herbal_edu.png');
-import artikel_1 from '../../assets/images/artikel_1.png';
 import axios from 'axios';
 import { FlatList } from 'react-native-gesture-handler';
 // component input search
@@ -55,12 +54,17 @@ const Contents = function (props) {
 // content
 export default function Artikel({ navigation }) {
   //axios
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [keyword, setKeyword] = useState("");
 
-  const getData = async () => {
+  const getData = async (params) => {
+    let key = keyword
+    if (params == "default") {
+      key = "";
+    }
     try {
       const res = await axios.get(
-        'https://staging.herbalinfo.site/api/articles',
+        API_URL + '/articles?keyword=' + key,
       );
       setData(res.data.data.data);
       console.log(res.data.data.data);
@@ -77,8 +81,10 @@ export default function Artikel({ navigation }) {
   const [openSearch, setOpenSearch] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   // function
-  const ToggleSearch = function () {
+  const ToggleSearch = function (params) {
     setOpenSearch(!openSearch);
+    getData(params);
+    setKeyword("");
   };
   const CardClick = function () {
     navigation.navigate('ArtikelDetail');
@@ -102,7 +108,10 @@ export default function Artikel({ navigation }) {
         backClick={backClick}
         openSearch={openSearch}
         onSearchClick={ToggleSearch}
-        onTimesClick={ToggleSearch}
+        onTimesClick={() => { ToggleSearch("default") }}
+        value={keyword}
+        setValue={setKeyword}
+        onSubmit={() => { getData() }}
       />
       <View
         refreshControl={
@@ -113,6 +122,15 @@ export default function Artikel({ navigation }) {
         ]} /*showsVerticalScrollIndicator="false"*/
       >
         {/* content */}
+        {/* data is empty */}
+        {
+          data.length == 0 ?
+            (
+              <Text style={[GS.textCenter, GS.fs5, GS.mt4]}>Data tidak tersedia</Text>
+            )
+            :
+            ""
+        }
         {/* card */}
         <FlatList
           data={data}

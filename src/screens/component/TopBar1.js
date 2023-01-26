@@ -4,10 +4,14 @@ import GS from "../style/GlobalStyle";
 import Times from "../../../assets/icons/la_times.svg";
 import BackIcon from "../../../assets/icons/back_button.svg"
 import FavoriteIcon from "../../../assets/icons/favorite.svg"
+import FavoriteIconActive from "../../../assets/icons/favoriteactive.svg"
 import CartIconBlack from "../../../assets/icons/cart_black.svg"
 
 // content
 export default function TopBar(props) {
+    const openCart = function () {
+        props.navigation.navigate("Cart");
+    }
     return (
         <View>
             {
@@ -42,7 +46,7 @@ export default function TopBar(props) {
                                                     props.showCart
                                                         ?
                                                         (
-                                                            <TouchableOpacity style={[GS.mr3]}>
+                                                            <TouchableOpacity onPress={openCart} style={[GS.mr3]}>
                                                                 <CartIconBlack height="25" />
                                                             </TouchableOpacity>
                                                         )
@@ -52,11 +56,19 @@ export default function TopBar(props) {
                                                 {
                                                     props.showFavorite
                                                         ?
-                                                        (
-                                                            <TouchableOpacity>
-                                                                <FavoriteIcon />
-                                                            </TouchableOpacity>
-                                                        )
+                                                        props.favoriteStatus
+                                                            ?
+                                                            (
+                                                                <TouchableOpacity onPress={props.toggleFavorite}>
+                                                                    <FavoriteIconActive />
+                                                                </TouchableOpacity>
+                                                            )
+                                                            :
+                                                            (
+                                                                <TouchableOpacity onPress={props.toggleFavorite}>
+                                                                    <FavoriteIcon />
+                                                                </TouchableOpacity>
+                                                            )
                                                         :
                                                         ("")
                                                 }

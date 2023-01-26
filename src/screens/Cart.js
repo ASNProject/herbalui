@@ -1,15 +1,16 @@
 // import
 import { API_URL } from "@env"
-import { View, Alert, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
+import { RefreshControl, View, Alert, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image, TextInput, Touchable } from "react-native";
 import GS from "./style/GlobalStyle";
 import TopBar from "./component/TopBar1";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { NUMBER_COMAS, IMAGE_LOC } from "./script/GlobalScript";
 // images
 import MinusIcon from "../../assets/icons/minus.svg"
 import PlusIcon from "../../assets/icons/plus.svg"
+import TrashIcon from "../../assets/icons/ph_trash.svg"
 import ArrowIcon from "../../assets/icons/arrow_right_white.svg"
 // konten utama
 const MainContent = function (props) {
@@ -50,52 +51,80 @@ const MainContent = function (props) {
                         updateCart(item.product.id, amount - 1, item.id)
                         setAmount(amount - 1);
                     }
+                    const hapus = function () {
+                        Alert.alert(
+                            "Konfirmasi",
+                            "Hapus item ini?",
+                            [
+                                // The "Yes" button
+                                {
+                                    text: "Ya",
+                                    onPress: () => {
+                                        props.setCartEmpty();
+                                        updateCart(item.product.id, 0, item.id);
+                                    }
+                                },
+                                // The "No" button
+                                // Does nothing but dismiss the dialog when tapped
+                                {
+                                    text: "Batal",
+                                },
+                            ]
+                        );
+                    }
                     return (
                         <View style={[Style.cardProduct, GS.mb4]}>
                             <View style={[GS.flexRow, GS.alignItemsCenter]}>
-                                <Image source={{ url: IMAGE_LOC(item.product.images[0].path) }} style={[Style.productImage]} />
-                                <View style={[GS.ml3]}>
+                                <Image source={{ url: IMAGE_LOC(item.product.images[0].path) }} style={[Style.productImage, GS.mr3]} />
+                                <View>
                                     <Text style={[GS.fs5, GS.fwRegular, { width: "90%" }]}>
                                         {item.product.name}
                                     </Text>
                                     <Text style={[GS.fs5, GS.primaryColor, GS.mt1]}>Rp {NUMBER_COMAS(item.product.price)}</Text>
-                                    <View style={[GS.flexRow, GS.alignItemsCenter, GS.mt1]}>
-                                        <TextInput
-                                            editable={false}
-                                            value={amount.toString()}
-                                            style={[Style.inputAmount, GS.fs6, GS.textCenter]} keyboardType="number-pad" cursorColor="#00A6A6" selectionColor="#00A6A6" />
-                                        {/* edit kurangin jumlah produk */}
-                                        {
-                                            amount <= 1
-                                                ? (
-                                                    <TouchableOpacity style={[GS.ml2, Style.btnEditAmount, { opacity: 0.5 }]}>
-                                                        <MinusIcon width="20" />
-                                                    </TouchableOpacity>
-                                                )
-                                                : (
-                                                    <TouchableOpacity
-                                                        onPress={kurang}
-                                                        style={[GS.ml2, Style.btnEditAmount, { opacity: 1 }]}>
-                                                        <MinusIcon width="20" />
-                                                    </TouchableOpacity>
-                                                )
-                                        }
-                                        {/* edit tambah jumlah produk */}
-                                        {
-                                            amount >= 999
-                                                ? (
-                                                    <TouchableOpacity style={[GS.ml2, Style.btnEditAmount, { opacity: 0.5 }]}>
-                                                        <PlusIcon width="20" />
-                                                    </TouchableOpacity>
-                                                )
-                                                : (
-                                                    <TouchableOpacity
-                                                        onPress={tambah}
-                                                        style={[GS.ml2, Style.btnEditAmount]}>
-                                                        <PlusIcon width="20" />
-                                                    </TouchableOpacity>
-                                                )
-                                        }
+                                    <View style={[GS.flexRow, GS.justifySpaceBetween, GS.alignItemsCenter, {
+                                        width: "68%"
+                                    }]}>
+                                        <View style={[GS.flexRow, GS.alignItemsCenter, GS.mt1]}>
+                                            <TextInput
+                                                editable={false}
+                                                value={amount.toString()}
+                                                style={[Style.inputAmount, GS.fs6, GS.textCenter]} keyboardType="number-pad" cursorColor="#00A6A6" selectionColor="#00A6A6" />
+                                            {/* edit kurangin jumlah produk */}
+                                            {
+                                                amount <= 1
+                                                    ? (
+                                                        <TouchableOpacity style={[GS.ml2, Style.btnEditAmount, { opacity: 0.5 }]}>
+                                                            <MinusIcon width="20" />
+                                                        </TouchableOpacity>
+                                                    )
+                                                    : (
+                                                        <TouchableOpacity
+                                                            onPress={kurang}
+                                                            style={[GS.ml2, Style.btnEditAmount, { opacity: 1 }]}>
+                                                            <MinusIcon width="20" />
+                                                        </TouchableOpacity>
+                                                    )
+                                            }
+                                            {/* edit tambah jumlah produk */}
+                                            {
+                                                amount >= 999
+                                                    ? (
+                                                        <TouchableOpacity style={[GS.ml2, Style.btnEditAmount, { opacity: 0.5 }]}>
+                                                            <PlusIcon width="20" />
+                                                        </TouchableOpacity>
+                                                    )
+                                                    : (
+                                                        <TouchableOpacity
+                                                            onPress={tambah}
+                                                            style={[GS.ml2, Style.btnEditAmount]}>
+                                                            <PlusIcon width="20" />
+                                                        </TouchableOpacity>
+                                                    )
+                                            }
+                                        </View>
+                                        <TouchableOpacity onPress={hapus}>
+                                            <TrashIcon width={20} height={20} />
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </View>
@@ -116,18 +145,26 @@ const EmptyContent = function () {
         </View>
     );
 }
+// loading content
+const LoadContent = function () {
+    return (
+        <View style={[GS.container, GS.mt5]}>
+            <Text style={[GS.textCenter, GS.fs3]}>Harap tunggu</Text>
+            <Text style={[GS.textCenter]}>Sedanng memuat konten</Text>
+        </View>
+    );
+}
 // content  
 export default function Cart({ navigation }) {
     // variable
     const [userData, setUserData] = useState({});
     const [userToken, setUserToken] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [cart, setCart] = useState({
         items: []
     });
-    // variable
-    const getCartData = () => {
-    }
-    // check if user auth token is valid
+    const [refreshing, setRefreshing] = useState(false);
+    // get user data & cart data
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem('@userAuth')
@@ -182,7 +219,10 @@ export default function Cart({ navigation }) {
                 }).catch(function (error) {
                     Alert.alert("Terjadi kesalahan", "tidak dapat mengambil data keranjang");
                     console.error(error.response);
-                });
+                })
+                    .then(() => {
+                        setLoading(false);
+                    })
             } else {
                 // handle as guest
                 navigation.replace("PleaseLogin")
@@ -193,8 +233,15 @@ export default function Cart({ navigation }) {
         }
     }
     useEffect(() => {
+        const focus = navigation.addListener('focus', () => {
+            // Call any action
+            setCartEmpty();
+            getData();
+        });
         // get user data
         getData();
+        //
+        return focus;
     }, [])
     // function 
     const backClick = function () {
@@ -204,6 +251,23 @@ export default function Cart({ navigation }) {
         navigation.navigate("Checkout");
     }
     // 
+    const setCartEmpty = function () {
+        setLoading(true)
+        setCart({
+            items: []
+        });
+    }
+    //
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => {
+            // alert('refreshing done');
+            setCartEmpty();
+            getData();
+            setRefreshing(false);
+        }, 1000);
+    }, []);
+    // 
     return (
         <SafeAreaView style={[GS.bgWhite, GS.h100]}>
             {/* top bar */}
@@ -212,16 +276,23 @@ export default function Cart({ navigation }) {
                 backClick={backClick}
                 nosearch={true}
             />
-            <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
                 {
                     cart.items.length > 0
                         ?
                         (
-                            <MainContent getData={getData} userToken={userToken} cart={cart} />
+                            <MainContent setCartEmpty={setCartEmpty} getData={getData} userToken={userToken} cart={cart} />
                         ) :
-                        (
-                            <EmptyContent />
-                        )
+                        loading ?
+                            <LoadContent />
+                            :
+                            (
+                                <EmptyContent />
+                            )
                 }
             </ScrollView>
             {/* button checkout */}
@@ -284,7 +355,8 @@ const Style = StyleSheet.create({
         borderColor: "#F3F3F3",
         borderWidth: 1,
         width: "100%",
-        padding: 20
+        paddingTop: 20,
+        paddingBottom: 20,
     },
     productImage: {
         height: 90,

@@ -57,6 +57,12 @@ export default StyleSheet.create({
   pl3: { paddingLeft: 15 },
   pl4: { paddingLeft: 20 },
   pl5: { paddingLeft: 30 },
+  // padding right
+  pr1: { paddingRight: 5 },
+  pr2: { paddingRight: 10 },
+  pr3: { paddingRight: 15 },
+  pr4: { paddingRight: 20 },
+  pr5: { paddingRight: 30 },
   // padding bottom
   pb1: { paddingBottom: 5 },
   pb2: { paddingBottom: 10 },
@@ -69,6 +75,12 @@ export default StyleSheet.create({
   py3: { paddingVertical: 15 },
   py4: { paddingVertical: 20 },
   py5: { paddingVertical: 30 },
+  // padding Vertical
+  px1: { paddingHorizontal: 5 },
+  px2: { paddingHorizontal: 10 },
+  px3: { paddingHorizontal: 15 },
+  px4: { paddingHorizontal: 20 },
+  px5: { paddingHorizontal: 30 },
   // shadow
   darkShadow: {
     shadowColor: '#171717',

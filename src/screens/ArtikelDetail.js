@@ -1,16 +1,20 @@
 // import
+import { API_URL } from "@env"
 import {
   View,
   Text,
   ScrollView,
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   Image,
 } from 'react-native';
 import GS from './style/GlobalStyle';
 import CardArtikel from './component/Card-Artikel';
 import TopBar from './component/TopBar1';
+import { useState, useEffect } from 'react';
+import { IMAGE_LOC } from "./script/GlobalScript";
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // images
 import artikel_1 from '../../assets/images/artikel_1.png';
 import artikel_2 from '../../assets/images/artikel_2.png';
@@ -42,6 +46,9 @@ const MainContent = function () {
 };
 // content
 export default function ArtikelDetail({ navigation, route }) {
+  const [userFavorite, setuserFavorite] = useState(false);
+  const [userToken, setUserToken] = useState(null);
+
   // function
   const backClick = function () {
     navigation.navigate('Artikel');
@@ -49,6 +56,74 @@ export default function ArtikelDetail({ navigation, route }) {
   const CardClick = function () {
     navigation.navigate('ArtikelDetail');
   };
+  // toggle favorite
+  const toggleFavorite = function () {
+    // alert("ok")
+    setuserFavorite(!userFavorite);
+    const form = new FormData();
+    form.append("article_id", route.params.id);
+    const options = {
+      method: 'POST',
+      url: API_URL + '/auth/toggle-favorite',
+      headers: {
+        Auth: userToken
+      },
+      data: form
+    };
+
+    axios.request(options).then(function (response) {
+      // console.log(response.data);
+    }).catch(function (error) {
+      Alert.alert("Terjadi kesalahan", "tidak dapat memperbaruhi data")
+      // console.error(error);
+    });
+  }
+  useEffect(() => {
+    // get user data
+    // check if user auth token is valid
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('@userAuth')
+        // validasi data user
+        if (value !== null) {
+          // value previously stored
+          // validate user data
+          let userData = JSON.parse(value);
+          // set variable user token
+          setUserToken(userData.token);
+          // get users favorite data
+          // request user favorite
+          const options = {
+            method: 'GET',
+            url: API_URL + '/auth/favorite',
+            headers: {
+              Auth: userData.token
+            },
+          };
+
+          axios.request(options).then(function (response) {
+            // alert("halo")
+            let userFavorite = response.data.data.articles;
+            userFavorite.forEach((item, index) => {
+              if (item.article_id == route.params.id) {
+                setuserFavorite(true)
+              }
+            })
+          }).catch(function (error) {
+            console.error(error);
+          });
+        } else {
+          // handle as guest
+          navigation.replace("PleaseLogin")
+        }
+      } catch (e) {
+        // error reading value
+        alert("Terjadi kesalahan");
+      }
+    }
+    // get user data
+    getData()
+  }, [])
   //
   return (
     <SafeAreaView style={[GS.h100, GS.bgWhite]}>
@@ -59,6 +134,8 @@ export default function ArtikelDetail({ navigation, route }) {
         backClick={backClick}
         nosearch={true}
         showFavorite={true}
+        favoriteStatus={userFavorite}
+        toggleFavorite={toggleFavorite}
       />
       <ScrollView style={[{ backgroundColor: '#fff' }]}>
         {/* content */}
@@ -70,9 +147,7 @@ export default function ArtikelDetail({ navigation, route }) {
           <Image
             source={{
               uri:
-                'https://staging.herbalinfo.site/storage/articles/example/article_' +
-                route.params.id +
-                '.png',
+                IMAGE_LOC(route.params.images[0].path),
             }}
             style={[Style.imageArticle, GS.mt3]}
           />

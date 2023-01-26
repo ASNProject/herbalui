@@ -1,10 +1,11 @@
 import moment from "moment";
 import "moment/locale/id";
-import { useCallback } from "react";
 import { Linking } from "react-native";
+import { API_URL } from "@env"
+
 
 const IMAGE_LOC = function (value) {
-    let url = "https://staging.herbalinfo.site/" + value.replace("public", "storage")
+    let url = API_URL.replace("api", "") + value.replace("public", "storage")
     // console.log(url)
     return url
 }
