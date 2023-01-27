@@ -11,6 +11,7 @@ import { useState, useCallback, useEffect } from 'react';
 import GS from '../style/GlobalStyle';
 import TopBar from '../component/TopBar1';
 import CardProduct from '../component/Card-Product';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import axios from 'axios';
 import { IMAGE_LOC, PRODUCT_PRICE } from "../script/GlobalScript";
@@ -23,8 +24,14 @@ export default function Products({ navigation }) {
   const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      // Call any action
+      await AsyncStorage.removeItem('@requestBack');
+      getData();
+    });
     getData();
-  }, []);
+    return unsubscribe
+  }, [navigation]);
 
   // variable
   const [openSearch, setOpenSearch] = useState(false);

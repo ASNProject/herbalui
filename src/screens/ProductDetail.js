@@ -198,7 +198,7 @@ export default function ProductDetail({ navigation, route }) {
   // function
   const backClick = function () {
     if (backTo == null) {
-      navigation.navigate('Artikel');
+      navigation.navigate('Produk');
     } else {
       navigation.navigate(backTo);
     }
