@@ -34,7 +34,6 @@ const Content = function (props) {
         </View>
     )
 }
-
 // content  
 export default function FavoriteProduct({ navigation }) {
     // variable
@@ -49,7 +48,7 @@ export default function FavoriteProduct({ navigation }) {
         await AsyncStorage.setItem('@requestBack', "FavoriteProduct")
         navigation.navigate("ProductDetail", item);
     }
-    // delee favorite
+    // delete favorite
     const deleteFavorite = (id) => {
 
         const form = new FormData();

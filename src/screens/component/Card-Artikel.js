@@ -17,7 +17,7 @@ export default function CardArtikel(props) {
             {
                 props.showFavorite ?
                     (
-                        <TouchableOpacity style={[Style.favoriteIcon]}>
+                        <TouchableOpacity onPress={props.onFavoriteClick} style={[Style.favoriteIcon]}>
                             <FavoriteYellowIcon width="20" height="20" />
                         </TouchableOpacity>
                     )

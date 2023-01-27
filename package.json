@@ -19,6 +19,7 @@
     "@react-navigation/native-stack": "^6.9.0",
     "@rneui/base": "^4.0.0-rc.6",
     "@rneui/themed": "^4.0.0-rc.6",
+    "android": "^0.0.8",
     "axios": "1.2.0-alpha.1",
     "babel-loader": "8.0.6",
     "moment": "^2.29.4",
