@@ -192,11 +192,16 @@ export default function ProductDetail({ navigation, route }) {
   const [recomendations, setRecomendations] = useState([]);
   const [userToken, setUserToken] = useState(null);
   const [userFavorite, setuserFavorite] = useState(false);
+  const [backTo, setBackTo] = useState(null);
   //
   const actionSheetRef = useRef(null);
   // function
   const backClick = function () {
-    navigation.navigate('Produk');
+    if (backTo == null) {
+      navigation.navigate('Artikel');
+    } else {
+      navigation.navigate(backTo);
+    }
   };
   const CardClick = function (item) {
     navigation.replace('ProductDetail', item);
@@ -353,6 +358,8 @@ export default function ProductDetail({ navigation, route }) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@userAuth')
+        const back_button = await AsyncStorage.getItem('@requestBack')
+        setBackTo(back_button)
         // validasi data user
         if (value !== null) {
           // value previously stored
@@ -396,7 +403,13 @@ export default function ProductDetail({ navigation, route }) {
     getDiscussions();
     // get recomendations data
     getRecomendations();
-  }, [])
+    // focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Call any action
+      setBackTo(null)
+    });
+    return unsubscribe
+  }, [navigation])
   //
   return (
     <SafeAreaView style={[{ backgroundColor: '#fff', height: '100%' }]}>

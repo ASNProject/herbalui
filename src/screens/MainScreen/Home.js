@@ -245,7 +245,7 @@ const TambahWawasan = function (props) {
       >
         {
           props.dataArtikel.map((item) =>
-            <TouchableOpacity onPress={props.articleClick} style={[GS.mr2]}>
+            <TouchableOpacity onPress={() => { props.articleClick(item) }} style={[GS.mr2]}>
               <ImageBackground style={[Style.cardArtikel]} source={{ uri: IMAGE_LOC(item.images[0].path) }}>
                 <View style={[Style.coverArtikel]}>
                   <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
@@ -363,6 +363,7 @@ export default function Home({ navigation }) {
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('@userAuth')
+      AsyncStorage.removeItem('@requestBack')
       // validasi data user
       // alert("ok")
       if (value !== null) {
@@ -402,6 +403,7 @@ export default function Home({ navigation }) {
         ref.scrollTo({ x: 0, y: 0, animated: false });
       }
       // Call any action
+      getData();
     });
     // get user auth localstorage
     getData();
@@ -420,8 +422,9 @@ export default function Home({ navigation }) {
   const articleClick = function () {
     navigation.navigate('Artikel');
   };
-  const articleDetailClick = function () {
-    navigation.navigate('Artikel');
+  const articleDetailClick = async function (item) {
+    await AsyncStorage.setItem('@requestBack', "HomeMain")
+    navigation.navigate('ArtikelDetail', item);
   };
   const clickProduk = function () {
     navigation.navigate('Produk');

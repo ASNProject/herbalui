@@ -48,10 +48,15 @@ const MainContent = function () {
 export default function ArtikelDetail({ navigation, route }) {
   const [userFavorite, setuserFavorite] = useState(false);
   const [userToken, setUserToken] = useState(null);
+  const [backTo, setBackTo] = useState(null);
 
   // function
   const backClick = function () {
-    navigation.navigate('Artikel');
+    if (backTo == null) {
+      navigation.navigate('Artikel');
+    } else {
+      navigation.navigate(backTo);
+    }
   };
   const CardClick = function () {
     navigation.navigate('ArtikelDetail');
@@ -84,6 +89,8 @@ export default function ArtikelDetail({ navigation, route }) {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('@userAuth')
+        const back_button = await AsyncStorage.getItem('@requestBack')
+        setBackTo(back_button)
         // validasi data user
         if (value !== null) {
           // value previously stored
@@ -123,7 +130,13 @@ export default function ArtikelDetail({ navigation, route }) {
     }
     // get user data
     getData()
-  }, [])
+    // focus
+    const unsubscribe = navigation.addListener('focus', () => {
+      // Call any action
+      setBackTo(null)
+    });
+    return unsubscribe
+  }, [navigation])
   //
   return (
     <SafeAreaView style={[GS.h100, GS.bgWhite]}>

@@ -2,8 +2,12 @@
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, Image } from "react-native";
 import GS from "./style/GlobalStyle";
 import TopBar from "./component/TopBar1";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_URL } from "@env"
+import { IMAGE_LOC, NUMBER_COMAS, PRODUCT_TITLE } from "./script/GlobalScript";
+import { useState, useEffect } from "react";
 // icons
-import BackIcon from "../../assets/icons/back_button.svg"
 const example_product_1 = require("../../assets/images/olivia_turseena.png")
 const example_product_2 = require("../../assets/images/afia_kids.png")
 import FavoriteYellowIcon from "../../assets/icons/favorite_yellow.svg"
@@ -13,23 +17,21 @@ const Content = function (props) {
         <View style={[GS.container, GS.mt4]}>
             <View style={[GS.flexRow, GS.justifySpaceBetween]}>
                 {/* card */}
-                <TouchableOpacity onPress={props.whenCardClick} style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
-                    <Image style={[Style.imageProduct]} source={example_product_1} />
-                    <Text style={[GS.fs5]}>Olivia Turseena</Text>
-                    <Text style={[GS.fs5, GS.primaryColor]}>Rp 19.000</Text>
-                    <TouchableOpacity style={[Style.favoriteIcon]}>
-                        <FavoriteYellowIcon width="20" height="20" />
-                    </TouchableOpacity>
-                </TouchableOpacity>
-                {/* card */}
-                <TouchableOpacity onPress={props.whenCardClick} style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
-                    <Image style={[Style.imageProduct]} source={example_product_2} />
-                    <Text style={[GS.fs5]}>Afia kids</Text>
-                    <Text style={[GS.fs5, GS.primaryColor]}>Rp 19.000</Text>
-                    <TouchableOpacity style={[Style.favoriteIcon]}>
-                        <FavoriteYellowIcon width="20" height="20" />
-                    </TouchableOpacity>
-                </TouchableOpacity>
+                {
+                    props.products.map((item) => {
+                        return (
+                            <TouchableOpacity onPress={() => { props.whenCardClick(item.product) }} style={[Style.cardProduct, GS.flexColumn, GS.alignItemsCenter]}>
+                                <Image style={[Style.imageProduct]} source={{ url: IMAGE_LOC(item.product.images[0].path) }} />
+                                <Text style={[GS.fs5, GS.textCenter]}>{PRODUCT_TITLE(item.product.name)}</Text>
+                                <Text style={[GS.fs5, GS.primaryColor]}>Rp {NUMBER_COMAS(item.product.price)}</Text>
+                                <TouchableOpacity style={[Style.favoriteIcon]}>
+                                    <FavoriteYellowIcon width="20" height="20" />
+                                </TouchableOpacity>
+                            </TouchableOpacity>
+                        )
+
+                    })
+                }
             </View>
         </View>
     )
@@ -37,17 +39,59 @@ const Content = function (props) {
 
 // content  
 export default function FavoriteProduct({ navigation }) {
+    // variable
+    const [products, setProducts] = useState([]);
+    const [userToken, setUserToken] = useState(null);
     // function 
     const backClick = function () {
         navigation.navigate("Favorite");
     }
     // function
-    const ToggleSearch = function () {
-        setOpenSearch(!openSearch);
+    const CardClick = async function (item) {
+        await AsyncStorage.setItem('@requestBack', "FavoriteProduct")
+        navigation.navigate("ProductDetail", item);
     }
-    const CardClick = function () {
-        navigation.navigate("ProductDetail");
+    // get data
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('@userAuth')
+            // validasi data user
+            if (value !== null) {
+                // value previously stored
+                // validate user data
+                let userData = JSON.parse(value);
+                // set variable user token
+                setUserToken(userData.token);
+                // get users favorite data
+                // request user favorite
+                const options = {
+                    method: 'GET',
+                    url: API_URL + '/auth/favorite',
+                    headers: {
+                        Auth: userData.token
+                    },
+                };
+
+                axios.request(options).then(function (response) {
+                    // alert("halo")
+                    let userFavorite = response.data.data.products;
+                    setProducts(userFavorite)
+                }).catch(function (error) {
+                    console.error(error);
+                });
+            } else {
+                // handle as guest
+                navigation.replace("PleaseLogin")
+            }
+        } catch (e) {
+            // error reading value
+            alert("Terjadi kesalahan");
+        }
     }
+    // use effect
+    useEffect(() => {
+        getData();
+    }, [])
     // 
     return (
         <SafeAreaView style={[GS.h100, GS.bgWhite]}>
@@ -59,7 +103,7 @@ export default function FavoriteProduct({ navigation }) {
             />
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
                 {/* content */}
-                <Content whenCardClick={CardClick} />
+                <Content products={products} whenCardClick={CardClick} />
             </ScrollView>
         </SafeAreaView>
     );
