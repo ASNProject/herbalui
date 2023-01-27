@@ -7,7 +7,7 @@ import CardArtikel from "./component/Card-Artikel";
 import TopBar from "./component/TopBar1";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { DIPUBLIKASIKAN } from "./script/GlobalScript";
+import { DIPUBLIKASIKAN, IMAGE_LOC } from "./script/GlobalScript";
 // icons
 import artikel_1 from "../../assets/images/artikel_1.png";
 import artikel_2 from "../../assets/images/artikel_2.png";
@@ -101,7 +101,7 @@ export default function FavoriteArtikel({ navigation }) {
                     {
                         articles.map((item, index) => {
                             return (
-                                <CardArtikel whenCardClick={CardClick} image={artikel_2}
+                                <CardArtikel whenCardClick={CardClick} image={{ url: IMAGE_LOC(item.article.images[0].path) }}
                                     title={item.article.title}
                                     publishDate={DIPUBLIKASIKAN(item.created_at)}
                                     showFavorite={true}

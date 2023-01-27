@@ -15,6 +15,7 @@ import { useState, useCallback, useEffect } from 'react';
 import GS from './style/GlobalStyle';
 import CardArtikel from './component/Card-Artikel';
 import TopBar from './component/TopBar1';
+import { DIPUBLIKASIKAN } from "./script/GlobalScript";
 // images
 import Search from '../../assets/icons/ph_magnifying-glass-bold.svg';
 import Times from '../../assets/icons/la_times.svg';
@@ -151,7 +152,7 @@ export default function Artikel({ navigation }) {
                     <View style={[Style.cardLeft]}>
                       <Text style={[GS.fs4]}>{item.title}</Text>
                       <Text style={[GS.fs5, GS.fwLight, GS.mt2]}>
-                        Dipubilkasikan pada
+                        {DIPUBLIKASIKAN(item.created_at)}
                       </Text>
                     </View>
                     <View style={[Style.cardRight]}>
