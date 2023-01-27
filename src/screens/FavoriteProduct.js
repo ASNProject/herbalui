@@ -8,8 +8,6 @@ import { API_URL } from "@env"
 import { IMAGE_LOC, NUMBER_COMAS, PRODUCT_TITLE } from "./script/GlobalScript";
 import { useState, useEffect } from "react";
 // icons
-const example_product_1 = require("../../assets/images/olivia_turseena.png")
-const example_product_2 = require("../../assets/images/afia_kids.png")
 import FavoriteYellowIcon from "../../assets/icons/favorite_yellow.svg"
 //content
 const Content = function (props) {
@@ -24,7 +22,7 @@ const Content = function (props) {
                                 <Image style={[Style.imageProduct]} source={{ url: IMAGE_LOC(item.product.images[0].path) }} />
                                 <Text style={[GS.fs5, GS.textCenter]}>{PRODUCT_TITLE(item.product.name)}</Text>
                                 <Text style={[GS.fs5, GS.primaryColor]}>Rp {NUMBER_COMAS(item.product.price)}</Text>
-                                <TouchableOpacity style={[Style.favoriteIcon]}>
+                                <TouchableOpacity onPress={() => { props.deleteFavorite(item.product.id) }} style={[Style.favoriteIcon]}>
                                     <FavoriteYellowIcon width="20" height="20" />
                                 </TouchableOpacity>
                             </TouchableOpacity>
@@ -50,6 +48,27 @@ export default function FavoriteProduct({ navigation }) {
     const CardClick = async function (item) {
         await AsyncStorage.setItem('@requestBack', "FavoriteProduct")
         navigation.navigate("ProductDetail", item);
+    }
+    // delee favorite
+    const deleteFavorite = (id) => {
+
+        const form = new FormData();
+        form.append("product_id", id);
+        const options = {
+            method: 'POST',
+            url: API_URL + '/auth/toggle-favorite',
+            headers: {
+                Auth: userToken
+            },
+            data: form
+        };
+
+        axios.request(options).then(function (response) {
+            getData();
+            console.log(response.data);
+        }).catch(function (error) {
+            console.error(error);
+        });
     }
     // get data
     const getData = async () => {
@@ -103,7 +122,16 @@ export default function FavoriteProduct({ navigation }) {
             />
             <ScrollView style={[{ backgroundColor: "#fff" }]} showsVerticalScrollIndicator={false}>
                 {/* content */}
-                <Content products={products} whenCardClick={CardClick} />
+                <Content deleteFavorite={deleteFavorite} products={products} whenCardClick={CardClick} />
+                {/* data is empty */}
+                {
+                    products.length == 0 ?
+                        (
+                            <Text style={[GS.textCenter, GS.fs5, GS.mt4]}>Data tidak tersedia</Text>
+                        )
+                        :
+                        ""
+                }
             </ScrollView>
         </SafeAreaView>
     );
