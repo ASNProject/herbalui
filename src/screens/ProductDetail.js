@@ -484,7 +484,11 @@ export default function ProductDetail({ navigation, route }) {
       {/* buton beli sekarang */}
       <View style={[Style.buttonBeliSekarang, GS.flexRow]}>
         <TouchableOpacity
-          onPress={tambahKeranjang}
+          onPress={
+            userToken ?
+              tambahKeranjang
+              : showPleaseLogin
+          }
           style={[GS.py2, GS.bgPrimary, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
           <CartIcon width={30} height={30} />
           <Text style={[GS.fs5, GS.whiteColor, GS.textCenter]}>
@@ -492,7 +496,11 @@ export default function ProductDetail({ navigation, route }) {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={beliSekarang}
+          onPress={
+            userToken ?
+              beliSekarang
+              : showPleaseLogin
+          }
           style={[GS.py2, GS.bgWhite, GS.textCenter, { width: "50%" }, GS.flexColumn, GS.alignItemsCenter, GS.justifyContentCenter, Style.borderTopFloatingButton]}>
           <Text style={[GS.textCenter, GS.fs4, GS.primaryColor]}>
             Beli sekarang
