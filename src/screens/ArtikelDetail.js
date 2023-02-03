@@ -7,12 +7,13 @@ import {
   SafeAreaView,
   StyleSheet,
   Image,
+  Alert,
 } from 'react-native';
 import GS from './style/GlobalStyle';
 import CardArtikel from './component/Card-Artikel';
 import TopBar from './component/TopBar1';
 import { useState, useEffect } from 'react';
-import { IMAGE_LOC } from "./script/GlobalScript";
+import { DIPUBLIKASIKAN, IMAGE_LOC } from "./script/GlobalScript";
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // images
@@ -49,6 +50,7 @@ export default function ArtikelDetail({ navigation, route }) {
   const [userFavorite, setuserFavorite] = useState(false);
   const [userToken, setUserToken] = useState(null);
   const [backTo, setBackTo] = useState(null);
+  const [articleMore, setArticleMore] = useState([]);
 
   // function
   const backClick = function () {
@@ -58,8 +60,8 @@ export default function ArtikelDetail({ navigation, route }) {
       navigation.navigate(backTo);
     }
   };
-  const CardClick = function () {
-    navigation.navigate('ArtikelDetail');
+  const CardClick = function (item) {
+    navigation.replace('ArtikelDetail', item);
   };
   // toggle favorite
   const toggleFavorite = function () {
@@ -107,7 +109,6 @@ export default function ArtikelDetail({ navigation, route }) {
               Auth: userData.token
             },
           };
-
           axios.request(options).then(function (response) {
             // alert("halo")
             let userFavorite = response.data.data.articles;
@@ -118,6 +119,18 @@ export default function ArtikelDetail({ navigation, route }) {
             })
           }).catch(function (error) {
             console.error(error);
+          });
+          // get others articles
+          const options2 = {
+            method: 'GET',
+            url: API_URL + '/articles/other-articles/1'
+          };
+
+          axios.request(options2).then(function (response) {
+            // console.log(response.data);
+            setArticleMore(response.data.data)
+          }).catch(function (error) {
+            // console.error(error);
           });
         } else {
           // handle as guest
@@ -170,26 +183,18 @@ export default function ArtikelDetail({ navigation, route }) {
         <View style={[GS.container, GS.mt5, Style.sectionRecomend, GS.pt3]}>
           <Text style={[GS.fs5, GS.pb2]}>Baca lainya</Text>
           {/* card */}
-          <CardArtikel
-            whenCardClick={CardClick}
-            image={artikel_1}
-            title="5 manfaat meditasi yang belum banyak orang tahu"
-            publishDate="Dipublikaiskan 10 mei 2022"
-          />
-          {/* card */}
-          <CardArtikel
-            whenCardClick={CardClick}
-            image={artikel_2}
-            title="5 manfaat meditasi yang belum banyak orang tahu"
-            publishDate="Dipublikaiskan 10 mei 2022"
-          />
-          {/* card */}
-          <CardArtikel
-            whenCardClick={CardClick}
-            image={artikel_3}
-            title="5 manfaat meditasi yang belum banyak orang tahu"
-            publishDate="Dipublikaiskan 10 mei 2022"
-          />
+          {
+            articleMore.map((item) => {
+              return (
+                <CardArtikel
+                  whenCardClick={() => { CardClick(item) }}
+                  image={{ url: IMAGE_LOC(item.images[0].path) }}
+                  title={item.title}
+                  publishDate={DIPUBLIKASIKAN(item.created_at)}
+                />
+              )
+            })
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

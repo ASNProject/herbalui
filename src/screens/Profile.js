@@ -37,7 +37,9 @@ const MainContent = function (props) {
                 style={[GS.mb3, Style.buttonBorder, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>Privacy policy</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[GS.mb3, Style.buttonBorderless, GS.flexRow, GS.justifyContentCenter]}>
+            <TouchableOpacity
+                onPress={props.clickLogout}
+                style={[GS.mb3, Style.buttonBorderless, GS.flexRow, GS.justifyContentCenter]}>
                 <Text>Logout</Text>
             </TouchableOpacity>
         </View>
@@ -59,6 +61,11 @@ export default function Profile({ navigation }) {
     }
     const clickPrivacy = function () {
         navigation.navigate("PrivacyPolicy");
+    }
+    const clickLogout = async function () {
+        AsyncStorage.removeItem('@requestBack')
+        AsyncStorage.removeItem('@userAuth')
+        navigation.replace("Login");
     }
     const clickCart = function () {
         navigation.navigate("Cart");
@@ -133,6 +140,7 @@ export default function Profile({ navigation }) {
                     clickFavorite={clickFavorite}
                     clickPrivacy={clickPrivacy}
                     clickCart={clickCart}
+                    clickLogout={clickLogout}
                 />
             </ScrollView>
         </SafeAreaView>

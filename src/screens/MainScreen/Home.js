@@ -399,7 +399,7 @@ export default function Home({ navigation }) {
     const unsubscribe = navigation.addListener('focus', () => {
       // The screen is focused
       if (ref != null) {
-        setKeyword("")
+        setKeyword("");
         ref.scrollTo({ x: 0, y: 0, animated: false });
       }
       // Call any action
