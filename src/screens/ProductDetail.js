@@ -95,11 +95,11 @@ const Discuss = function (props) {
       <View>
         <View style={[GS.flexRow, GS.justifySpaceBetween]}>
           <Text style={[GS.fs5]}>Diskusi</Text>
-          <TouchableOpacity
-            onPress={props.showActionSheet}
-          >
-            <Text style={[GS.fs5, GS.primaryColor]}>Buat pertanyaan</Text>
-          </TouchableOpacity>
+          {
+            props.userToken
+              ? (<TouchableOpacity onPress={props.showActionSheet}><Text style={[GS.fs5, GS.primaryColor]}>Buat pertanyaan</Text></TouchableOpacity>)
+              : (<TouchableOpacity onPress={props.showPleaseLogin}><Text style={[GS.fs5, GS.primaryColor]}>Buat pertanyaan</Text></TouchableOpacity>)
+          }
         </View>
         {/* discussion card */}
         {
@@ -351,6 +351,28 @@ export default function ProductDetail({ navigation, route }) {
       // console.error(error);
     });
   }
+  // memberitahu user untuk login jika ingin menggunakan fitur ini
+  const showPleaseLogin = function () {
+    Alert.alert(
+      "Akun di perlukan",
+      "silahkan daftar/masuk ke akun anda",
+      [
+        // The "Yes" button
+        {
+          text: "Ya",
+          onPress: () => {
+            AsyncStorage.removeItem('@skipLogin')
+            navigation.navigate("Login");
+          }
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "Batal",
+        },
+      ]
+    );
+  }
   //
   useEffect(() => {
     // get user data
@@ -390,7 +412,7 @@ export default function ProductDetail({ navigation, route }) {
           });
         } else {
           // handle as guest
-          navigation.replace("PleaseLogin")
+          // navigation.replace("PleaseLogin")
         }
       } catch (e) {
         // error reading value
@@ -438,6 +460,8 @@ export default function ProductDetail({ navigation, route }) {
         {/* discuss */}
         <Discuss
           showActionSheet={showActionSheet}
+          userToken={userToken}
+          showPleaseLogin={showPleaseLogin}
           discussionData={discussionData} />
         {/* obat lainya */}
         {
