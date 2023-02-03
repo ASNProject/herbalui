@@ -85,6 +85,28 @@ export default function ArtikelDetail({ navigation, route }) {
       // console.error(error);
     });
   }
+  // memberitahu user untuk login jika ingin menggunakan fitur ini
+  const showPleaseLogin = function () {
+    Alert.alert(
+      "Akun di perlukan",
+      "silahkan daftar/masuk ke akun anda",
+      [
+        // The "Yes" button
+        {
+          text: "Ya",
+          onPress: () => {
+            AsyncStorage.removeItem('@skipLogin')
+            navigation.navigate("Login");
+          }
+        },
+        // The "No" button
+        // Does nothing but dismiss the dialog when tapped
+        {
+          text: "Batal",
+        },
+      ]
+    );
+  }
   useEffect(() => {
     // get user data
     // check if user auth token is valid
@@ -134,7 +156,7 @@ export default function ArtikelDetail({ navigation, route }) {
           });
         } else {
           // handle as guest
-          navigation.replace("PleaseLogin")
+          // navigation.replace("PleaseLogin")
         }
       } catch (e) {
         // error reading value
@@ -161,7 +183,9 @@ export default function ArtikelDetail({ navigation, route }) {
         nosearch={true}
         showFavorite={true}
         favoriteStatus={userFavorite}
-        toggleFavorite={toggleFavorite}
+        toggleFavorite={
+          userToken ? toggleFavorite : showPleaseLogin
+        }
       />
       <ScrollView style={[{ backgroundColor: '#fff' }]}>
         {/* content */}

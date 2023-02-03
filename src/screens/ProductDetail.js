@@ -445,7 +445,9 @@ export default function ProductDetail({ navigation, route }) {
         showCart={true}
         navigation={navigation}
         favoriteStatus={userFavorite}
-        toggleFavorite={toggleFavorite}
+        toggleFavorite={
+          userToken ? toggleFavorite : showPleaseLogin
+        }
       />
       <ScrollView style={[{ backgroundColor: '#fff', height: '100%', marginBottom: 40 }]}>
         {/* photos */}
