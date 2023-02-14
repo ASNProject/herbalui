@@ -139,7 +139,7 @@ const Daftar = ({ navigation }) => {
         </View>
         <View style={style.v}>
           {
-            password == konfirmasipassword
+            (password == konfirmasipassword) && password.length > 0
               ? (
                 <Image
                   style={style.img_v}

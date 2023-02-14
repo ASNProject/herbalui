@@ -193,6 +193,7 @@ export default function ProductDetail({ navigation, route }) {
   const [userToken, setUserToken] = useState(null);
   const [userFavorite, setuserFavorite] = useState(false);
   const [backTo, setBackTo] = useState(null);
+  const [cartAmount, setCartAmount] = useState(0);
   //
   const actionSheetRef = useRef(null);
   // function
@@ -398,7 +399,6 @@ export default function ProductDetail({ navigation, route }) {
               Auth: userData.token
             },
           };
-
           axios.request(options).then(function (response) {
             // alert("halo")
             let userFavorite = response.data.data.products;
@@ -410,6 +410,23 @@ export default function ProductDetail({ navigation, route }) {
           }).catch(function (error) {
             console.error(error);
           });
+          // get carts data
+          const options_cart = {
+            method: 'GET',
+            url: API_URL + '/auth/cart',
+            headers: {
+              Auth: userData.token
+            },
+          };
+          axios.request(options_cart).then(function (response) {
+            // console.log(response.data);
+            if (response.data.data != null) {
+              setCartAmount(response.data.data.items.length)
+            }
+          }).catch(function (error) {
+            Alert.alert("Terjadi kesalahan", "tidak dapat mengambil data keranjang");
+            console.error(error.response);
+          })
         } else {
           // handle as guest
           // navigation.replace("PleaseLogin")
@@ -443,6 +460,7 @@ export default function ProductDetail({ navigation, route }) {
         nosearch={true}
         showFavorite={true}
         showCart={true}
+        cartAmount={cartAmount}
         navigation={navigation}
         favoriteStatus={userFavorite}
         toggleFavorite={

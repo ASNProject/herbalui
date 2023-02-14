@@ -210,7 +210,6 @@ export default function Cart({ navigation }) {
                     },
                     data: form_cart
                 };
-
                 axios.request(options_cart).then(function (response) {
                     // console.log(response.data);
                     if (response.data.data != null) {

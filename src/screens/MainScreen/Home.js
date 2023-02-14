@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   ImageBackground,
   RefreshControl,
+  Alert
 } from 'react-native';
 import { useEffect, useCallback, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -52,6 +53,17 @@ const TopBar = function (props) {
       <View style={[GS.flexRow, GS.alignItemsCenter]}>
         <TouchableOpacity onPress={props.cartClick}>
           <Cart width="25" height="25" style={[GS.mr2]} />
+          {/* jumlah item dalam cart */}
+          {
+            props.cartAmount > 0 ?
+              (
+                <View style={[Style.cartAmount]}>
+                  <Text style={[GS.whiteColor]}>
+                    {props.cartAmount}
+                  </Text>
+                </View>
+              ) : ""
+          }
         </TouchableOpacity>
         <TouchableOpacity onPress={props.clickProfile}>
           <Image source={personImage} style={[Style.profileImage]} />
@@ -345,6 +357,7 @@ export default function Home({ navigation }) {
   const [dataWawasan, setDataWawasan] = useState([]);
   const [dataApoteker, setDataApoteker] = useState([]);
   const [user, setUser] = useState(null);
+  const [cartAmount, setCartAmount] = useState(0);
   // get homepage content
   const getHomepage = async () => {
     const options = { method: 'GET', url: API_URL + '/home-content' };
@@ -363,7 +376,8 @@ export default function Home({ navigation }) {
   const getData = async () => {
     try {
       const value = await AsyncStorage.getItem('@userAuth')
-      AsyncStorage.removeItem('@requestBack')
+      AsyncStorage.removeItem('@requestBack');
+      AsyncStorage.removeItem('@requestBackSub');
       // validasi data user
       // alert("ok")
       if (value !== null) {
@@ -385,9 +399,26 @@ export default function Home({ navigation }) {
           setUser(response.data.data)
         }).catch(function (error) {
           AsyncStorage.removeItem('@userAuth')
-          // navigation.navigate("Login");
+          navigation.navigate("Login");
           // handle as guest
         });
+        // get carts data
+        const options_cart = {
+          method: 'GET',
+          url: API_URL + '/auth/cart',
+          headers: {
+            Auth: userData.token
+          },
+        };
+        axios.request(options_cart).then(function (response) {
+          // console.log(response.data);
+          if (response.data.data != null) {
+            setCartAmount(response.data.data.items.length)
+          }
+        }).catch(function (error) {
+          Alert.alert("Terjadi kesalahan", "tidak dapat mengambil data keranjang");
+          console.error(error.response);
+        })
       }
       // handle as guest
     } catch (e) {
@@ -473,6 +504,7 @@ export default function Home({ navigation }) {
         {/* top bar */}
         <TopBar
           user={user}
+          cartAmount={cartAmount}
           cartClick={cartClick} clickProfile={clickProfile} />
         {/*  search bar */}
         <SearchBar setKeyword={setKeyword} keyword={keyword} onSearching={onSearching} />
@@ -601,5 +633,19 @@ const Style = StyleSheet.create({
   konsultasiProfileRobot: {
     width: 60,
     height: 60,
+  },
+  cartAmount: {
+    position: "absolute",
+    right: 0,
+    top: -5,
+    zIndex: 2,
+    backgroundColor: "#00A6A6",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#fff",
+    borderRadius: 100,
+    width: 20,
+    height: 20
   },
 });

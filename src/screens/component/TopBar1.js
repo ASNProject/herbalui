@@ -46,8 +46,19 @@ export default function TopBar(props) {
                                                     props.showCart
                                                         ?
                                                         (
-                                                            <TouchableOpacity onPress={openCart} style={[GS.mr3]}>
+                                                            <TouchableOpacity onPress={openCart} style={[GS.mr4]}>
                                                                 <CartIconBlack height="25" />
+                                                                {/* jumlah item dalam cart */}
+                                                                {
+                                                                    props.cartAmount > 0 ?
+                                                                        (
+                                                                            <View style={[Style.cartAmount]}>
+                                                                                <Text style={[GS.whiteColor]}>
+                                                                                    {props.cartAmount}
+                                                                                </Text>
+                                                                            </View>
+                                                                        ) : ""
+                                                                }
                                                             </TouchableOpacity>
                                                         )
                                                         :
@@ -113,6 +124,20 @@ const Style = StyleSheet.create({
     },
     textInput: {
         width: "80%"
+    },
+    cartAmount: {
+        position: "absolute",
+        right: -10,
+        top: -5,
+        zIndex: 2,
+        backgroundColor: "#00A6A6",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "#fff",
+        borderRadius: 100,
+        width: 20,
+        height: 20
     },
 })
 

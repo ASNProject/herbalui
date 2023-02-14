@@ -18,8 +18,6 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // images
 import artikel_1 from '../../assets/images/artikel_1.png';
-import artikel_2 from '../../assets/images/artikel_2.png';
-import artikel_3 from '../../assets/images/artikel_3.png';
 //
 const MainContent = function () {
   return (
@@ -50,17 +48,27 @@ export default function ArtikelDetail({ navigation, route }) {
   const [userFavorite, setuserFavorite] = useState(false);
   const [userToken, setUserToken] = useState(null);
   const [backTo, setBackTo] = useState(null);
+  const [backToSub, setBackToSub] = useState(null);
   const [articleMore, setArticleMore] = useState([]);
 
   // function
   const backClick = function () {
-    if (backTo == null) {
-      navigation.navigate('Artikel');
+    if (backToSub == null) {
+      if (backTo == null) {
+        navigation.navigate('Artikel');
+      } else {
+        navigation.navigate(backTo);
+      }
     } else {
-      navigation.navigate(backTo);
+      route = JSON.parse(backToSub);
+      console.log("ROUTE ROUTE", route);
+      // navigation.navigate('ArtikelDetail', route.params);
+      navigation.navigate('Artikel');
+      AsyncStorage.removeItem('@requestBack')
     }
   };
-  const CardClick = function (item) {
+  const CardClick = async function (item) {
+    await AsyncStorage.setItem('@requestBackSub', JSON.stringify(route))
     navigation.replace('ArtikelDetail', item);
   };
   // toggle favorite
@@ -114,7 +122,9 @@ export default function ArtikelDetail({ navigation, route }) {
       try {
         const value = await AsyncStorage.getItem('@userAuth')
         const back_button = await AsyncStorage.getItem('@requestBack')
+        const back_button_sub = await AsyncStorage.getItem('@requestBackSub')
         setBackTo(back_button)
+        setBackToSub(back_button_sub)
         // validasi data user
         if (value !== null) {
           // value previously stored
@@ -169,6 +179,7 @@ export default function ArtikelDetail({ navigation, route }) {
     const unsubscribe = navigation.addListener('focus', () => {
       // Call any action
       setBackTo(null)
+      setBackToSub(null)
     });
     return unsubscribe
   }, [navigation])
