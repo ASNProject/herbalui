@@ -1,6 +1,6 @@
 // library
-import { API_URL } from "@env"
-import { LIMIT_STRING, IMAGE_LOC, OPEN_LINK } from "../script/GlobalScript"
+import { API_URL } from '@env';
+import { LIMIT_STRING, IMAGE_LOC, OPEN_LINK } from '../script/GlobalScript';
 import {
   View,
   TextInput,
@@ -31,6 +31,9 @@ import IconStamina from '../../../assets/icons/icon-park-outline_muscle.svg';
 //style
 import GS from '../style/GlobalStyle';
 import axios from 'axios';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
 // component top bar
 const TopBar = function (props) {
   return (
@@ -39,15 +42,11 @@ const TopBar = function (props) {
       <View>
         <Text style={[GS.fs4, GS.fwLight]}>Halo</Text>
         {/* user name */}
-        {props.user
-          ?
-          (
-            <Text style={[GS.fs3]}>{LIMIT_STRING(props.user.name, 16)}</Text>
-          ) :
-          (
-            <Text style={[GS.fs3]}>Guest</Text>
-          )
-        }
+        {props.user ? (
+          <Text style={[GS.fs3]}>{LIMIT_STRING(props.user.name, 16)}</Text>
+        ) : (
+          <Text style={[GS.fs3]}>Guest</Text>
+        )}
       </View>
       <View style={[GS.flexRow, GS.alignItemsCenter]}>
         <TouchableOpacity onPress={props.cartClick}>
@@ -241,22 +240,26 @@ const TambahWawasan = function (props) {
       <ScrollView
         horizontal
         style={[GS.flexRow, GS.mt2]}
-      // showsHorizontalScrollIndicator="false"
+        // showsHorizontalScrollIndicator="false"
       >
-        {
-          props.dataArtikel.map((item) =>
-            <TouchableOpacity onPress={() => { props.articleClick(item) }} style={[GS.mr2]}>
-              <ImageBackground style={[Style.cardArtikel]} source={{ uri: IMAGE_LOC(item.images[0].path) }}>
-                <View style={[Style.coverArtikel]}>
-                  <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
-                    {LIMIT_STRING(item.title, 60)}
-                  </Text>
-                </View>
-              </ImageBackground>
-            </TouchableOpacity>
-
-          )
-        }
+        {props.dataArtikel.map(item => (
+          <TouchableOpacity
+            key={item.articleClick}
+            onPress={() => {
+              props.articleClick(item);
+            }}
+            style={[GS.mr2]}>
+            <ImageBackground
+              style={[Style.cardArtikel]}
+              source={{ uri: IMAGE_LOC(item.images[0].path) }}>
+              <View style={[Style.coverArtikel]}>
+                <Text style={[GS.whiteColor, GS.fs5, GS.fwBold]}>
+                  {LIMIT_STRING(item.title, 60)}
+                </Text>
+              </View>
+            </ImageBackground>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
     </View>
   );
@@ -272,69 +275,66 @@ const Consultation = function (props) {
       <ScrollView
         style={[GS.mt2, GS.flexRow]}
         horizontal
-      // showsHorizontalScrollIndicator="false"
+        // showsHorizontalScrollIndicator="false"
       >
         {/* card konsultasi robot */}
-        {
-          false
-            ?
-            (
-              <TouchableOpacity
-                onPress={props.clickKonsultasiDetail}
-                style={[GS.mr2]}>
-                <View
-                  style={[
-                    GS.flexColumn,
-                    GS.justifyContentCenter,
-                    GS.alignItemsCenter,
-                    Style.cardKonsultasi,
-                  ]}>
-                  {/* <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
+        {false ? (
+          <TouchableOpacity
+            onPress={props.clickKonsultasiDetail}
+            style={[GS.mr2]}>
+            <View
+              style={[
+                GS.flexColumn,
+                GS.justifyContentCenter,
+                GS.alignItemsCenter,
+                Style.cardKonsultasi,
+              ]}>
+              {/* <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
                   <IconOnline width="8" height="8" />
                   <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
                 </View> */}
-                  <Image
-                    source={profile_robot}
-                    style={[Style.konsultasiProfileRobot, GS.mt2]}
-                  />
-                  <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Robot</Text>
-                </View>
-              </TouchableOpacity >
-            )
-            :
-            ""
-        }
+              <Image
+                source={profile_robot}
+                style={[Style.konsultasiProfileRobot, GS.mt2]}
+              />
+              <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>Robot</Text>
+            </View>
+          </TouchableOpacity>
+        ) : (
+          ''
+        )}
         {/* card konsultasi */}
-        {
-          props.dataApoteker.map((item) =>
-            <TouchableOpacity
-              onPress={() => { OPEN_LINK("https://wa.me/" + item.whatsapp) }}
-              style={[GS.mr2]}>
-              <View
-                style={[
-                  GS.flexColumn,
-                  GS.justifyContentCenter,
-                  GS.alignItemsCenter,
-                  Style.cardKonsultasi,
-                ]}>
-                {/* status */}
-                {/* <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
+        {props.dataApoteker.map(item => (
+          <TouchableOpacity
+            key={item.whatsapp}
+            onPress={() => {
+              OPEN_LINK('https://wa.me/' + item.whatsapp);
+            }}
+            style={[GS.mr2]}>
+            <View
+              style={[
+                GS.flexColumn,
+                GS.justifyContentCenter,
+                GS.alignItemsCenter,
+                Style.cardKonsultasi,
+              ]}>
+              {/* status */}
+              {/* <View style={[GS.flexRow, GS.alignItemsCenter, { width: '80%' }]}>
                   <IconOnline width="8" height="8" />
                   <Text style={[GS.ml1, GS.fwLight, GS.fs6]}>online</Text>
                 </View> */}
-                {/* profile image */}
-                <Image
-                  source={{ url: IMAGE_LOC(item.profile_image) }}
-                  style={[Style.konsultasiProfile, GS.mt2]}
-                />
-                {/* name */}
-                <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>{item.name}</Text>
-              </View>
-            </TouchableOpacity>
-          )
-        }
-      </ScrollView >
-    </View >
+              {/* profile image */}
+              <Image
+                source={{ url: IMAGE_LOC(item.profile_image) }}
+                style={[Style.konsultasiProfile, GS.mt2]}
+              />
+              {/* name */}
+              <Text style={[GS.mt2, GS.fwLight, GS.fs5]}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 //content
@@ -348,22 +348,25 @@ export default function Home({ navigation }) {
   // get homepage content
   const getHomepage = async () => {
     const options = { method: 'GET', url: API_URL + '/home-content' };
-    axios.request(options).then(function (response) {
-      // console.log("response home", response.data);
-      // set data articles
-      setDataWawasan(response.data.data.articles)
-      setDataApoteker(response.data.data.apoteker)
-    }).catch(function (error) {
-      // console.error(error);
-      alert("Terjadi kesalahan!")
-    });
-  }
+    axios
+      .request(options)
+      .then(function (response) {
+        // console.log("response home", response.data);
+        // set data articles
+        setDataWawasan(response.data.data.articles);
+        setDataApoteker(response.data.data.apoteker);
+      })
+      .catch(function (error) {
+        // console.error(error);
+        alert('Terjadi kesalahan!');
+      });
+  };
   //
   // check if user auth token is valid
   const getData = async () => {
     try {
-      const value = await AsyncStorage.getItem('@userAuth')
-      AsyncStorage.removeItem('@requestBack')
+      const value = await AsyncStorage.getItem('@userAuth');
+      AsyncStorage.removeItem('@requestBack');
       // validasi data user
       // alert("ok")
       if (value !== null) {
@@ -375,31 +378,34 @@ export default function Home({ navigation }) {
           method: 'GET',
           url: API_URL + '/auth/me',
           headers: {
-            Auth: userData.token
+            Auth: userData.token,
           },
         };
         // request
-        axios.request(options).then(function (response) {
-          // console.log(response.data);
-          // handle as login user
-          setUser(response.data.data)
-        }).catch(function (error) {
-          AsyncStorage.removeItem('@userAuth')
-          // navigation.navigate("Login");
-          // handle as guest
-        });
+        axios
+          .request(options)
+          .then(function (response) {
+            // console.log(response.data);
+            // handle as login user
+            setUser(response.data.data);
+          })
+          .catch(function (error) {
+            AsyncStorage.removeItem('@userAuth');
+            // navigation.navigate("Login");
+            // handle as guest
+          });
       }
       // handle as guest
     } catch (e) {
       // error reading value
-      alert("error");
+      alert('error');
     }
-  }
+  };
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       // The screen is focused
       if (ref != null) {
-        setKeyword("")
+        setKeyword('');
         ref.scrollTo({ x: 0, y: 0, animated: false });
       }
       // Call any action
@@ -423,7 +429,7 @@ export default function Home({ navigation }) {
     navigation.navigate('Artikel');
   };
   const articleDetailClick = async function (item) {
-    await AsyncStorage.setItem('@requestBack', "HomeMain")
+    await AsyncStorage.setItem('@requestBack', 'HomeMain');
     navigation.navigate('ArtikelDetail', item);
   };
   const clickProduk = function () {
@@ -467,15 +473,17 @@ export default function Home({ navigation }) {
         setRef(ref);
       }}
       style={[{ backgroundColor: '#fff' }]}
-    // showsVerticalScrollIndicator="false"
+      // showsVerticalScrollIndicator="false"
     >
       <SafeAreaView style={[GS.container, { paddingBottom: 0 }]}>
         {/* top bar */}
-        <TopBar
-          user={user}
-          cartClick={cartClick} clickProfile={clickProfile} />
+        <TopBar user={user} cartClick={cartClick} clickProfile={clickProfile} />
         {/*  search bar */}
-        <SearchBar setKeyword={setKeyword} keyword={keyword} onSearching={onSearching} />
+        <SearchBar
+          setKeyword={setKeyword}
+          keyword={keyword}
+          onSearching={onSearching}
+        />
         {/* menu */}
         <Menu
           clickProduk={clickProduk}
@@ -486,33 +494,38 @@ export default function Home({ navigation }) {
         />
         {/* obat herbal */}
         <ObatHerbal
-          clickJantung={() => { defaultSearching("jantung") }}
-          clickDemam={() => { defaultSearching("demam") }}
-          clickGinjal={() => { defaultSearching("ginjal") }}
-          clickStamina={() => { defaultSearching("stamina") }}
-          clickPencarian={onSearching} />
+          clickJantung={() => {
+            defaultSearching('jantung');
+          }}
+          clickDemam={() => {
+            defaultSearching('demam');
+          }}
+          clickGinjal={() => {
+            defaultSearching('ginjal');
+          }}
+          clickStamina={() => {
+            defaultSearching('stamina');
+          }}
+          clickPencarian={onSearching}
+        />
         {/* articles */}
-        {
-          dataWawasan.length > 0
-            ?
-            (
-              <TambahWawasan
-                dataArtikel={dataWawasan}
-                articleClick={articleDetailClick} />
-            )
-            : ""
-        }
+        {dataWawasan.length > 0 ? (
+          <TambahWawasan
+            dataArtikel={dataWawasan}
+            articleClick={articleDetailClick}
+          />
+        ) : (
+          ''
+        )}
         {/* konsultasi online */}
-        {
-          dataApoteker.length > 0
-            ?
-            (
-              <Consultation
-                dataApoteker={dataApoteker}
-                clickKonsultasiDetail={clickKonsultasiDetail} />
-            )
-            : ""
-        }
+        {dataApoteker.length > 0 ? (
+          <Consultation
+            dataApoteker={dataApoteker}
+            clickKonsultasiDetail={clickKonsultasiDetail}
+          />
+        ) : (
+          ''
+        )}
       </SafeAreaView>
     </ScrollView>
   );
@@ -596,7 +609,7 @@ const Style = StyleSheet.create({
   konsultasiProfile: {
     width: 60,
     height: 60,
-    borderRadius: 1000
+    borderRadius: 1000,
   },
   konsultasiProfileRobot: {
     width: 60,
